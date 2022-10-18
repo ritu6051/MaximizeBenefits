@@ -6,9 +6,16 @@
   align-items: center;
 }
 
-input, button {
+input {
   width: 200px;
   height: 30px;
   font-size: 20px;
-  margin: 5px
+  margin: 10px;
+}
+
+button {
+  width: 210px;
+  height: 30px;
+  font-size: 20px;
+  margin: 10px;
 }
