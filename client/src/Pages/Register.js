@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Axios from 'axios';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, Link} from 'react-router-dom';
 
 function Register() {
     const navigate = useNavigate();
@@ -35,7 +35,7 @@ function Register() {
     //     }
     // }
 
-    var goSignalAns = ""
+    // var goSignalAns = ""
     const createAccount = () => {
         console.log(username + " inside create account")
         Axios.post("http://localhost:3001/insert", {
@@ -46,22 +46,21 @@ function Register() {
         })
         .then(function (response) {
             if (response.data.redirect === 'NotGood') {
-                goSignalAns = "Not Good"
+                // goSignalAns = "Not Good"
                 navigate("/Login")
 
             } else if (response.data.redirect === 'Good'){
-                goSignalAns = "Good"
-                navigate("/TestR")
+                // goSignalAns = "Good"
+                navigate("/LoginSuccess")
             }
         })
-        // navigateWhereTo();
     }
 
     return (
-        <div className="App"> 
-        <h1> Maximize Benefits </h1> 
+        <div className="whiteBox"> 
+        <h1 className = 'mainTitle'> Maximize Benefits </h1> 
 
-        <label> Full Name </label>
+        <label className = 'front'> Full Name </label>
         <input 
             type="text" 
             placeholder='Enter full name'
@@ -70,7 +69,7 @@ function Register() {
             }}
         />
 
-        <label> Username </label>
+        <label className = 'front'> Username </label>
         <input 
             type="text" 
             placeholder='Enter username'
@@ -79,7 +78,7 @@ function Register() {
             }}
         />
 
-        <label> Password </label>
+        <label className = 'front'> Password </label>
         <input 
             type="text" 
             placeholder='Enter password'
@@ -88,29 +87,33 @@ function Register() {
             }}
         />
 
-        <label> Role </label>
-        <div>
-            <input 
-            type="radio" name="role" value="customer" id="c" 
-            onChange={(event) => {
-                setRole(event.target.value);
-            }} 
-            />
-            <label for="c"> Customer </label>
-        </div>
-        <div>
-            <input 
-            type="radio" name="role" value="insurancecompany" id="i" 
-            placeholder='Insurance Company'
-            onChange={(event) => {
-                setRole(event.target.value);
-            }}
-            />
-            <label for="c"> Insurance Company </label>
-        </div>
+        <label className = 'front'> Role </label>
+        <div className = 'text'>
+            <label className = 'roleNames'>
+                <input type="radio" name="role" value="customer" 
+                onChange={(event) => {
+                    setRole(event.target.value);
+                }} 
+                />
+            </label>
+            <label className = 'roleNames' id = 'b'>Customer</label>
 
-        <button onClick={createAccount}> Create Account </button>
-        
+        </div>
+        <div className = 'text'>
+            <label className = 'roleNames'>
+                <input  type="radio" name="role" value="insurancecompany"
+                onChange={(event) => {
+                    setRole(event.target.value);
+                }}
+                />
+            </label>
+            <label className = 'roleNames' id = 'b'>Insurance Company</label>
+        </div>
+             
+
+        <button id = 'createAccount' onClick={createAccount}> Create Account </button>
+
+        <Link to='/Login'>Already have an account? Click here!</Link>        
 
         {/* <h1>User List </h1>
         { userList.map((val,key) => {

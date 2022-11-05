@@ -7,31 +7,39 @@ function Login() {
     const[username, setUsername] = useState('');
     const[password, setPassword] = useState('');
     const[goSignal, setGoSignal] = useState('');
+    const[popUp, setpopUp] = useState(false);
+
+    // const toggle = () => {
+    //     setpopUp(!popUp)
+    // }
 
     const loginAccount = () => {
         console.log(username + " inside login account")
-        Axios.post("http://localhost:3001/login", {
+        Axios.post("http://localhost:3001/Login", {
         username: username,
         password: password,    
         })
         .then(function (response) {
-            if (response.data.redirect === 'NotGood') {
+            console.log(response.data.redirect)
+            if (response.data.redirect === 'Good') {
                 navigate("/LoginSuccess")
 
-            } else if (response.data.redirect === 'Good'){
-                navigate("/Login")
+            } else if (response.data.redirect === 'NotGood'){
+                navigate("/Login") 
+                // setpopUp(!popUp)
             }
         })
         // navigateWhereTo();
     }
+    
 
     return (
-        <div className="App"> 
+        <div className="whiteBox"> 
         <h1> Maximize Benefits </h1> 
 
-        <h3> Username already exists, please login!</h3>
+        {/* <h3> Username already exists, please login!</h3> */}
 
-        <label> Username </label>
+        <label className = 'front'> Username </label>
         <input 
             type="text" 
             placeholder='Enter username'
@@ -40,7 +48,7 @@ function Login() {
             }}
         />
 
-        <label> Password </label>
+        <label className = 'front'> Password </label>
         <input 
             type="text" 
             placeholder='Enter password'
@@ -49,20 +57,12 @@ function Login() {
             }}
         />
 
-        <button onClick={loginAccount}> Login </button>
+        {popUp && (
+            <p id='pop'>user does not exist</p>
+        )}
         
 
-        {/* <h1>User List </h1>
-        { userList.map((val,key) => {
-            return(
-            <div key = {key}>
-                {"Username: "} {val.username} {" "} 
-                <div>
-                {"Role: "} {val.role} {" "}
-                </div>
-            </div>
-        );
-        })} */}
+        <button id='login' onClick={loginAccount}> Login </button>
         </div>
     );
 }

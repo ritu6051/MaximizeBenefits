@@ -71,20 +71,48 @@ app.post('/login', async(req, res) => {
     const username = req.body.username
     const password = req.body.password
 
+    console.log("username = " +username)
     const newUser = await User.findOne({username: username, password: password});
     if(newUser) {
+        console.log("hi")
         if(newUser.username === username && newUser.password === password) {
-            goSignal = "NotGood"
+            goSignal = "Good"
             console.log("Username already exists!")
             console.log("Signal " +goSignal)
-            var redir = { redirect: "NotGood" };
+            var redir = { redirect: "Good" };
             return res.json(redir);
             // res.send(goSignal)
             // res.redirect(307, '/client/src/Pages/TestR.js');
             // res.redirect("/Pages/TestR.js")
         }
+    }
+    else{
+        goSignal = "NotGood"
+        var redir = { redirect: "NotGood" };
+        return res.json(redir);
     } 
 });
+
+// app.post('/login', async(req, res) => {
+    
+//     console.log("Inside app.post/login")
+//     const username = req.body.username
+//     const password = req.body.password
+
+//     const currentUser = await User.findOne({username: username, password: password});
+//     if(newUser) {
+//         if(newUser.username === username && newUser.password === password) {
+//             goSignal = "NotGood"
+//             console.log("Username already exists!")
+//             console.log("Signal " +goSignal)
+//             var redir = { redirect: "NotGood" };
+//             return res.json(redir);
+//             // res.send(goSignal)
+//             // res.redirect(307, '/client/src/Pages/TestR.js');
+//             // res.redirect("/Pages/TestR.js")
+//         }
+//     } 
+// });
 
 app.get('/read', async(req, res) => {
     const username = req.body.username

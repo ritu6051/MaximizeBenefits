@@ -4,10 +4,12 @@ import { Routes, Route} from "react-router-dom";
 import './App.css';
 // import Navbar from "./components/navbar.component"
 // import createUserR from "./components/create-user.component";
-import TestR from './Pages/TestR';
 import Register from './Pages/Register';
 import Login from './Pages/Login';
 import LoginSuccess from './Pages/LoginSuccess';
+import FindInsurance from './Pages/FindInsurance';
+import AddInsurance from './Pages/AddInsurance';
+import CompanyLogin from './Pages/CompanyLogin';
 
 function App() {
 
@@ -15,9 +17,11 @@ function App() {
     <div className='app'>
     <Routes>
       <Route path="/" exact element={<Register/>} />        
-      <Route path="/TestR" element={<TestR/>} />
       <Route path="/Login" element={<Login/>} />
       <Route path="/LoginSuccess" element={<LoginSuccess/>} />
+      <Route path="/FindInsurance" element={<FindInsurance/>} />
+      <Route path="/AddInsurance" element={<AddInsurance/>} />
+      <Route path="/CompanyLogin" element={<CompanyLogin/>} />
     </Routes>
     </div>
   );

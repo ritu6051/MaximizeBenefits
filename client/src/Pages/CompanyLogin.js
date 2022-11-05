@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 
-function LoginSuccess() {
+function CompanyLogin() {
     const navigate = useNavigate();
     const[username, setUsername] = useState('');
     const[password, setPassword] = useState('');
+    const[fullName, setFullName] = useState('');
     const logout = () => {
         setUsername("")
         setPassword("")
@@ -20,12 +21,16 @@ function LoginSuccess() {
         <div> 
             <h1 id='welcome'>Welcome</h1>
             <button onClick={logout} id ='logout'> Logout </button>
-            <div className = 'newAcct'> It appears you don't have insurance!</div>
-            <div className = 'newAcct'>What would you like to do next?</div>
-            <button onClick={find} className ='decide'> Find an Insurance for Me </button>
-            <button onClick={add} className ='decide'> Add my Insurance and See My Benefits </button>
+            <div className = 'newAcct'> Which company are you from?</div>
+            <input 
+            type="text" 
+            placeholder='Enter company name'
+            onChange={(event) => {
+                setFullName(event.target.value);
+            }}
+        />
         </div>
     )
 }
 
-export default LoginSuccess;
+export default CompanyLogin;
