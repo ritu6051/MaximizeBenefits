@@ -9,10 +9,6 @@ function Login() {
     const[goSignal, setGoSignal] = useState('');
     const[popUp, setpopUp] = useState(false);
 
-    // const toggle = () => {
-    //     setpopUp(!popUp)
-    // }
-
     const loginAccount = () => {
         console.log(username + " inside login account")
         Axios.post("http://localhost:3001/Login", {
@@ -26,18 +22,15 @@ function Login() {
 
             } else if (response.data.redirect === 'NotGood'){
                 navigate("/Login") 
-                // setpopUp(!popUp)
+                setpopUp(!popUp)
             }
         })
-        // navigateWhereTo();
     }
     
 
     return (
         <div className="whiteBox"> 
         <h1> Maximize Benefits </h1> 
-
-        {/* <h3> Username already exists, please login!</h3> */}
 
         <label className = 'front'> Username </label>
         <input 

@@ -15,9 +15,6 @@ mongoose.connect(
     }
 );
 
-// const registerRouter = require('./routes/register');
-// app.use('/register', registerRouter);
-
 let goSignal = ""
 app.post('/insert', async(req, res) => {
     
@@ -25,28 +22,20 @@ app.post('/insert', async(req, res) => {
     const fullName = req.body.fullName
     const username = req.body.username
     const password = req.body.password
-    const role = req.body.role
 
-    console.log("Role = " +role+ " username = " +username)
     const newUser = await User.findOne({username: username});
     if(newUser) {
-        if(newUser.username === username) {
-            goSignal = "NotGood"
+        goSignal = "NotGood"
             console.log("Username already exists!")
             console.log("Signal " +goSignal)
             var redir = { redirect: "NotGood" };
             return res.json(redir);
-            // res.send(goSignal)
-            // res.redirect(307, '/client/src/Pages/TestR.js');
-            // res.redirect("/Pages/TestR.js")
-        }
     } 
     else { 
         try {
             goSignal = "Good"
             console.log("Username does not exist")
             console.log("Signal " +goSignal)
-            // res.send(goSignal)
             var redir = { redirect: "Good" };
             
             const customer = new User({
@@ -56,9 +45,7 @@ app.post('/insert', async(req, res) => {
                 role: role,
             });
             await customer.save()
-            // .then(() => res.json('Exercise added!'));
             return res.json(redir);
-            // res.send("Data inserted into database");
             } catch(err) {
                 console.log(err);
             }
@@ -74,45 +61,18 @@ app.post('/login', async(req, res) => {
     console.log("username = " +username)
     const newUser = await User.findOne({username: username, password: password});
     if(newUser) {
-        console.log("hi")
-        if(newUser.username === username && newUser.password === password) {
-            goSignal = "Good"
-            console.log("Username already exists!")
-            console.log("Signal " +goSignal)
-            var redir = { redirect: "Good" };
-            return res.json(redir);
-            // res.send(goSignal)
-            // res.redirect(307, '/client/src/Pages/TestR.js');
-            // res.redirect("/Pages/TestR.js")
-        }
+        goSignal = "Good"
+        console.log("Username already exists!")
+        console.log("Signal " +goSignal)
+        var redir = { redirect: "Good" };
+        return res.json(redir);
     }
-    else{
+    else{  
         goSignal = "NotGood"
         var redir = { redirect: "NotGood" };
         return res.json(redir);
     } 
 });
-
-// app.post('/login', async(req, res) => {
-    
-//     console.log("Inside app.post/login")
-//     const username = req.body.username
-//     const password = req.body.password
-
-//     const currentUser = await User.findOne({username: username, password: password});
-//     if(newUser) {
-//         if(newUser.username === username && newUser.password === password) {
-//             goSignal = "NotGood"
-//             console.log("Username already exists!")
-//             console.log("Signal " +goSignal)
-//             var redir = { redirect: "NotGood" };
-//             return res.json(redir);
-//             // res.send(goSignal)
-//             // res.redirect(307, '/client/src/Pages/TestR.js');
-//             // res.redirect("/Pages/TestR.js")
-//         }
-//     } 
-// });
 
 app.get('/read', async(req, res) => {
     const username = req.body.username

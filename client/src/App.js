@@ -10,18 +10,23 @@ import LoginSuccess from './Pages/LoginSuccess';
 import FindInsurance from './Pages/FindInsurance';
 import AddInsurance from './Pages/AddInsurance';
 import CompanyLogin from './Pages/CompanyLogin';
+import CompanyRegister from './Pages/CompanyRegister';
+import CustomerOrCompany from './Pages/CustomerOrCompany';
 
 function App() {
 
   return (
     <div className='app'>
     <Routes>
-      <Route path="/" exact element={<Register/>} />        
+      <Route path="/" exact element={<CustomerOrCompany/>} />
+      <Route path="/Register" element={<Register/>} />        
       <Route path="/Login" element={<Login/>} />
       <Route path="/LoginSuccess" element={<LoginSuccess/>} />
       <Route path="/FindInsurance" element={<FindInsurance/>} />
       <Route path="/AddInsurance" element={<AddInsurance/>} />
       <Route path="/CompanyLogin" element={<CompanyLogin/>} />
+      <Route path="/CompanyRegister" element={<CompanyRegister/>} />
+
     </Routes>
     </div>
   );
