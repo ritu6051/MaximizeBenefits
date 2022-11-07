@@ -13,11 +13,15 @@ const InsuranceSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
+    age: {
+        type: Number,
+        required: true,
+    },
     offerings: {
         type: Object,
         required: true,
     },
 });
 
-const Insurance = mongoose.model("User", InsuranceSchema);
+const Insurance = mongoose.model("Insurance", InsuranceSchema);
 module.exports = Insurance;

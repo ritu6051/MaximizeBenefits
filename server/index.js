@@ -10,9 +10,7 @@ app.use(cors());
 
 mongoose.connect(
     'mongodb+srv://cs431-thepurs:thepurs123@cluster0.u8zkruf.mongodb.net/MaximizeBenefits?retryWrites=true&w=majority', 
-    {
-        useNewUrlParser: true,
-    }
+    { useNewUrlParser: true, }
 );
 
 let goSignal = ""
@@ -22,6 +20,7 @@ app.post('/insert', async(req, res) => {
     const fullName = req.body.fullName
     const username = req.body.username
     const password = req.body.password
+    const role = req.body.role
 
     const newUser = await User.findOne({username: username});
     if(newUser) {
@@ -42,7 +41,7 @@ app.post('/insert', async(req, res) => {
                 fullName: fullName, 
                 username: username, 
                 password: password,
-                // role: role,
+                role: role,
             });
             await customer.save()
             return res.json(redir);
@@ -57,9 +56,10 @@ app.post('/login', async(req, res) => {
     console.log("Inside app.post/login")
     const username = req.body.username
     const password = req.body.password
+    const role = req.body.role
 
     console.log("username = " +username)
-    const newUser = await User.findOne({username: username, password: password});
+    const newUser = await User.findOne({username: username, password: password, role: role});
     if(newUser) {
         goSignal = "Good"
         console.log("Username already exists!")
@@ -76,7 +76,7 @@ app.post('/login', async(req, res) => {
 
 app.get('/read', async(req, res) => {
     const username = req.body.username
-    // const role = req.body.role
+    const role = req.body.role
     User.find({}, (err,result) =>{
         if(err) {
             res.send(err)

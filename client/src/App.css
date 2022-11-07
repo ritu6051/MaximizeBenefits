@@ -139,7 +139,7 @@ input {
 
 
 
-#login {
+#login , #next {
 	width: 60%;
 	height: 40px;
 	margin: 10px auto;

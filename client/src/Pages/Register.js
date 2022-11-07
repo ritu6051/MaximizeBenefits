@@ -7,10 +7,11 @@ function Register() {
     const[fullName, setFullName] = useState('');
     const[username, setUsername] = useState('');
     const[password, setPassword] = useState('');
+    const[role, setRole] = useState('');
     const[userList, setUserList] = useState([]);
     const[goSignal, setGoSignal] = useState('');
 
-    useEffect(() =>{
+    useEffect(() => {
         Axios.get("http://localhost:3001/read").then((response)=> {
             setUserList(response.data)
         })
@@ -21,7 +22,8 @@ function Register() {
         Axios.post("http://localhost:3001/insert", {  
             fullName: fullName,
             username: username,
-            password: password, 
+            password: password,
+            role: role,
         })
         .then(function (response) {
             if (response.data.redirect === 'NotGood') {
@@ -63,8 +65,35 @@ function Register() {
                 setPassword(event.target.value);
             }}
         />
-             
 
+        <label className = 'front'> Select your Role </label>
+        <div className = 'text'>
+            <label className = 'roleNames'>
+                <input 
+                    type="radio" 
+                    name="role" 
+                    value="customer" 
+                    onChange={(event) => {
+                        setRole(event.target.value);
+                    }} 
+                />
+            </label>
+            <label className = 'roleNames' id = 'b'>Customer</label>
+        </div>
+        <div className = 'text'>
+            <label className = 'roleNames'>
+                <input 
+                    type="radio" 
+                    name="role"
+                    value="insurancecompany"
+                    onChange={(event) => {
+                        setRole(event.target.value);
+                    }}
+                />
+            </label>
+            <label className = 'roleNames' id = 'b'>Insurance Company</label>
+        </div>
+             
         <button id = 'createAccount' onClick={createAccount}> Create Account </button>
 
         <Link to='/Login'>Already have an account? Click here!</Link>        
@@ -72,4 +101,4 @@ function Register() {
     );
 }
 
-export default Register
+export default Register;
