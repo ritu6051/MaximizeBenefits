@@ -11,7 +11,7 @@ function Login() {
 
     const loginAccount = () => {
         console.log(username + " inside login account")
-        Axios.post("http://localhost:3001/Login", {
+        Axios.post("http://localhost:3001/login", {
         username: username,
         password: password,    
         })

@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const app = express();
 const portNum = 3001
-const User = require("./models/Food");
+const User = require("./models/User");
 
 app.use(express.json());
 app.use(cors());
@@ -42,7 +42,7 @@ app.post('/insert', async(req, res) => {
                 fullName: fullName, 
                 username: username, 
                 password: password,
-                role: role,
+                // role: role,
             });
             await customer.save()
             return res.json(redir);
@@ -76,7 +76,7 @@ app.post('/login', async(req, res) => {
 
 app.get('/read', async(req, res) => {
     const username = req.body.username
-    const role = req.body.role
+    // const role = req.body.role
     User.find({}, (err,result) =>{
         if(err) {
             res.send(err)
