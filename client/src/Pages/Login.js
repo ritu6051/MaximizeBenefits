@@ -8,21 +8,29 @@ function Login() {
     const[password, setPassword] = useState('');
     const[goSignal, setGoSignal] = useState('');
     const[popUp, setpopUp] = useState(false);
+    const[popUpPassword, setpopUpPassword] = useState(false);
 
     const loginAccount = () => {
         console.log(username + " inside login account")
         Axios.post("http://localhost:3001/login", {
-        username: username,
-        password: password,    
+            username: username,
+            password: password,
         })
         .then(function (response) {
-            console.log(response.data.redirect)
-            if (response.data.redirect === 'Good') {
-                navigate("/LoginSuccess")
-
+            
+            if (response.data.redirect === 'GoodCustomer') {
+                navigate("/LoginSuccessCustomer")
+            } else if (response.data.redirect === 'GoodCompany') {
+                navigate("/LoginSuccessCompany")
             } else if (response.data.redirect === 'NotGood'){
+                console.log("Here")
                 navigate("/Login") 
                 setpopUp(!popUp)
+            } else if (response.data.redirect === 'IncorrectPassword'){
+                navigate("/Login") 
+                setpopUpPassword(!popUpPassword)
+            } else if(response.data.redirect === "Good") {
+                console.log("Here")
             }
         })
     }
@@ -51,7 +59,11 @@ function Login() {
         />
 
         {popUp && (
-            <p id='pop'>user does not exist</p>
+            <p id='pop'>User does not exist</p>
+        )}
+
+        {popUpPassword && (
+            <p id='pop'> Incorrect Password! Try Again! </p>
         )}
         
 

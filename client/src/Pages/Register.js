@@ -10,6 +10,7 @@ function Register() {
     const[role, setRole] = useState('');
     const[userList, setUserList] = useState([]);
     const[goSignal, setGoSignal] = useState('');
+    const[popUp, setpopUp] = useState(false);
 
     useEffect(() => {
         Axios.get("http://localhost:3001/read").then((response)=> {
@@ -27,7 +28,8 @@ function Register() {
         })
         .then(function (response) {
             if (response.data.redirect === 'NotGood') {
-                navigate("/Login")
+                navigate("/Register")
+                setpopUp(!popUp)
 
             } else if (response.data.redirect === 'Good'){
                 navigate("/LoginSuccess")
@@ -95,6 +97,10 @@ function Register() {
         </div>
              
         <button id = 'createAccount' onClick={createAccount}> Create Account </button>
+
+        {popUp && (
+            <p> Username already exists, click <Link to='/Login'><b>here</b></Link> to login! </p>
+        )}
 
         <Link to='/Login'>Already have an account? Click here!</Link>        
         </div>

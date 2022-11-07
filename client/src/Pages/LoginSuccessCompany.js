@@ -1,14 +1,14 @@
 import React, {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 
-function LoginSuccess() {
+function LoginSuccessCompany() {
     const navigate = useNavigate();
     const[username, setUsername] = useState('');
     const[password, setPassword] = useState('');
     const logout = () => {
         setUsername("")
         setPassword("")
-        navigate("/")
+        navigate("/Login")
     }
     const find = () => {
         navigate("/FindInsurance")
@@ -18,7 +18,7 @@ function LoginSuccess() {
     }
     return (
         <div> 
-            <h1 id='welcome'>Welcome</h1>
+            <h1 id='welcome'>Welcome Company !!</h1>
             <button onClick={logout} id ='logout'> Logout </button>
             <div className = 'newAcct'> It appears you don't have insurance!</div>
             <div className = 'newAcct'>What would you like to do next?</div>
@@ -28,4 +28,4 @@ function LoginSuccess() {
     )
 }
 
-export default LoginSuccess;
+export default LoginSuccessCompany;
