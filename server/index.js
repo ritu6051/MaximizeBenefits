@@ -31,7 +31,7 @@ app.post('/insert', async(req, res) => {
     else { 
         try {
             console.log("Username does not exist")
-            var redir = { redirect: "Good" };
+            
             
             const customer = new User({
                 fullName: fullName, 
@@ -41,7 +41,15 @@ app.post('/insert', async(req, res) => {
             });
             
             await customer.save()
-            return res.json(redir);
+            if(customer.role === "customer") {
+                var redir = { redirect: "Good1" };
+                return res.json(redir);
+            } else if(customer.role === "insurancecompany") {
+                var redir = { redirect: "Good2" };
+                return res.json(redir);
+            }
+
+            
             } catch(err) {
                 console.log(err);
             }

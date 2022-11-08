@@ -31,8 +31,10 @@ function Register() {
                 navigate("/Register")
                 setpopUp(!popUp)
 
-            } else if (response.data.redirect === 'Good'){
-                navigate("/LoginSuccess")
+            } else if (response.data.redirect === 'Good1'){
+                navigate("/FrontPage_Customer")
+            } else if (response.data.redirect === 'Good2'){
+                navigate("/FrontPage_Company")
             }
         })
     }
