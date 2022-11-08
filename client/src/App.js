@@ -12,6 +12,9 @@ import FindInsurance from './Pages/FindInsurance';
 import AddInsurance from './Pages/AddInsurance';
 import CompanyLogin from './Pages/CompanyLogin';
 import CompanyRegister from './Pages/CompanyRegister';
+import AddBenefits from './Pages/AddBenefits';
+import UpdateBenefits from './Pages/UpdateBenefits';
+import DeleteCustomer from './Pages/DeleteCustomer';
 import CustomerOrCompany from './Pages/CustomerOrCompany';
 
 
@@ -27,6 +30,9 @@ function App() {
       <Route path="/FrontPage_Company" element={<FrontPage_Company/>} />
       <Route path="/FindInsurance" element={<FindInsurance/>} />
       <Route path="/AddInsurance" element={<AddInsurance/>} />
+      <Route path="/AddBenefits" element={<AddBenefits/>} />
+      <Route path="/UpdateBenefits" element={<UpdateBenefits/>} />
+      <Route path="/DeleteCustomer" element={<DeleteCustomer/>} />
       <Route path="/CompanyLogin" element={<CompanyLogin/>} />
       <Route path="/CompanyRegister" element={<CompanyRegister/>} />
 

@@ -4,28 +4,12 @@ import {useNavigate} from 'react-router-dom';
 
 function FindInsurance() {
     const navigate = useNavigate();
-    const[username, setUsername] = useState('');
-    const[password, setPassword] = useState('');
-    const[goSignal, setGoSignal] = useState('');
+    const[budget, setBudget] = useState('');
+    const[age, setAge] = useState('');
     const[popUp, setpopUp] = useState(false);
     const [open, setOpen] = React.useState(false);
 
     const nextPage = () => {
-        // console.log(username + " inside login account")
-        // Axios.post("http://localhost:3001/login", {
-        // username: username,
-        // password: password,    
-        // })
-        // .then(function (response) {
-        //     console.log(response.data.redirect)
-        //     if (response.data.redirect === 'Good') {
-        //         navigate("/LoginSuccess")
-
-        //     } else if (response.data.redirect === 'NotGood'){
-        //         navigate("/Login") 
-        //         setpopUp(!popUp)
-        //     }
-        // })
         // do something
     }
     
@@ -63,6 +47,23 @@ function FindInsurance() {
             </ul>
         ) : null}
         </div> 
+        <label className = 'front'> What is your budget? (Max) </label>
+        <input 
+            type="number" 
+            placeholder='Enter budget'
+            onChange={(event) => {
+                setBudget(event.target.value);
+            }}
+        />
+
+        <label className = 'front'> What is your age? </label>
+        <input 
+            type="number" 
+            placeholder='Enter age'
+            onChange={(event) => {
+                setAge(event.target.value);
+            }}
+        />
 
         <button id='next' onClick={nextPage}> Next </button>
         </div>

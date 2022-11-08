@@ -10,20 +10,26 @@ function FrontPage_Company() {
         setPassword("")
         navigate("/Login")
     }
-    const find = () => {
-        navigate("/FindInsurance")
+    const addBenefits = () => {
+        navigate("/AddBenefits")
     }
-    const add = () => {
-        navigate("/AddInsurance")
+    const updateCustomerBenefits = () => {
+        navigate("/UpdateBenefits")
     }
+    const deleteCustomer = () => {
+        navigate("/DeleteCustomer")
+    }
+
+
     return (
         <div> 
-            <h1 id='welcome'>Welcome Company !!</h1>
+            <h1 id='welcome'>Welcome Insurance Company !!</h1>
             <button onClick={logout} id ='logout'> Logout </button>
-            <div className = 'newAcct'> It appears you don't have insurance!</div>
+            {/* <div className = 'newAcct'> It appears you don't!</div> */}
             <div className = 'newAcct'>What would you like to do next?</div>
-            <button onClick={find} className ='decide'> Find an Insurance for Me </button>
-            <button onClick={add} className ='decide'> Add my Insurance and See My Benefits </button>
+            <button onClick={addBenefits} className ='decide'> Add Benefits to your Insurance </button>
+            <button onClick={updateCustomerBenefits} className ='decide'> Update Customer Benefits </button>
+            <button onClick={deleteCustomer} className ='decide'> Delete Customer Insurance </button>
         </div>
     )
 }
