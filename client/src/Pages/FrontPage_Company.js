@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 
-function LoginSuccessCompany() {
+function FrontPage_Company() {
     const navigate = useNavigate();
     const[username, setUsername] = useState('');
     const[password, setPassword] = useState('');
@@ -28,4 +28,4 @@ function LoginSuccessCompany() {
     )
 }
 
-export default LoginSuccessCompany;
+export default FrontPage_Company;

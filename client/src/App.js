@@ -20,7 +20,6 @@ function App() {
   return (
     <div className='app'>
     <Routes>
-      {/* <Route path="/" exact element={<CustomerOrCompany/>} /> */}
       <Route path="/" exact element={<Register/>} />
       <Route path="/Register" element={<Register/>} />        
       <Route path="/Login" element={<Login/>} />

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 
-function LoginSuccessCustomer() {
+function FrontPage_Customer() {
     const navigate = useNavigate();
     const[username, setUsername] = useState('');
     const[password, setPassword] = useState('');
@@ -28,4 +28,4 @@ function LoginSuccessCustomer() {
     )
 }
 
-export default LoginSuccessCustomer;
+export default FrontPage_Customer;

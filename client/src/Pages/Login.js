@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Axios from 'axios';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, Link} from 'react-router-dom';
 
 function Login() {
     const navigate = useNavigate();
@@ -66,7 +66,11 @@ function Login() {
         )}
         
         <button id='login' onClick={loginAccount}> Login </button>
+        
+        <Link to='/Register'>Don't have an account? Register here!</Link>
         </div>
+        
+        
     );
 }
 
