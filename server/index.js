@@ -16,7 +16,7 @@ mongoose.connect(
 let goSignal = ""
 app.post('/insert', async(req, res) => {
     
-    console.log("Inside app.get/insert")
+    console.log("Inside server/index.js/app.post/insert")
     const fullName = req.body.fullName
     const username = req.body.username
     const password = req.body.password
@@ -24,17 +24,13 @@ app.post('/insert', async(req, res) => {
 
     const newUser = await User.findOne({username: username});
     if(newUser) {
-        goSignal = "NotGood"
-            console.log("Username already exists!")
-            console.log("Signal " +goSignal)
-            var redir = { redirect: "NotGood" };
-            return res.json(redir);
+        console.log("Username already exists!")
+        var redir = { redirect: "NotGood" };
+        return res.json(redir);
     } 
     else { 
         try {
-            goSignal = "Good"
             console.log("Username does not exist")
-            console.log("Signal " +goSignal)
             var redir = { redirect: "Good" };
             
             const customer = new User({
@@ -43,6 +39,7 @@ app.post('/insert', async(req, res) => {
                 password: password,
                 role: role,
             });
+            
             await customer.save()
             return res.json(redir);
             } catch(err) {
@@ -53,73 +50,40 @@ app.post('/insert', async(req, res) => {
 
 app.post('/login', async(req, res) => {
     
-    console.log("Inside app.post/login")
+    console.log("Inside server/index.js/app.post/login")
     const username = req.body.username
     const password = req.body.password
-    // const role = req.body.role
-
-    console.log("username = " +username)
-    // const newUser = await User.findOne({username: username, password: password, role: role});
+    
     const newUser = await User.findOne({username: username});
     if(newUser) {
-        goSignal = "Good"
-        console.log("Username already exists!")
-        console.log("Signal " +goSignal)
-
+        console.log("Username exists!")
+        
         if(newUser.password === password) {
-            console.log(newUser.get("role"))
-            if(newUser.get("role") === "customer") {
-                var redir = { redirect: "GoodCustomer" };
+            console.log("Password Matches!")
+
+            if(newUser.role === "customer") {
+                console.log(username + " is a " +newUser.role+ "!")
+                var redir = { redirect: "login_customer_successfully" };
                 return res.json(redir);
             }
-            else if(newUser.get("role") === "insurancecompany") {
-                var redir = { redirect: "GoodCompany" };
+            else if(newUser.role === "insurancecompany") {
+                console.log(username + " is a " +newUser.role+ "!")
+                var redir = { redirect: "login_company_successfully" };
                 return res.json(redir);
             }
         }
         else {
-            var redir = { redirect: "IncorrectPassword" };
+            console.log("Password does not match!")
+            var redir = { redirect: "incorrect_password" };
             return res.json(redir);
         }
     }
     else {  
-        goSignal = "NotGood"
-        var redir = { redirect: "NotGood" };
+        console.log("Username does not exist!")
+        var redir = { redirect: "user_does_not_exist" };
         return res.json(redir);
     } 
 });
-
-// app.post('/login', async(req, res) => {
-    
-//     console.log("Inside app.post/login")
-//     const username = req.body.username
-//     const password = req.body.password
-//     const role = req.body.role
-
-//     console.log("username = " +username)
-//     const newUser = await User.findOne({username: username});
-//     if(newUser) {
-//         goSignal = "Good"
-//         console.log("Username already exists!")
-//         console.log("Signal " +goSignal)
-//         var redir = { redirect: "Good" };
-//         return res.json(redir);
-//     }
-//     else {
-//         const newUser = await User.findOne({username: username, password: password, role: role});
-//         if(newUser) {
-//             goSignal = "NotGood"
-//             var redir = { redirect: "NotGood" };
-//             return res.json(redir);
-//         }
-//         else {
-//             goSignal = "IncorrectPassword"
-//             var redir = { redirect: "IncorrectPassword" };
-//             return res.json(redir);
-//         }
-        
-//     } 
-// });
 
 app.get('/read', async(req, res) => {
     const username = req.body.username
@@ -138,5 +102,5 @@ app.get('/getGoSignal', (req, res) => {
 });
 
 app.listen(portNum, () => {
-    console.log("Yes, your port is running on port ${portNum}");
+    console.log("Yes, your port is running on port " +portNum);
 });
