@@ -4,6 +4,7 @@ const cors = require('cors');
 const app = express();
 const portNum = 3001
 const User = require("./models/User");
+const Insurance = require("./models/Insurance");
 
 app.use(express.json());
 app.use(cors());
@@ -13,84 +14,92 @@ mongoose.connect(
     { useNewUrlParser: true, }
 );
 
-let goSignal = ""
-app.post('/insert', async(req, res) => {
-    
-    console.log("Inside server/index.js/app.post/insert")
-    const fullName = req.body.fullName
-    const username = req.body.username
-    const password = req.body.password
-    const role = req.body.role
+app.post('/register', async(req, res) => {
+    try {
+        console.log("Inside server/index.js/app.post/register")
+        const fullName = req.body.fullName
+        const username = req.body.username
+        const password = req.body.password
+        const passwordAgain = req.body.passwordAgain
+        const role = req.body.role
 
-    const newUser = await User.findOne({username: username});
-    if(newUser) {
-        console.log("Username already exists!")
-        var redir = { redirect: "NotGood" };
-        return res.json(redir);
-    } 
-    else { 
-        try {
-            console.log("Username does not exist")
-            
-            
-            const customer = new User({
+        const checkUser = await User.findOne({username: username});
+        if(checkUser) {
+            console.log("Username already exists!")
+            var redir = { redirect: "username_already_exists" };
+            return res.json(redir);
+        } 
+        else { 
+            console.log("Username does not exist, can create account")
+            const newUser = new User ({
                 fullName: fullName, 
                 username: username, 
                 password: password,
                 role: role,
             });
             
-            await customer.save()
-            if(customer.role === "customer") {
-                var redir = { redirect: "Good1" };
-                return res.json(redir);
-            } else if(customer.role === "insurancecompany") {
-                var redir = { redirect: "Good2" };
-                return res.json(redir);
-            }
+            console.log(newUser.username + " is a " +newUser.role+ "!")
+            if(password === passwordAgain) {
+                console.log("Both passwords match!")
 
-            
-            } catch(err) {
-                console.log(err);
+                if(newUser.role === "customer") {
+                    var redir = { redirect: "login_customer_successfully" };
+                    await newUser.save()
+                    return res.json(redir);
+                } else if(newUser.role === "insurancecompany") {
+                    await newUser.save()
+                    var redir = { redirect: "login_company_successfully" };
+                    return res.json(redir);
+                }
             }
-        }
+            else {
+                console.log("Both passwords do not match!")
+                var redir = { redirect: "passwords_do_not_match" };
+                return res.json(redir);
+            }
+        } 
+    } catch(err) {
+        console.log(err);
+    }
 });
 
 app.post('/login', async(req, res) => {
-    
-    console.log("Inside server/index.js/app.post/login")
-    const username = req.body.username
-    const password = req.body.password
-    
-    const newUser = await User.findOne({username: username});
-    if(newUser) {
-        console.log("Username exists!")
+    try {
+        console.log("Inside server/index.js/app.post/login")
+        const username = req.body.username
+        const password = req.body.password
         
-        if(newUser.password === password) {
-            console.log("Password Matches!")
+        const loginUser = await User.findOne({username: username});
+        if(loginUser) {
+            console.log("Username exists!")
+            
+            if(loginUser.password === password) {
+                console.log("Password Matches!")
 
-            if(newUser.role === "customer") {
-                console.log(username + " is a " +newUser.role+ "!")
-                var redir = { redirect: "login_customer_successfully" };
-                return res.json(redir);
+                console.log(username + " is a " +loginUser.role+ "!")
+                if(loginUser.role === "customer") {
+                    var redir = { redirect: "login_customer_successfully" };
+                    return res.json(redir);
+                }
+                else if(loginUser.role === "insurancecompany") {
+                    var redir = { redirect: "login_company_successfully" };
+                    return res.json(redir);
+                }
             }
-            else if(newUser.role === "insurancecompany") {
-                console.log(username + " is a " +newUser.role+ "!")
-                var redir = { redirect: "login_company_successfully" };
+            else {
+                console.log("Password does not match!")
+                var redir = { redirect: "incorrect_password" };
                 return res.json(redir);
             }
         }
-        else {
-            console.log("Password does not match!")
-            var redir = { redirect: "incorrect_password" };
+        else {  
+            console.log("Username does not exist!")
+            var redir = { redirect: "user_does_not_exist" };
             return res.json(redir);
-        }
+        } 
+    } catch(err) {
+        console.log(err);
     }
-    else {  
-        console.log("Username does not exist!")
-        var redir = { redirect: "user_does_not_exist" };
-        return res.json(redir);
-    } 
 });
 
 app.get('/read', async(req, res) => {
@@ -103,10 +112,6 @@ app.get('/read', async(req, res) => {
         res.send(result)
     })
     
-});
-
-app.get('/getGoSignal', (req, res) => {
-    res.send(goSignal)
 });
 
 app.listen(portNum, () => {

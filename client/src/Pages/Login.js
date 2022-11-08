@@ -6,7 +6,7 @@ function Login() {
     const navigate = useNavigate();
     const[username, setUsername] = useState('');
     const[password, setPassword] = useState('');
-    const[popUp1, setPopUp1] = useState(false); // User does not exist
+    const[popUp1, setPopUp1] = useState(false); // User does not exist, can't login
     const[popUp2, setPopUp2] = useState(false); // User exists, incorrect password
 
     const loginAccount = () => {
