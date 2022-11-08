@@ -2,9 +2,6 @@ import React, { useState, useEffect } from 'react';
 import Axios from 'axios';
 import {useNavigate, Link} from 'react-router-dom';
 
-// Comment here
-// Trial Commmit by Sonali
-
 function AddBenefits() {
     const navigate = useNavigate();
     const[popUp, setpopUp] = useState(false);
