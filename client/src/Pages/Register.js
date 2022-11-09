@@ -27,7 +27,7 @@ function Register() {
             passwordAgain: passwordAgain,
             role: role,
         })
-        .then(function (response) {
+        .then(function(response) {
             console.log("Redirect msg inside Register.js = " +response.data.redirect)
             if (response.data.redirect === 'username_already_exists') {
                 setPopUp1(true)

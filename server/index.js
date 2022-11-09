@@ -85,6 +85,46 @@ app.post('/register', async(req, res) => {
     }
 });
 
+app.post('/insertInsurance', async(req, res) => {
+    
+    console.log("Inside server/index.js/app.post/insertInsurance")
+    const insuranceType = req.body.insuranceType
+    const insuranceName = req.body.insuranceName
+    const cost = req.body.cost
+    const age = req.body.age
+    const offerings = req.body.benefits
+
+    const newInsuranceCompany = await Insurance.findOne({insuranceName: insuranceName});
+    console.log(newInsuranceCompany)
+    if(newInsuranceCompany) {
+        console.log("Insurance Company already exists!")
+        var redir = { redirect: "NotGood_InsuranceCompanyExist" };
+        return res.json(redir);
+    } 
+    else { 
+        try {
+            console.log("Insurance Company Name Already Exists!")
+            
+            console.log("Type = " +insuranceType)
+            console.log("Name = " +insuranceName)
+            console.log("Cost = " +cost)
+            console.log("Age = " +age)
+            const insuranceCompany = new Insurance({
+                insuranceType: insuranceType,
+                insuranceName: insuranceName,
+                cost: cost,
+                age: age,
+                offerings: offerings,
+            });
+            
+            await insuranceCompany.save()
+   
+            } catch(err) {
+                console.log(err);
+            }
+        }
+});
+
 app.post('/login', async(req, res) => {
     try {
         console.log("Inside server/index.js/app.post/login")
