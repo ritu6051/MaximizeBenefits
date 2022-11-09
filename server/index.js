@@ -14,6 +14,27 @@ mongoose.connect(
     { useNewUrlParser: true, }
 );
 
+app.get('/findInsurances', async(req, res) => {
+    try {
+        console.log("Inside server/index.js/app.post/findInsurances")
+
+        User.distinct("username", (err,result) =>{
+            if(err) {
+                res.send(err)
+            }
+            res.send(result)
+        })
+
+        // const checkUser = await User.distinct("username");
+        // var redir = { redirect: checkUser };
+        // console.log("redir = " +redir)
+        // return res.json(redir);
+         
+    } catch(err) {
+        console.log(err);
+    }
+});
+
 app.post('/register', async(req, res) => {
     try {
         console.log("Inside server/index.js/app.post/register")
@@ -24,6 +45,7 @@ app.post('/register', async(req, res) => {
         const role = req.body.role
 
         const checkUser = await User.findOne({username: username});
+        
         if(checkUser) {
             console.log("Username already exists!")
             var redir = { redirect: "username_already_exists" };

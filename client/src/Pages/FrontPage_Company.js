@@ -20,7 +20,6 @@ function FrontPage_Company() {
         navigate("/DeleteCustomer")
     }
 
-
     return (
         <div> 
             <h1 id='welcome'>Welcome Insurance Company !!</h1>
