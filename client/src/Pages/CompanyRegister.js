@@ -35,6 +35,9 @@ function Register() {
     const createAccount = () => {
         console.log(username + " inside create account")
         Axios.post("http://localhost:3001/insert", {  
+            fullName: fullName,
+            username: username,
+            password: password, 
         })
         .then(function (response) {
             if (response.data.redirect === 'NotGood') {
@@ -97,4 +100,4 @@ function Register() {
     );
 }
 
-export default Register
+export default Register;
