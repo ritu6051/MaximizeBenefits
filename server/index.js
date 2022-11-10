@@ -3,49 +3,157 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const app = express();
 const portNum = 3001
-const User = require("./models/Food");
+const User = require("./models/User");
+const Insurance = require("./models/Insurance");
 
 app.use(express.json());
 app.use(cors());
 
 mongoose.connect(
     'mongodb+srv://cs431-thepurs:thepurs123@cluster0.u8zkruf.mongodb.net/MaximizeBenefits?retryWrites=true&w=majority', 
-    {
-        useNewUrlParser: true,
-    }
+    { useNewUrlParser: true, }
 );
 
-let goSignal = ""
-app.post('/insert', async(req, res) => {
+app.post('/insertInsurancePlan', async(req, res) => {
     
-    console.log("Inside app.get/insert")
-    const fullName = req.body.fullName
-    const username = req.body.username
-    const password = req.body.password
+    const insuranceName = req.body.insuranceName
+    const insuranceType = req.body.insuranceType
+    const planName = req.body.planName
+    const yearlyCost = req.body.yearlyCost
+    const maxAge = req.body.maxAge
+    const coverageDetails = req.body.coverageDetails
 
-    const newUser = await User.findOne({username: username});
-    if(newUser) {
-        goSignal = "NotGood"
+    const insurance = await Insurance.findOne({insuranceName: insuranceName});
+
+    if(insurance) {
+        console.log("This insurance already exixts")
+        var redir = { redirect: "insurance_already_exists" };
+        return res.json(redir);
+    } else {
+        console.log("This insurance doesn't exist")
+        console.log("Insurance Name = " +insuranceName)
+        console.log("Insurance Type = " +insuranceType)
+        console.log("Plan Name = " +planName)
+        console.log("Yearly Cost = " +yearlyCost)
+        console.log("Max Age = " +maxAge)
+        console.log("Coverage Name = " +coverageDetails[0].coverageName)
+        console.log("Coverage Amount = " +coverageDetails[0].coverageAmount)
+        const newInsurance = new Insurance ({
+            insuranceName: insuranceName,
+            insuranceType: insuranceType,
+            plans: {
+                planName: planName,
+                yearlyCost: yearlyCost,
+                age: maxAge,
+                coverages: coverageDetails,
+            }
+        });
+        await newInsurance.save()
+        var redir = { redirect: "new_insurance_added_successfully" };
+        return res.json(redir);
+    }
+    
+});
+
+app.get('/findInsurances', async(req, res) => {
+    try {
+        console.log("Inside server/index.js/app.post/findInsurances")
+
+        User.distinct("username", (err,result) =>{
+            if(err) {
+                res.send(err)
+            }
+            res.send(result)
+        })
+    } catch(err) {
+        console.log(err);
+    }
+});
+
+app.post('/register', async(req, res) => {
+    try {
+        console.log("Inside server/index.js/app.post/register")
+        const fullName = req.body.fullName
+        const username = req.body.username
+        const password = req.body.password
+        const passwordAgain = req.body.passwordAgain
+        const role = req.body.role
+
+        const checkUser = await User.findOne({username: username});
+        
+        if(checkUser) {
             console.log("Username already exists!")
-            console.log("Signal " +goSignal)
-            var redir = { redirect: "NotGood" };
+            var redir = { redirect: "username_already_exists" };
             return res.json(redir);
-    } 
-    else { 
-        try {
-            goSignal = "Good"
-            console.log("Username does not exist")
-            console.log("Signal " +goSignal)
-            var redir = { redirect: "Good" };
-            
-            const customer = new User({
+        } 
+        else { 
+            console.log("Username does not exist, can create account")
+            const newUser = new User ({
                 fullName: fullName, 
                 username: username, 
                 password: password,
                 role: role,
             });
-            await customer.save()
-            return res.json(redir);
+            
+            console.log(newUser.username + " is a " +newUser.role+ "!")
+            if(password === passwordAgain) {
+                console.log("Both passwords match!")
+
+                if(newUser.role === "customer") {
+                    var redir = { redirect: "login_customer_successfully" };
+                    await newUser.save()
+                    return res.json(redir);
+                } else if(newUser.role === "insurancecompany") {
+                    await newUser.save()
+                    var redir = { redirect: "login_company_successfully" };
+                    return res.json(redir);
+                }
+            }
+            else {
+                console.log("Both passwords do not match!")
+                var redir = { redirect: "passwords_do_not_match" };
+                return res.json(redir);
+            }
+        } 
+    } catch(err) {
+        console.log(err);
+    }
+});
+
+app.post('/insertInsurance', async(req, res) => {
+    
+    console.log("Inside server/index.js/app.post/insertInsurance")
+    const insuranceType = req.body.insuranceType
+    const insuranceName = req.body.insuranceName
+    const cost = req.body.cost
+    const age = req.body.age
+    const offerings = req.body.benefits
+
+    const newInsuranceCompany = await Insurance.findOne({insuranceName: insuranceName});
+    console.log(newInsuranceCompany)
+    if(newInsuranceCompany) {
+        console.log("Insurance Company already exists!")
+        var redir = { redirect: "NotGood_InsuranceCompanyExist" };
+        return res.json(redir);
+    } 
+    else { 
+        try {
+            console.log("Insurance Company Name Already Exists!")
+            
+            console.log("Type = " +insuranceType)
+            console.log("Name = " +insuranceName)
+            console.log("Cost = " +cost)
+            console.log("Age = " +age)
+            const insuranceCompany = new Insurance({
+                insuranceType: insuranceType,
+                insuranceName: insuranceName,
+                cost: cost,
+                age: age,
+                offerings: offerings,
+            });
+            
+            await insuranceCompany.save()
+   
             } catch(err) {
                 console.log(err);
             }
@@ -53,47 +161,43 @@ app.post('/insert', async(req, res) => {
 });
 
 app.post('/login', async(req, res) => {
-    
-    console.log("Inside app.post/login")
-    const username = req.body.username
-    const password = req.body.password
-
-    console.log("username = " +username)
-    const newUser = await User.findOne({username: username, password: password});
-    if(newUser) {
-        goSignal = "Good"
-        console.log("Username already exists!")
-        console.log("Signal " +goSignal)
-        var redir = { redirect: "Good" };
-        return res.json(redir);
-    }
-    else{  
-        goSignal = "NotGood"
-        var redir = { redirect: "NotGood" };
-        return res.json(redir);
-    } 
-});
-
-// app.post('/DisplayInsurances', async(req, res) => {
-//     try {
-//         const insuranceType = req.body.insuranceType
-//         const insuranceName = req.body.insuranceName
-//         const cost = req.body.cost
-//         const age = req.body.age
-//         const offerings = req.body.benefits
-//         const typeList = []
+    try {
+        console.log("Inside server/index.js/app.post/login")
+        const username = req.body.username
+        const password = req.body.password
         
-//         const type = await Insurance.findAll({insuranceType: insuranceType});
-//         if(type) {
-//             typeList.push(type)
-//         }
-//         var redir = { redirect: "type" };
-//                     return res.json(redir);
-// }catch(err) {
-//     console.log(err);
-// }
-// });
+        const loginUser = await User.findOne({username: username});
+        if(loginUser) {
+            console.log("Username exists!")
+            
+            if(loginUser.password === password) {
+                console.log("Password Matches!")
 
+                console.log(username + " is a " +loginUser.role+ "!")
+                if(loginUser.role === "customer") {
+                    var redir = { redirect: "login_customer_successfully" };
+                    return res.json(redir);
+                }
+                else if(loginUser.role === "insurancecompany") {
+                    var redir = { redirect: "login_company_successfully" };
+                    return res.json(redir);
+                }
+            }
+            else {
+                console.log("Password does not match!")
+                var redir = { redirect: "incorrect_password" };
+                return res.json(redir);
+            }
+        }
+        else {  
+            console.log("Username does not exist!")
+            var redir = { redirect: "user_does_not_exist" };
+            return res.json(redir);
+        } 
+    } catch(err) {
+        console.log(err);
+    }
+});
 
 app.get('/read', async(req, res) => {
     const username = req.body.username
@@ -107,10 +211,6 @@ app.get('/read', async(req, res) => {
     
 });
 
-app.get('/getGoSignal', (req, res) => {
-    res.send(goSignal)
-});
-
 app.listen(portNum, () => {
-    console.log("Yes, your port is running on port ${portNum}");
+    console.log("Yes, your port is running on port " +portNum);
 });

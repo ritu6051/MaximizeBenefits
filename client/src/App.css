@@ -75,6 +75,18 @@ body {
 	transition: .5s ease-in-out;
 }
 
+.dropdown {
+	color: rgb(48, 39, 35);
+	font-size: 1em;
+	justify-content: center;
+	display: flex;
+	margin: 1px;
+	font-weight: bold;
+	cursor: pointer;
+	transition: .5s ease-in-out;
+	padding: 10px;
+}
+
 input {
   width: 60%;
 	height: 10px;
@@ -89,7 +101,7 @@ input {
 }
 
 .decide {
-	width: 60%;
+	width: 80%;
 	height: 60px;
 	margin: 10px auto;
 	justify-content: center;
@@ -139,7 +151,7 @@ input {
 
 
 
-#login {
+#login , #next {
 	width: 60%;
 	height: 40px;
 	margin: 10px auto;
@@ -204,10 +216,10 @@ input[type='radio']{
 	bottom: 15px;
 }
 
-.dropdown {
+/* .dropdown {
 	position: relative;
 	left: 100px;
-}
+} */
   
 .menu {
 position: absolute;
@@ -243,6 +255,4 @@ margin: 0;
 font: inherit;
 cursor: pointer;
 }
-
-
 
