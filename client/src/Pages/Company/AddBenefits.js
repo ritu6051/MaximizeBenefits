@@ -14,14 +14,13 @@ function AddBenefits() {
     const[yearlyCost, setYearlyCost] = useState('');
     const[maxAge, setMaxAge] = useState('');
     const [formValues, setFormValues] = useState([{coverageName: "", coverageAmount : ""}])
+    const [plans, setPlans] = useState([{planName: "", yearlyCost: "", maxAge: "", coverages: formValues}])
     const[popUp1, setPopUp1] = useState(false); // Insurance already exists, can't create another
-    // ----------- End of states -----------
     
-    // ----------- Start of functions -----------
     const handleFormSubmit = (event) => {
+        // setPlans([{planName: planName, yearlyCost: yearlyCost, maxAge: maxAge, coverages: formValues}])
         event.preventDefault();
-        console.log("Insurance Type in handleFormSubmit = "+insuranceType)
-        // console.log(JSON.stringify(formValues))
+        
         Axios.post("http://localhost:3001/insertInsurancePlan", {  
             insuranceName: insuranceName,
             insuranceType: insuranceType,
@@ -29,6 +28,7 @@ function AddBenefits() {
             yearlyCost: yearlyCost,
             maxAge: maxAge,
             coverageDetails: formValues,
+            plans: plans
         })
         .then(function(response) {
             console.log("Redirect msg inside AddInsurance.js = " +response.data.redirect)

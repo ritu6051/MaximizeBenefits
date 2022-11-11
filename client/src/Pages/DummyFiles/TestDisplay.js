@@ -15,12 +15,10 @@ function TestDisplay() {
         .then(function (response) {
             setUserList(response.data)
             console.log("Here inside TestDisplay")
-            console.log(userList[1].fullName + "here")
-        })
+        })    
     }
-    
+
     return (
-        
         <div>
             <button id='login' onClick={loginAccount}> Login </button>
         
@@ -28,11 +26,13 @@ function TestDisplay() {
             
         <table border="1" >
             <tr>
-            <th>Full Name</th>
-            <th>Username</th>
-            <th>Role</th>
+            <th>Insurance Name</th>
+            <th>Insurance Type</th>
+            <th> Plan Name </th>
+            <th> Yearly Cost </th>
+            <th> Coverage Details </th>
             </tr>
-        {
+            {
             // userList.forEach(function(data) {
             //         <tr>
             //     {/* <td>{data[1].fullName}</td> */}
@@ -44,9 +44,19 @@ function TestDisplay() {
             userList.map((val, key) => {
                 return (
                     <tr>
-                    <td>{val.fullName}</td>
-                    <td>{val.username}</td>
-                    <td>{val.role}</td>
+                    <td><b>{val.insuranceName}</b></td>
+                    <td>{val.insuranceType}</td>
+                    <td>{val.plans.planName}</td>
+                    <td>{val.plans.yearlyCost}</td>
+
+                    <td>
+                    {val.plans.coverages.map((val, key) => {
+                        return (
+                            <div>{val.coverageName}{": $"}{val.coverageAmount}</div>
+                        )
+                    })}
+                    </td>
+                    {/* <td>{JSON.stringify(val.plans.coverages)}</td> */}
                     </tr>
                 )
                 

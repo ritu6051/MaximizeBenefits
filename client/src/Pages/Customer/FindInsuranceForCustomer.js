@@ -16,12 +16,13 @@ function FindInsuranceForCustomer() {
 
     const findInsurances = () => {
         Axios.post("http://localhost:3001/findInsurances", {
-            insuranceType: insuranceType,
-            budget: budget,
-            maxAge: maxAge
+        // Axios.post("http://localhost:3001/print", {
+            // insuranceType: insuranceType,
+            // budget: budget,
+            // maxAge: maxAge
         })
         .then((response) => {
-            
+            // navigate("/TestDisplay")
         })
     }
 

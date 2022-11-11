@@ -124,9 +124,10 @@ app.post('/insertInsurancePlan', async(req, res) => { //AddBenefits.js
         const yearlyCost = req.body.yearlyCost
         const maxAge = req.body.maxAge
         const coverageDetails = req.body.coverageDetails
-
+        const plans = req.body.plans
+        
         const insurance = await Insurance.findOne({insuranceName: insuranceName});
-
+        
         if(insurance) {
             console.log("This insurance already exixts")
             var redir = { redirect: "insurance_already_exists" };
@@ -134,7 +135,7 @@ app.post('/insertInsurancePlan', async(req, res) => { //AddBenefits.js
         } else {
             // console.log("Coverage Name = " +coverageDetails[0].coverageName)
             // console.log("Coverage Amount = " +coverageDetails[0].coverageAmount)
-            
+
             const newInsurance = new Insurance ({
                 insuranceName: insuranceName,
                 insuranceType: insuranceType,
@@ -149,6 +150,14 @@ app.post('/insertInsurancePlan', async(req, res) => { //AddBenefits.js
             var redir = { redirect: "new_insurance_added_successfully" };
             return res.json(redir);
         }
+
+        // DO NOT REMOVE - prachiti - this takes care of multiple plans
+        // const newInsurance = new Insurance ({
+        //     insuranceName: insuranceName,
+        //     insuranceType: insuranceType,
+        //     plans: plans,
+        //     // coverages: coverageDetails
+        // });
     } catch (err) {
         res.send(err)
     }
@@ -181,6 +190,23 @@ app.post('/findInsurances', async(req, res) => { //FindInsuranceForCustomer.js
         res.send(err)
     }
 });
+
+app.get('/print', async(req, res) => { //FindInsuranceForCustomer.js
+    try {
+        const insuranceType = req.body.insuranceType
+        const insuranceName = req.body.insuranceName
+        
+        Insurance.find({insuranceType: 'Home'}, (err,result) =>{ //insuranceType: insuranceType
+            if(err) {
+                res.send(err)
+            }
+            res.send(result)
+        })
+    } catch(err) {
+        console.log(err);
+    }
+});
+
 
 // NOT USED
 app.post('/insertInsurance', async(req, res) => {
@@ -226,7 +252,7 @@ app.post('/insertInsurance', async(req, res) => {
 app.get('/testDisplay', async(req, res) => {
     const username = req.body.username
     const role = req.body.role
-    User.find({}, (err,result) =>{
+    Insurance.find({}, (err,result) =>{
         if(err) {
             res.send(err)
         }

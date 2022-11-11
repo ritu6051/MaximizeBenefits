@@ -10,6 +10,9 @@ const InsuranceSchema = new mongoose.Schema({
         required: true,
     },
     plans: { 
+        // type: Array,
+        // required: true,
+
         planName: { // Gold
             type: String,
             required: true,
@@ -29,5 +32,5 @@ const InsuranceSchema = new mongoose.Schema({
     }
 });
 
-const Insurance = mongoose.model("Insurance", InsuranceSchema);
+const Insurance = mongoose.model("InsuranceNew", InsuranceSchema);
 module.exports = Insurance;
