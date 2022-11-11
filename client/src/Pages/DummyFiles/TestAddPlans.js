@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Axios from 'axios';
 import {useNavigate, Link} from 'react-router-dom';
 
-function AddBenefits() {
+function TestAddPlans() {
     const navigate = useNavigate();
     const[insuranceName, setInsuranceName] = useState('');
     const[insuranceType, setInsuranceType] = useState('');
@@ -96,4 +96,4 @@ function AddBenefits() {
     );
 }
 
-export default AddBenefits;
+export default TestAddPlans;

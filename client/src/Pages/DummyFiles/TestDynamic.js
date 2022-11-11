@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Axios from 'axios';
 import {useNavigate, Link} from 'react-router-dom';
 
-function Login() {
+function TestDynamic() {
     const navigate = useNavigate();
     
     // ----------- Start of states -----------
@@ -154,4 +154,4 @@ function Login() {
     
 }
 
-export default Login;
+export default TestDynamic;

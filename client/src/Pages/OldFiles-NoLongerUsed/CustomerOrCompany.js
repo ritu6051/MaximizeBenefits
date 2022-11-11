@@ -21,4 +21,4 @@ function CustomerOrCompany() {
     );
 }
 
-export default CustomerOrCompany
+export default CustomerOrCompany;

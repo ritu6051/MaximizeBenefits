@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Axios from 'axios';
 import {useNavigate, Link} from 'react-router-dom';
 
-function Login() {
+function AddBenefits() {
     const navigate = useNavigate();
     
     // ----------- Start of states -----------
@@ -15,7 +15,6 @@ function Login() {
     const[maxAge, setMaxAge] = useState('');
     const [formValues, setFormValues] = useState([{coverageName: "", coverageAmount : ""}])
     const[popUp1, setPopUp1] = useState(false); // Insurance already exists, can't create another
-    const [fullDetails, setFullDetails] = useState([{insuranceName: "", insuranceType : "", plans: [{planName: "", yearlyCost: "", maxAge: "", coverages: [{coverageName: "", coverageAmount: ""}]}]}])
     // ----------- End of states -----------
     
     // ----------- Start of functions -----------
@@ -151,4 +150,4 @@ function Login() {
     
 }
 
-export default Login;
+export default AddBenefits;

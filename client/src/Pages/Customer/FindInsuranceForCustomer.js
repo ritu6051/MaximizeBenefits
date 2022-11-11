@@ -2,63 +2,60 @@ import React, { useState, useEffect } from 'react';
 import Axios from 'axios';
 import {useNavigate} from 'react-router-dom';
 
-function FindInsurance() {
+function FindInsuranceForCustomer() {
     const navigate = useNavigate();
+    const[insuranceTypeList, setInsuranceTypeList] = useState([]);
+    const[insuranceType, setInsuranceType] = useState('');
     const[budget, setBudget] = useState('');
-    const[age, setAge] = useState('');
-    const[popUp, setpopUp] = useState(false);
-    const[userList, setUserList] = useState([]);
-    const [open, setOpen] = React.useState(false);
-    const [fruit, setFruit] = useState("Select a fruit")
-    const test = []
+    const[maxAge, setMaxAge] = useState('');
     
+    
+    Axios.get("http://localhost:3001/getAvailableInsuranceTypes").then((response) => {
+        setInsuranceTypeList(response.data)
+    })
+
     const findInsurances = () => {
-        Axios.get("http://localhost:3001/findInsurances")
-        .then((response) => {
-            setUserList(response.data)
-            console.log("UserList Here = " +userList)
-            navigate("/TestDisplay")
+        Axios.post("http://localhost:3001/findInsurances", {
+            insuranceType: insuranceType,
+            budget: budget,
+            maxAge: maxAge
         })
-        // .then(function (response) {
-        //     setUserList(response.data.redirect)
-        //     console.log("UserList = " +response.data.redirect)
-        // })
+        .then((response) => {
+            
+        })
     }
-    
-    const selectInsurance = () => {
-        //do something
-        console.log("Here")
+
+    const handleInsuranceType = event =>{
+        console.log(event.target.value);
+        setInsuranceType(event.target.value);
+        console.log("Insurance type = " +insuranceType)
     }
 
     return (
         <div className="whiteBox"> 
         <h1> Please Enter Criteria </h1> 
-
-        {/* <div className="dropdown">
-            <button onClick={handleOpen}>What kind of insurance?</button>
-            {open ? (
-            <ul className="menu">
-                <li className="menu-item">
-                    <button onClick={handleMenuOne}>Health</button>
-                </li>
-                <li className="menu-item">
-                    <button onClick={handleMenuTwo}>Dental</button>
-                </li>
-                <li className="menu-item">
-                    <button onClick={handleMenuTwo}>Auto</button>
-                </li>
-            </ul>
-        ) : null}
-        </div>  */}
-
+        {/* 
         <div className="dropdown">
-        <select id = "insuranceTypeList" onClick={selectInsurance}>  
+        <select id = "insuranceTypeList" onClick={handleInsuranceType}>  
             <option> --- What kind of insurance? --- </option>  
-            <option> Health </option>  
-            <option> Dental </option>  
-            <option> Auto </option>
+            <option> Health </option>
+            <option> Dental </option>
         </select>  
-        </div> 
+        </div>
+         */}
+        
+        <div className="dropdown">
+        <select id = "insuranceTypeList" onClick={handleInsuranceType}>  
+            <option> --- What kind of insurance? --- </option>  
+            {
+                insuranceTypeList.map((val, key) => {
+                    return (
+                        <option key={key}> {val} </option>
+                    ) 
+                })
+            }
+        </select>  
+        </div>
 
         <label className = 'front'> What is your budget? (Max) </label>
         <input 
@@ -74,31 +71,13 @@ function FindInsurance() {
             type="number" 
             placeholder='Enter age'
             onChange={(event) => {
-                setAge(event.target.value);
+                setMaxAge(event.target.value);
             }}
         />
-
-        {/* <select id = "insuranceTypeList" onClick={selectInsurance}>  
-            <option> --- What kind of insurance? --- </option>
-            {userList.map(function(element){
-                <option> {element} </option>
-            })};
-        </select>   */}
-
-        <div className="dropdown">
-        <select id = "insuranceTypeList" onClick={selectInsurance}>  
-            <option> --- What kind of insurance? --- </option>  
-            {
-                userList.map((val) => {
-                    <option key={val}> {val + " "} </option>
-                })
-            }
-        </select>  
-        </div> 
-
+        
         <button id='next' onClick={findInsurances}> Next </button>
         </div>
     );
 }
 
-export default FindInsurance;
+export default FindInsuranceForCustomer;

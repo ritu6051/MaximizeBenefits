@@ -3,7 +3,7 @@ import Axios from 'axios';
 import {useNavigate, Link} from 'react-router-dom';
 
 
-function Register() {
+function CompanyRegister() {
     const navigate = useNavigate();
     const[fullName, setFullName] = useState('');
     const[username, setUsername] = useState('');
@@ -100,4 +100,4 @@ function Register() {
     );
 }
 
-export default Register;
+export default CompanyRegister;
