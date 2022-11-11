@@ -12,12 +12,11 @@ function Login() {
     const[yearlyCost, setYearlyCost] = useState('');
     const[maxAge, setMaxAge] = useState('');
     const [formValues, setFormValues] = useState([{coverageName: "", coverageAmount : ""}])
-    const [fullDetails, setFullDetails] = useState([{insuranceName: "", insuranceType : "", plans: [{planName: "", yearlyCost: "", maxAge: "", coverages: [{coverageName: "", coverageAmount: ""}]}]}])
     const[popUp1, setPopUp1] = useState(false); // Insurance already exists, can't create another
+    const [fullDetails, setFullDetails] = useState([{insuranceName: "", insuranceType : "", plans: [{planName: "", yearlyCost: "", maxAge: "", coverages: [{coverageName: "", coverageAmount: ""}]}]}])
     // ----------- End of states -----------
     
     // ----------- Start of functions -----------
-
     const handleFormSubmit = (event) => {
         event.preventDefault();
         console.log("Insurance Type in handleFormSubmit = "+insuranceType)

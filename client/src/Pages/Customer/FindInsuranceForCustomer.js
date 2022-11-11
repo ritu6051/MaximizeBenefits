@@ -17,7 +17,7 @@ function FindInsurance() {
         .then((response) => {
             setUserList(response.data)
             console.log("UserList Here = " +userList)
-            navigate("/TestDynamic")
+            navigate("/TestDisplay")
         })
         // .then(function (response) {
         //     setUserList(response.data.redirect)

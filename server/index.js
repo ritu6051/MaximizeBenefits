@@ -38,6 +38,7 @@ app.post('/insertInsurancePlan', async(req, res) => {
         console.log("Max Age = " +maxAge)
         console.log("Coverage Name = " +coverageDetails[0].coverageName)
         console.log("Coverage Amount = " +coverageDetails[0].coverageAmount)
+        
         const newInsurance = new Insurance ({
             insuranceName: insuranceName,
             insuranceType: insuranceType,
@@ -208,7 +209,16 @@ app.get('/read', async(req, res) => {
         }
         res.send(result)
     })
-    
+});
+app.get('/testDisplay', async(req, res) => {
+    const username = req.body.username
+    const role = req.body.role
+    User.find({}, (err,result) =>{
+        if(err) {
+            res.send(err)
+        }
+        res.send(result)
+    })
 });
 
 app.listen(portNum, () => {

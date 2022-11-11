@@ -256,3 +256,12 @@ font: inherit;
 cursor: pointer;
 }
 
+
+.table-data{
+	position: relative;
+  left:50px;
+  top:50px;
+}
+th, td {
+	padding: 15px;
+  }

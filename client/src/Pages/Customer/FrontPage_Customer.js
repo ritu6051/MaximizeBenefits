@@ -23,7 +23,8 @@ function FrontPage_Customer() {
             <div className = 'newAcct'> It appears you don't have insurance!</div>
             <div className = 'newAcct'>What would you like to do next?</div>
             <button onClick={find} className ='decide'> Find an Insurance for Me </button>
-            <button onClick={add} className ='decide'> Add my Insurance and See My Benefits </button>
+            {/* <button onClick={add} className ='decide'> Add my Insurance and See My Benefits </button> */ //WE DONT HAVE THIS 
+            } 
         </div>
     )
 }
