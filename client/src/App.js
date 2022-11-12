@@ -27,6 +27,8 @@ import CompanyLogin from './Pages/OldFiles-NoLongerUsed/CompanyLogin';
 import CompanyRegister from './Pages/OldFiles-NoLongerUsed/CompanyRegister';
 import CustomerOrCompany from './Pages/OldFiles-NoLongerUsed/CustomerOrCompany';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 function App() {
 
   return (
