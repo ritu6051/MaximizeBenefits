@@ -8,7 +8,6 @@ import { useNavigate, Link } from 'react-router-dom';
 
 function NavBar() {
   const navigate = useNavigate();
-
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -26,7 +25,6 @@ function NavBar() {
     navigate('/Login')
   }
 
-
   return (
     <Navbar bg="dark" variant="dark">
       <Container>
@@ -40,9 +38,9 @@ function NavBar() {
           />{' '}
           Maximize Benefits
         </Navbar.Brand>
+
         <Nav className="me-auto">
           <Nav.Link onClick={goLogin}>Login</Nav.Link>
-          {/* <Nav.Link href="#features">Register</Nav.Link> */}
           <Nav.Link  onClick={goRegister}>Register</Nav.Link>
           <Nav.Link href="#pricing">About Us</Nav.Link>
         </Nav>
@@ -50,12 +48,10 @@ function NavBar() {
         <Nav className="justify-content-end">
           <Nav.Link onClick={logout}>Logout</Nav.Link>
         </Nav>
-
       </Container>
     </Navbar>
   );
 }
 
-
-
 export default NavBar;
+{/* <Nav.Link href="#features">Register</Nav.Link> */}

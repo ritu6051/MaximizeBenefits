@@ -9,11 +9,8 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import NavBar from '../Common/NavBar';
 
-
 function AddBenefits() {
     const navigate = useNavigate();
-
-    // ----------- Start of states -----------
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [insuranceType, setInsuranceType] = useState('');
@@ -26,7 +23,6 @@ function AddBenefits() {
     const [popUp1, setPopUp1] = useState(false); // Insurance already exists, can't create another
 
     const handleFormSubmit = (event) => {
-        // setPlans([{planName: planName, yearlyCost: yearlyCost, maxAge: maxAge, coverages: formValues}])
         event.preventDefault();
         
         Axios.post("http://localhost:3001/insertInsurancePlan", {
@@ -38,16 +34,16 @@ function AddBenefits() {
             coverageDetails: formValues,
             plans: plans
         })
-            .then(function (response) {
-                console.log("Redirect msg inside AddBenefits.js = " + response.data.redirect)
-                if (response.data.redirect === 'insurance_already_exists') {
-                    setPopUp1(true)
-                    // navigate("/Register")
-                } else if (response.data.redirect === 'new_insurance_added_successfully') {
-                    console.log("new_insurance_added_successfully")
-                    navigate("/FrontPage_Company")
-                }
-            })
+        .then(function (response) {
+            console.log("Redirect msg inside AddBenefits.js = " + response.data.redirect)
+            if (response.data.redirect === 'insurance_already_exists') {
+                setPopUp1(true)
+                // navigate("/Register")
+            } else if (response.data.redirect === 'new_insurance_added_successfully') {
+                console.log("new_insurance_added_successfully")
+                navigate("/FrontPage_Company")
+            }
+        })
     }
 
     const handleInsuranceType = event => {
@@ -71,17 +67,12 @@ function AddBenefits() {
         setFormValues(newFormValues)
     }
 
-
-  
-    // ----------- End of functions -----------
-
     return (
         <Container>
             <Row>
                 <NavBar></NavBar>
             </Row>
-
-            <br />
+            <br/>
 
             <Form onSubmit={handleFormSubmit}>
                 <div className="whiteBox">
@@ -116,10 +107,7 @@ function AddBenefits() {
                     <Row>
                         <h3 className='mainTitle'> Add Plans </h3>
                     </Row>
-
-
-
-
+                    
                     <Row>
                         <Col>
                             <Form.Group className="mb-3" controlId="formPlanName">

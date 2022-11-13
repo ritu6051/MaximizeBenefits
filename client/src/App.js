@@ -21,6 +21,7 @@ import FindInsurance from './Pages/Customer/FindInsuranceForCustomer'; //CUSTOME
 import TestAddPlans from './Pages/DummyFiles/TestAddPlans';
 import TestDisplay from './Pages/DummyFiles/TestDisplay';
 import TestDynamic from './Pages/DummyFiles/TestDynamic';
+import DisplayFilteredInsurances from './Pages/Customer/DisplayFilteredInsurances';
 
 // ---- Old Routes - No Longer Used ----
 import CompanyLogin from './Pages/OldFiles-NoLongerUsed/CompanyLogin';
@@ -42,6 +43,7 @@ function App() {
       
       <Route path="/AddBenefits" element={<AddBenefits/>} />
       <Route path="/FindInsurance" element={<FindInsurance/>} />
+      <Route path="/DisplayFilteredInsurances" element={<DisplayFilteredInsurances/>} />
       
       <Route path="/TestDynamic" element={<TestDynamic/>} />
       <Route path="/TestAddPlans" element={<TestAddPlans/>} />

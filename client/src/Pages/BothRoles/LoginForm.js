@@ -18,48 +18,48 @@ function LoginForm() {
             username: username,
             password: password,
         })
-            .then(function (response) {
-                if (response.data.redirect === "login_customer_successfully") {
-                    setPopUp1(false)
-                    setPopUp2(false)
-                    navigate("/FrontPage_Customer")
-                } else if (response.data.redirect === 'login_company_successfully') {
-                    setPopUp1(false)
-                    setPopUp2(false)
-                    navigate("/FrontPage_Company")
-                } else if (response.data.redirect === 'user_does_not_exist') {
-                    setPopUp1(true)
-                    setPopUp2(false)
-                    navigate("/Login")
-                } else if (response.data.redirect === 'incorrect_password') {
-                    setPopUp1(false)
-                    setPopUp2(true)
-                    navigate("/Login")
-                }
-            })
+        .then(function (response) {
+            if (response.data.redirect === "login_customer_successfully") {
+                setPopUp1(false)
+                setPopUp2(false)
+                navigate("/FrontPage_Customer")
+            } else if (response.data.redirect === 'login_company_successfully') {
+                setPopUp1(false)
+                setPopUp2(false)
+                navigate("/FrontPage_Company")
+            } else if (response.data.redirect === 'user_does_not_exist') {
+                setPopUp1(true)
+                setPopUp2(false)
+                navigate("/Login")
+            } else if (response.data.redirect === 'incorrect_password') {
+                setPopUp1(false)
+                setPopUp2(true)
+                navigate("/Login")
+            }
+        })
     }
 
     return (
         <Container>
             <Form>
                 <Form.Group className="mb-3" controlId="formUsername">
-                    <Form.Label>Username</Form.Label>
-                    <Form.Control
-                        type="text"
-                        placeholder="Username"
-                        onChange={(event) => {
-                            setUsername(event.target.value);
-                        }} />
+                <Form.Label>Username</Form.Label>
+                <Form.Control
+                    type="text"
+                    placeholder="Username"
+                    onChange={(event) => {
+                        setUsername(event.target.value);
+                    }} />
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formPassword">
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control
-                        type="password"
-                        placeholder="Password"
-                        onChange={(event) => {
-                            setPassword(event.target.value);
-                        }} />
+                <Form.Label>Password</Form.Label>
+                <Form.Control
+                    type="password"
+                    placeholder="Password"
+                    onChange={(event) => {
+                        setPassword(event.target.value);
+                    }} />
                 </Form.Group>
 
                 <Button variant="primary" type="button" onClick={loginAccount}>
@@ -67,7 +67,7 @@ function LoginForm() {
                 </Button>
             </Form>
 
-            <br />
+            <br/>
 
             {popUp1 && (
                 <Alert variant="danger">
@@ -82,11 +82,7 @@ function LoginForm() {
             )}
 
             <Link to='/Register'>Don't have an account? Register here!</Link>
-
         </Container>
-
-
-
 
         // {popUp1 && (
         //     <p id='pop'>User does not exist</p>
@@ -100,8 +96,6 @@ function LoginForm() {
 
         // <Link to='/Register'>Don't have an account? Register here!</Link>
         // </div>
-
-
     );
 }
 

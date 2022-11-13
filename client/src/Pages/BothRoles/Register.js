@@ -6,26 +6,20 @@ import Row from 'react-bootstrap/esm/Row'
 import Col from 'react-bootstrap/esm/Col'
 
 function Register() {
-
-
     return (
         <Container>
-
-                <Row>
-                    <NavBar></NavBar>
-                </Row>
-
-                <br />
-
-                <Row>
-                    <Col>
-                        <BrandImage></BrandImage>
-                    </Col>
-                    <Col>
-                        <RegistrationForm></RegistrationForm>
-                    </Col>
-                </Row>
-
+            <Row>
+                <NavBar></NavBar>
+            </Row>
+            <br/>
+            <Row>
+                <Col>
+                    <BrandImage></BrandImage>
+                </Col>
+                <Col>
+                    <RegistrationForm></RegistrationForm>
+                </Col>
+            </Row>
         </Container>
     );
 }

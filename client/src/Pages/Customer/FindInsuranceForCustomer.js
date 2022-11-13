@@ -7,8 +7,6 @@ import Row from 'react-bootstrap/esm/Row';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
-
-
 function FindInsuranceForCustomer() {
     const navigate = useNavigate();
     const[insuranceTypeList, setInsuranceTypeList] = useState([]);
@@ -16,24 +14,24 @@ function FindInsuranceForCustomer() {
     const[budget, setBudget] = useState('');
     const[maxAge, setMaxAge] = useState('');
     
-    
     Axios.get("http://localhost:3001/getAvailableInsuranceTypes").then((response) => {
         setInsuranceTypeList(response.data)
     })
 
     const findInsurances = () => {
-        Axios.post("http://localhost:3001/findInsurances", {
+        Axios.post("http://localhost:3001/testFilter", {
         // Axios.post("http://localhost:3001/print", {
-            // insuranceType: insuranceType,
-            // budget: budget,
-            // maxAge: maxAge
+            insuranceType: insuranceType,
+            budget: budget,
+            maxAge: maxAge
         })
         .then((response) => {
-            // navigate("/TestDisplay")
+            console.log(budget+ "and" +maxAge+ "inside FindInsuranceForCustomer.js")
+            navigate('/DisplayFilteredInsurances', {state: {insuranceList: response.data, budget: budget, maxAge: maxAge}});
         })
     }
 
-    const handleInsuranceType = event =>{
+    const handleInsuranceType = event => {
         console.log(event.target.value);
         setInsuranceType(event.target.value);
     }
@@ -59,11 +57,19 @@ function FindInsuranceForCustomer() {
                                 <Form.Select
                                     onChange={handleInsuranceType}>
                                     <option value=""> Select Insurance Type </option>
-                                    <option value="Health" selected> Health </option>
-                                    <option value="Home"> Home </option>
-                                    <option value="Auto"> Auto </option>
+                                    {/* <option value="Health" selected> Health </option> */}
+                                    {/* <option value="Home"> Home </option>
+                                    <option value="Auto"> Auto </option> */}
+                                    {
+                                        insuranceTypeList.map((val, key) => {
+                                            return (
+                                                <option key={key}> {val} </option>
+                                            ) 
+                                        })
+                                    }
                                 </Form.Select>
                     </Form.Group>
+                    
 
                     <Form.Group className="mb-3" controlId="formBudget">
                         <Form.Label>Please Enter Budget</Form.Label>

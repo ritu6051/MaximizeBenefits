@@ -9,6 +9,8 @@ const Insurance = require("./models/Insurance");
 app.use(express.json());
 app.use(cors());
 
+const insuranceType1 = ""
+
 mongoose.connect(
     'mongodb+srv://cs431-thepurs:thepurs123@cluster0.u8zkruf.mongodb.net/MaximizeBenefits?retryWrites=true&w=majority', 
     { useNewUrlParser: true, }
@@ -186,6 +188,7 @@ app.post('/findInsurances', async(req, res) => { //FindInsuranceForCustomer.js
         console.log("Insurance Type = " +insuranceType)
         console.log("Budget = " +budget)
         console.log("Max Age = " +maxAge)
+        res.send(insuranceType)
     } catch(err) {
         res.send(err)
     }
@@ -252,12 +255,31 @@ app.post('/insertInsurance', async(req, res) => {
 app.get('/testDisplay', async(req, res) => {
     const username = req.body.username
     const role = req.body.role
+    
     Insurance.find({}, (err,result) =>{
         if(err) {
             res.send(err)
         }
         res.send(result)
     })
+});
+
+app.post('/testFilter', async(req, res) => {
+    try {
+        const insuranceType = req.body.insuranceType
+        const budget = req.body.budget
+        const maxAge = req.body.maxAge
+        // yearlyCost:{$lt:yearlyCost}
+        console.log("Insurance Type = " +insuranceType)
+        Insurance.find({insuranceType: insuranceType}, (err,result) =>{ 
+            if(err) {
+                res.send(err)
+            }
+            res.send(result)  
+        })
+    } catch(err) {
+        console.log(err);
+    }
 });
 
 app.listen(portNum, () => {

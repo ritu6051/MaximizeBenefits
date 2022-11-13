@@ -32,5 +32,5 @@ const InsuranceSchema = new mongoose.Schema({
     }
 });
 
-const Insurance = mongoose.model("Insurance", InsuranceSchema);
+const Insurance = mongoose.model("InsuranceNew", InsuranceSchema);
 module.exports = Insurance;

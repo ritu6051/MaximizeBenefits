@@ -31,89 +31,89 @@ function RegistrationForm() {
             passwordAgain: passwordAgain,
             role: role,
         })
-            .then(function (response) {
-                console.log("Redirect msg inside Register.js = " + response.data.redirect)
-                if (response.data.redirect === 'username_already_exists') {
-                    setPopUp1(true)
-                    setPopUp2(false)
-                    navigate("/Register")
-                } else if (response.data.redirect === "login_customer_successfully") {
-                    setPopUp1(false)
-                    setPopUp2(false)
-                    navigate("/FrontPage_Customer")
-                } else if (response.data.redirect === "login_company_successfully") {
-                    setPopUp1(false)
-                    setPopUp2(false)
-                    navigate("/FrontPage_Company")
-                } else if (response.data.redirect === "passwords_do_not_match") {
-                    setPopUp1(false)
-                    setPopUp2(true)
-                    navigate("/Register")
-                }
-            })
+        .then(function (response) {
+            console.log("Redirect msg inside Register.js = " + response.data.redirect)
+            if (response.data.redirect === 'username_already_exists') {
+                setPopUp1(true)
+                setPopUp2(false)
+                navigate("/Register")
+            } else if (response.data.redirect === "login_customer_successfully") {
+                setPopUp1(false)
+                setPopUp2(false)
+                navigate("/FrontPage_Customer")
+            } else if (response.data.redirect === "login_company_successfully") {
+                setPopUp1(false)
+                setPopUp2(false)
+                navigate("/FrontPage_Company")
+            } else if (response.data.redirect === "passwords_do_not_match") {
+                setPopUp1(false)
+                setPopUp2(true)
+                navigate("/Register")
+            }
+        })
     }
 
     return (
         <Container>
             <Form>
                 <Form.Group className="mb-3" controlId="formFullName">
-                    <Form.Label>Full Name</Form.Label>
-                    <Form.Control
-                        type="text"
-                        placeholder="Full Name"
-                        onChange={(event) => {
-                            setFullName(event.target.value);
-                        }} />
+                <Form.Label>Full Name</Form.Label>
+                <Form.Control
+                    type="text"
+                    placeholder="Full Name"
+                    onChange={(event) => {
+                        setFullName(event.target.value);
+                    }} />
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formUsername">
-                    <Form.Label>Username</Form.Label>
-                    <Form.Control
-                        type="text"
-                        placeholder="Username"
-                        onChange={(event) => {
-                            setUsername(event.target.value);
-                        }} />
+                <Form.Label>Username</Form.Label>
+                <Form.Control
+                    type="text"
+                    placeholder="Username"
+                    onChange={(event) => {
+                        setUsername(event.target.value);
+                    }} />
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formPassword">
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control
-                        type="password"
-                        placeholder="Password"
-                        onChange={(event) => {
-                            setPassword(event.target.value);
-                        }} />
+                <Form.Label>Password</Form.Label>
+                <Form.Control
+                    type="password"
+                    placeholder="Password"
+                    onChange={(event) => {
+                        setPassword(event.target.value);
+                    }} />
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formPasswordAgain">
-                    <Form.Label>Repeat Password</Form.Label>
-                    <Form.Control
-                        type="password"
-                        placeholder="Repeat Password"
-                        onChange={(event) => {
-                            setPasswordAgain(event.target.value);
-                        }} />
+                <Form.Label>Repeat Password</Form.Label>
+                <Form.Control
+                    type="password"
+                    placeholder="Repeat Password"
+                    onChange={(event) => {
+                        setPasswordAgain(event.target.value);
+                    }} />
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formSelectRole">
-                    <Form.Label>Select Your Role</Form.Label>
-                    <Form.Check
-                        type="radio"
-                        value="customer"
-                        label="Customer"
-                        name="nameSelectRole"
-                        onChange={(event) => {
-                            setRole(event.target.value);
-                        }} />
-                    <Form.Check
-                        type="radio"
-                        value="insurancecompany"
-                        label="Insurance Company"
-                        name="nameSelectRole"
-                        onChange={(event) => {
-                            setRole(event.target.value);
-                        }} />
+                <Form.Label>Select Your Role</Form.Label>
+                <Form.Check
+                    type="radio"
+                    value="customer"
+                    label="Customer"
+                    name="nameSelectRole"
+                    onChange={(event) => {
+                        setRole(event.target.value);
+                    }} />
+                <Form.Check
+                    type="radio"
+                    value="insurancecompany"
+                    label="Insurance Company"
+                    name="nameSelectRole"
+                    onChange={(event) => {
+                        setRole(event.target.value);
+                    }} />
                 </Form.Group>
 
                 <Button variant="primary" type="button" onClick={createAccount}>
@@ -134,7 +134,6 @@ function RegistrationForm() {
                     <p> Passwords do not match, try again! </p>
                 </Alert>
             )}
-
             <Link to='/Login'>Already have an account? Click here!</Link>
         </Container>
     );
