@@ -53,57 +53,47 @@ function FindInsuranceForCustomer() {
                     <br/>
 
                     <Form.Group className="mb-3" controlId="formInsuranceType">
-                                <Form.Label>Insurance Type</Form.Label>
-                                <Form.Select
-                                    onChange={handleInsuranceType}>
-                                    <option value=""> Select Insurance Type </option>
-                                    {/* <option value="Health" selected> Health </option> */}
-                                    {/* <option value="Home"> Home </option>
-                                    <option value="Auto"> Auto </option> */}
-                                    {
-                                        insuranceTypeList.map((val, key) => {
-                                            return (
-                                                <option key={key}> {val} </option>
-                                            ) 
-                                        })
-                                    }
-                                </Form.Select>
+                    <Form.Label>Insurance Type</Form.Label>
+                    <Form.Select
+                        onChange={handleInsuranceType}>
+                        <option value=""> Select Insurance Type </option>
+                        {
+                            insuranceTypeList.map((val, key) => {
+                                return (
+                                    <option key={key}> {val} </option>
+                                ) 
+                            })
+                        }
+                    </Form.Select>
                     </Form.Group>
                     
-
                     <Form.Group className="mb-3" controlId="formBudget">
-                        <Form.Label>Please Enter Budget</Form.Label>
-                        <Form.Control
-                            type="number"
-                            placeholder="Budget"
-                            onChange={(event) => {
-                                setBudget(event.target.value);
-                                }} />               
+                    <Form.Label>Please Enter Budget</Form.Label>
+                    <Form.Control
+                        type="number"
+                        placeholder="Budget"
+                        onChange={(event) => {
+                            setBudget(event.target.value);
+                        }} />               
                     </Form.Group>
 
-
                     <Form.Group className="mb-3" controlId="formAge">
-                        <Form.Label>Please Enter Age</Form.Label>
-                        <Form.Control
-                            type="number"
-                            placeholder="Age"
-                            onChange={(event) => {
-                                    setMaxAge(event.target.value);
-                                     }} />               
+                    <Form.Label>Please Enter Age</Form.Label>
+                    <Form.Control
+                        type="number"
+                        placeholder="Age"
+                        onChange={(event) => {
+                            setMaxAge(event.target.value);
+                        }} />
                     </Form.Group>
 
                     <br/>
 
-
                     <Button variant="primary" type="button" onClick={findInsurances}>Login</Button>
                     </Form>
                 </Container>
-
             </Row>
-
         </Container>
-        
-          
     );
 }
 

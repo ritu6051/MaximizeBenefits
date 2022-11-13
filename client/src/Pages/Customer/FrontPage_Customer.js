@@ -27,29 +27,25 @@ function FrontPage_Customer() {
             <Row>
                 <NavBar></NavBar>
             </Row>
-            <br />
+            
+            <br/>
 
             <Row>
                 <Container>
                     <Form>
-                    <div class="col-md-12 text-center">
-                    <br/>
-                        <h3>Welcome Customer !</h3>
-                        <h5>It appears that you don't have insurance!</h5>
-                        <h5>Would you like to enroll into an Insurance?</h5>
-                    </div>
-
-                    <br/>
-                    <br/>
-
-                    <div class="col-md-12 text-center">
-                            
-                            <Button variant="secondary" size="lg" type="button" class="btn btn-secondary btn-lg btn-block" onClick={find}> Find an Insurance for Me  </Button>
-
-                            
+                        <div class="col-md-12 text-center">
+                        <br/>
+                            <h3>Welcome Customer !</h3>
+                            <h5>It appears that you don't have insurance!</h5>
+                            <h5>Would you like to enroll into an Insurance?</h5>
                         </div>
-                        
 
+                        <br/>
+                        <br/>
+
+                        <div class="col-md-12 text-center">  
+                            <Button variant="secondary" size="lg" type="button" class="btn btn-secondary btn-lg btn-block" onClick={find}> Find an Insurance for Me  </Button>
+                        </div>    
                     </Form>
                 </Container>
             </Row>
