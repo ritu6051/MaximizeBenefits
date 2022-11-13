@@ -28,7 +28,7 @@ function AddBenefits() {
     const handleFormSubmit = (event) => {
         // setPlans([{planName: planName, yearlyCost: yearlyCost, maxAge: maxAge, coverages: formValues}])
         event.preventDefault();
-
+        
         Axios.post("http://localhost:3001/insertInsurancePlan", {
             insuranceName: insuranceName,
             insuranceType: insuranceType,
@@ -39,7 +39,7 @@ function AddBenefits() {
             plans: plans
         })
             .then(function (response) {
-                console.log("Redirect msg inside AddInsurance.js = " + response.data.redirect)
+                console.log("Redirect msg inside AddBenefits.js = " + response.data.redirect)
                 if (response.data.redirect === 'insurance_already_exists') {
                     setPopUp1(true)
                     // navigate("/Register")
@@ -90,7 +90,7 @@ function AddBenefits() {
                     <Row>
                         <Col>
                             <Form.Group className="mb-3" controlId="formInsuranceName">
-                                <Form.Label>Insurance Name</Form.Label>
+                                <Form.Label>Insurance Type</Form.Label>
                                 <Form.Select
                                     onChange={handleInsuranceType}>
                                     <option value=""> Select Insurance Type </option>
@@ -112,10 +112,6 @@ function AddBenefits() {
                             </Form.Group>
                         </Col>
                     </Row>
-
-
-
-
 
                     <Row>
                         <h3 className='mainTitle'> Add Plans </h3>
