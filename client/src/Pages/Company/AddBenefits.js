@@ -8,6 +8,7 @@ import Col from 'react-bootstrap/esm/Col'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import NavBar from '../Common/NavBar';
+import Alert from 'react-bootstrap/Alert';
 
 function AddBenefits() {
     const navigate = useNavigate();
@@ -160,8 +161,11 @@ function AddBenefits() {
                         <Button variant="primary" type="submit">Submit</Button>
                         </div>
                     </Row>
+                    
                     {popUp1 && (
-                        <p> Insurance already exists </p>
+                        <Alert variant="danger">
+                            <p> Insurance already exists! Click here to add additional plans </p>
+                        </Alert>
                     )}
 
                 </div>

@@ -7,12 +7,11 @@ import NavBar from '../Common/NavBar';
 import Row from 'react-bootstrap/esm/Row';
 import Col from 'react-bootstrap/esm/Col';
 
-
-
 function FrontPage_Company() {
     const navigate = useNavigate();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    
     const logout = () => {
         setUsername("")
         setPassword("")
@@ -30,17 +29,15 @@ function FrontPage_Company() {
 
     return (
         <Container>
-
             <Row>
                 <NavBar></NavBar>
             </Row>
 
-            <br />
+            <br/>
 
             <Row>
                 <Container>
-                    <Form>
-
+                <Form>
                     <div class="col-md-12 text-center">
                     <br/>
                         <h3>Welcome Insurance Company !! </h3>
@@ -50,39 +47,31 @@ function FrontPage_Company() {
                     <br/>
                     <br/>
 
-                        <div class="col-md-12 text-center">
+                    <div class="col-md-12 text-center">
+                        <Button variant="secondary" size="lg" type="button" class="btn btn-secondary btn-lg btn-block" onClick={addBenefits}> Add a New Insurance </Button>
+                        <br/>
+                        <Col>
+                            <br/>
+                            <Button variant="secondary" size="lg" type="button" class="btn btn-secondary btn-lg btn-block" onClick={addBenefits}> Add New Plans to an Existing Insurance </Button>
+                        </Col>
+                        <Col>
+                            <br/>
+                            <Button variant="secondary" size="lg" type="button" class="btn btn-secondary btn-lg btn-block" onClick={addBenefits}> Edit/Remove an Existing Insurance </Button>
+                        </Col>
+                        <Col>
+                            <br/>
+                            <Button variant="secondary" size="lg" type="button" class="btn btn-secondary btn-lg btn-block" onClick={updateCustomerBenefits}> Update Customer Benefits </Button>
+                        </Col>
+                        <Col>
+                            <br/>
+                            <Button variant="secondary" size="lg" type="button" class="btn btn-secondary btn-lg btn-block" onClick={deleteCustomer}> Delete Customer Insurance</Button>
+                        </Col>
+                    </div>
                             
-                                <Button variant="secondary" size="lg" type="button" class="btn btn-secondary btn-lg btn-block" onClick={addBenefits}> Add a New Insurance </Button>
-
-                                <br />
-
-                                <Col>
-                                    <br />
-                                    <Button variant="secondary" size="lg" type="button" class="btn btn-secondary btn-lg btn-block" onClick={addBenefits}> Add New Plans to an Existing Insurance </Button>
-                                </Col>
-
-                                <Col>
-                                    <br />
-                                    <Button variant="secondary" size="lg" type="button" class="btn btn-secondary btn-lg btn-block" onClick={addBenefits}> Edit/Remove an Existing Insurance </Button>
-                                </Col>
-
-                                <Col>
-                                    <br />
-                                    <Button variant="secondary" size="lg" type="button" class="btn btn-secondary btn-lg btn-block" onClick={updateCustomerBenefits}> Update Customer Benefits </Button>
-                                </Col>
-
-                                <Col>
-                                    <br />
-                                    <Button variant="secondary" size="lg" type="button" class="btn btn-secondary btn-lg btn-block" onClick={deleteCustomer}> Delete Customer Insurance</Button>
-                                </Col>
-                            </div>
-                            
-                    </Form>
+                </Form>
                 </Container>
-
             </Row>
         </Container>
-
     )
 }
 

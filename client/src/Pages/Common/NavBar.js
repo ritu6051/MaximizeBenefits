@@ -40,9 +40,9 @@ function NavBar() {
         </Navbar.Brand>
 
         <Nav className="me-auto">
+          <Nav.Link href="#pricing">About Us</Nav.Link>
           <Nav.Link onClick={goLogin}>Login</Nav.Link>
           <Nav.Link  onClick={goRegister}>Register</Nav.Link>
-          <Nav.Link href="#pricing">About Us</Nav.Link>
         </Nav>
 
         <Nav className="justify-content-end">
