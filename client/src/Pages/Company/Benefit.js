@@ -13,7 +13,7 @@ function Benefit(element, index, removeFormFields, handleChange) {
                         <Form.Control
                             type="text"
                             placeholder="Coverage Name"
-                            value={element.coverageName || ""}
+                            defaultValue={element.coverageName || ""}
                             onChange={e => handleChange(index, e)} />
                     </Form.Group>
                 </Col>
@@ -23,7 +23,7 @@ function Benefit(element, index, removeFormFields, handleChange) {
                         <Form.Control
                             type="number"
                             placeholder="Coverage Amount"
-                            value={element.coverageAmount || ""}
+                            defaultValue={element.coverageAmount || ""}
                             onChange={e => handleChange(index, e)} />
                     </Form.Group>
                 </Col>
