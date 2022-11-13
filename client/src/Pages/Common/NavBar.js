@@ -17,6 +17,16 @@ function NavBar() {
     setPassword("")
     navigate("/Login")
   }
+
+  const goRegister = () => {
+    navigate('/Register')
+  }
+
+  const goLogin = () => {
+    navigate('/Login')
+  }
+
+
   return (
     <Navbar bg="dark" variant="dark">
       <Container>
@@ -31,8 +41,9 @@ function NavBar() {
           Maximize Benefits
         </Navbar.Brand>
         <Nav className="me-auto">
-          <Nav.Link href="#home">Login</Nav.Link>
-          <Nav.Link href="#features">Register</Nav.Link>
+          <Nav.Link onClick={goLogin}>Login</Nav.Link>
+          {/* <Nav.Link href="#features">Register</Nav.Link> */}
+          <Nav.Link  onClick={goRegister}>Register</Nav.Link>
           <Nav.Link href="#pricing">About Us</Nav.Link>
         </Nav>
 
@@ -44,5 +55,7 @@ function NavBar() {
     </Navbar>
   );
 }
+
+
 
 export default NavBar;
