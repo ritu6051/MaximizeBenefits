@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation} from 'react-router-dom';
 import Container from 'react-bootstrap/esm/Container';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -11,13 +11,16 @@ function FrontPage_Customer() {
     const navigate = useNavigate();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const{state} = useLocation();
+    console.log(state.username)
     const logout = () => {
         setUsername("")
         setPassword("")
         navigate("/Login")
     }
     const find = () => {
-        navigate("/FindInsurance")
+        // navigate("/FindInsurance")
+        navigate('/FindInsurance', {state});
     }
     const add = () => {
         navigate("/AddInsurance")

@@ -17,6 +17,16 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    enrolledIn: {
+        insuranceName: { // Cigna
+            type: String,
+            required: true,
+        },
+        planName: { // Gold
+            type: String,
+            required: true,
+        }
+    }
 });
 
 const User = mongoose.model("User", UserSchema);

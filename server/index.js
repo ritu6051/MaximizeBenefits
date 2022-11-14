@@ -74,11 +74,16 @@ app.post('/register', async(req, res) => { //Register.js
         } 
         else { 
             console.log("Username does not exist, can create account")
+            const enrolledIn = [{insuranceName: "", planName: ""}]
             const newUser = new User ({
                 fullName: fullName, 
                 username: username, 
                 password: password,
                 role: role,
+                enrolledIn: {
+                    insuranceName: " ",
+                    planName: " "
+                }
             });
             
             console.log(newUser.username + " is a " +newUser.role+ "!")
@@ -281,6 +286,35 @@ app.post('/testFilter', async(req, res) => {
         console.log(err);
     }
 });
+
+app.post('/addInsuranceToUser', async(req, res) => {
+    try {
+        const selectedInsuranceName = req.body.selectedInsuranceName
+        const selectedPlanName = req.body.selectedPlanName
+        const username = req.body.username
+        const enrolledIn = req.body.enrolledIn
+
+        console.log("Inside index.js/addInsuranceToUser")
+        console.log("Username = " +username)
+        console.log("Name = " +enrolledIn.insuranceName)
+        console.log("Plan = " +enrolledIn.planName)
+
+        User.updateOne({username: username}, {$set:{enrolledIn: enrolledIn}}, (err, result) => {
+            if(err) {
+                res.send(err)
+            }
+            res.send(result)
+        })
+        // console.log(user)
+        
+        // console.log(loginUser)
+
+    } catch (err) {
+        console.log(err)
+    }
+});
+
+
 
 app.listen(portNum, () => {
     console.log("Yes, your port is running on port " +portNum);

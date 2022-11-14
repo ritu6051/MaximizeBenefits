@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Axios from 'axios';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation} from 'react-router-dom';
 import Container from 'react-bootstrap/esm/Container';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -23,6 +23,7 @@ function LoginForm() {
                 setPopUp1(false)
                 setPopUp2(false)
                 navigate("/FrontPage_Customer")
+                navigate('/FrontPage_Customer', {state: {username: username}});
             } else if (response.data.redirect === 'login_company_successfully') {
                 setPopUp1(false)
                 setPopUp2(false)

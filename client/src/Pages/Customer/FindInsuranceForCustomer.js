@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Axios from 'axios';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, useLocation} from 'react-router-dom';
 import NavBar from '../Common/NavBar';
 import Container from 'react-bootstrap/esm/Container';
 import Row from 'react-bootstrap/esm/Row';
@@ -13,6 +13,7 @@ function FindInsuranceForCustomer() {
     const[insuranceType, setInsuranceType] = useState('');
     const[budget, setBudget] = useState('');
     const[maxAge, setMaxAge] = useState('');
+    const{state} = useLocation();
     
     Axios.get("http://localhost:3001/getAvailableInsuranceTypes").then((response) => {
         setInsuranceTypeList(response.data)
@@ -27,7 +28,7 @@ function FindInsuranceForCustomer() {
         })
         .then((response) => {
             console.log(budget+ "and" +maxAge+ "inside FindInsuranceForCustomer.js")
-            navigate('/DisplayFilteredInsurances', {state: {insuranceList: response.data, budget: budget, maxAge: maxAge}});
+            navigate('/DisplayFilteredInsurances', {state: {insuranceList: response.data, budget: budget, maxAge: maxAge, username: state.username}});
         })
     }
 
