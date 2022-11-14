@@ -289,26 +289,20 @@ app.post('/testFilter', async(req, res) => {
 
 app.post('/addInsuranceToUser', async(req, res) => {
     try {
-        const selectedInsuranceName = req.body.selectedInsuranceName
-        const selectedPlanName = req.body.selectedPlanName
         const username = req.body.username
-        const enrolledIn = req.body.enrolledIn
-
-        console.log("Inside index.js/addInsuranceToUser")
-        console.log("Username = " +username)
-        console.log("Name = " +enrolledIn.insuranceName)
-        console.log("Plan = " +enrolledIn.planName)
-
-        User.updateOne({username: username}, {$set:{enrolledIn: enrolledIn}}, (err, result) => {
+        const insuranceName = req.body.insuranceName
+        const planName = req.body.planName
+        const yearlyCost = req.body.yearlyCost
+        
+        const plans = [{insuranceName: insuranceName, planName: planName, yearlyCost: yearlyCost}]
+        
+        User.updateOne({username: username}, {$set:{enrolledIn: plans}}, (err, result) => {
             if(err) {
                 res.send(err)
             }
             res.send(result)
         })
-        // console.log(user)
-        
-        // console.log(loginUser)
-
+    
     } catch (err) {
         console.log(err)
     }

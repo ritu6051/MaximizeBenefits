@@ -11,23 +11,22 @@ function TestDisplay() {
     const navigate = useNavigate();
     const{state} = useLocation();
     const [selectedInsuranceName, setSelectedInsuranceName] = useState('');
-    const [selectedPlanName, setSelectedPlanName] = useState('');
-    const [enrollValues, setEnrollValues] = useState([{insuranceName: "", planName : ""}])
+    const [selectedPlan, setSelectedPlan] = useState([]);
+    const [coverageName, setCoverageName] = useState('');
+    const [coverageAmount, setCoverageAmount] = useState('');
+    // const [enrollValues, setEnrollValues] = useState([{insuranceName: "", plan : []}])
 
-    function enrollInThis(insuranceName, planName) {
+    function enrollInThis(insuranceName, selectedPlan) {
         setSelectedInsuranceName(insuranceName)
-        setSelectedPlanName(planName)
-        setEnrollValues({insuranceName: selectedInsuranceName, planName: selectedPlanName})
-        console.log(insuranceName)
-        console.log(planName)
-        console.log("Username = " +state.username)
+        setSelectedPlan(selectedPlan)
+        setEnrollValues({insuranceName: selectedInsuranceName, plan: selectedPlan})
     }
 
     Axios.post("http://localhost:3001/addInsuranceToUser", {
-        selectedInsuranceName: selectedInsuranceName,
-        selectedPlanName: selectedPlanName,
         username: state.username,
-        enrolledIn: enrollValues
+        insuranceName: selectedInsuranceName,
+        planName: selectedPlan.planName,
+        yearlyCost: selectedPlan.yearlyCost,
     }).then((response) => {
         console.log("Display Filtered + "+response.username)
     })
@@ -68,6 +67,7 @@ function TestDisplay() {
                                     <td>
                                     {
                                         val.plans.coverages.map((val, key) => {
+                                            // setValues(val.plans)
                                             return (
                                                 <div>{val.coverageName}{": $"}{val.coverageAmount}</div>
                                             )
@@ -76,7 +76,7 @@ function TestDisplay() {
                                     </td>
                                     <td>
                                         <Button variant="primary" type="button" 
-                                            onClick={() => enrollInThis(val.insuranceName, val.plans.planName)}>
+                                            onClick={() => enrollInThis(val.insuranceName, val.plans)}>
                                             Enroll
                                         </Button>   
                                     </td>

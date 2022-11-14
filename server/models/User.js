@@ -22,9 +22,17 @@ const UserSchema = new mongoose.Schema({
             type: String,
             required: true,
         },
-        planName: { // Gold
-            type: String,
-            required: true,
+        plans: { 
+            // type: Array,
+            // required: true,
+            planName: { // Gold
+                type: String,
+                required: true,
+            },
+            yearlyCost: { // 100/year
+                type: String,
+                required: true,
+            },
         }
     }
 });
