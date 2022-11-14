@@ -12,7 +12,7 @@ function FrontPage_Customer() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const{state} = useLocation();
-    console.log(state.username)
+    
     const logout = () => {
         setUsername("")
         setPassword("")

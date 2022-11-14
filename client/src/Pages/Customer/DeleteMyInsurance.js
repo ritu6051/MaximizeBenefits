@@ -18,7 +18,7 @@ function DeleteMyInsurance(){
     // const [enrollValues, setEnrollValues] = useState([{insuranceName: "", planName : "", yearlyCost: ""}])
 
     const no =()=>{
-        navigate('/register')
+        navigate('/FrontPage_Customer')
 
     }
     const yes=()=>{
@@ -26,25 +26,19 @@ function DeleteMyInsurance(){
         setPlanName("")
         setYearlyCost("")
 
+        console.log()
         Axios.post("http://localhost:3001/deleteMyInsurance", {
             username: state.username, 
             insuranceName: insuranceName,
             planName: planName,
             yearlyCost: yearlyCost,
-
-
         })
         .then(function (response) {
+            
+            navigate("/FrontPage_Customer")
         })
        
     }
-
-
-
-
-
-
-
 
     return(
         <Container>

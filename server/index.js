@@ -319,9 +319,6 @@ app.post('/deleteMyInsurance', async(req, res) => {
 
         console.log("Inside index.js/deleteMyInsurance")
         console.log("Username = " +username)
-        console.log("Name = " +enrolledIn.insuranceName)
-        console.log("Plan = " +enrolledIn.planName)
-        console.log("Plan = " +enrolledIn.yearlyCost)
         
 
         User.updateOne({username: username}, {$set:{enrolledIn: plans}}, (err, result) => {
