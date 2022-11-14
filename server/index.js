@@ -308,6 +308,37 @@ app.post('/addInsuranceToUser', async(req, res) => {
     }
 });
 
+app.post('/deleteMyInsurance', async(req, res) => {
+    try {
+        
+        const username = req.body.username
+        const insuranceName = req.body.insuranceName
+        const planName = req.body.planName
+        const yearlyCost =  req.body.yearlyCost
+        const plans = [{insuranceName: insuranceName, planName: planName, yearlyCost: yearlyCost}]
+
+        console.log("Inside index.js/deleteMyInsurance")
+        console.log("Username = " +username)
+        console.log("Name = " +enrolledIn.insuranceName)
+        console.log("Plan = " +enrolledIn.planName)
+        console.log("Plan = " +enrolledIn.yearlyCost)
+        
+
+        User.updateOne({username: username}, {$set:{enrolledIn: plans}}, (err, result) => {
+            if(err) {
+                res.send(err)
+            }
+            res.send(result)
+        })
+        // console.log(user)
+        
+        // console.log(loginUser)
+
+    } catch (err) {
+        console.log(err)
+    }
+});
+
 
 
 app.listen(portNum, () => {
