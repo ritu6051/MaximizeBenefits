@@ -82,7 +82,10 @@ app.post('/register', async(req, res) => { //Register.js
                 role: role,
                 enrolledIn: {
                     insuranceName: " ",
-                    planName: " "
+                    plans: {
+                        planName: " ",
+                        yearlyCost: " "
+                    }
                 }
             });
             

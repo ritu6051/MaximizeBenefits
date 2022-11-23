@@ -21,13 +21,12 @@ function FindInsuranceForCustomer() {
 
     const findInsurances = () => {
         Axios.post("http://localhost:3001/testFilter", {
-        // Axios.post("http://localhost:3001/print", {
             insuranceType: insuranceType,
             budget: budget,
             maxAge: maxAge
         })
         .then((response) => {
-            console.log(budget+ "and" +maxAge+ "inside FindInsuranceForCustomer.js")
+            console.log("Inside FindInsuranceForCustomer.js")
             navigate('/DisplayFilteredInsurances', {state: {insuranceList: response.data, budget: budget, maxAge: maxAge, username: state.username}});
         })
     }
