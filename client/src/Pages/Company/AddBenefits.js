@@ -25,7 +25,7 @@ function AddBenefits() {
 
     const handleFormSubmit = (event) => {
         event.preventDefault();
-        
+        console.log(formValues)
         Axios.post("http://localhost:3001/insertInsurancePlan", {
             insuranceName: insuranceName,
             insuranceType: insuranceType,
@@ -38,7 +38,8 @@ function AddBenefits() {
         .then(function (response) {
             console.log("Redirect msg inside AddBenefits.js = " + response.data.redirect)
             if (response.data.redirect === 'insurance_already_exists') {
-                setPopUp1(true)
+                // setPopUp1(true)
+                navigate("/FrontPage_Company")
                 // navigate("/Register")
             } else if (response.data.redirect === 'new_insurance_added_successfully') {
                 console.log("new_insurance_added_successfully")
@@ -57,6 +58,7 @@ function AddBenefits() {
     }
 
     const handleChange = (i, e) => {
+        
         const newFormValues = [...formValues];
         newFormValues[i][e.target.name] = e.target.value;
         setFormValues(newFormValues);
@@ -148,10 +150,48 @@ function AddBenefits() {
                     </Row>
 
 
-                    {
+                    {/* {
                         formValues.map((element, index) => (
                             Benefit(element, index, removeFormFields, handleChange)
                         ))
+                    } */}
+                    {
+                        formValues.map((element, index) => {
+                            return (
+                                <>
+                        
+                                    <Row>
+                                        <Col>
+                                            <Form.Group className="mb-3" controlId="formCoverageName">
+                                                <Form.Control
+                                                    type="text"
+                                                    placeholder="Coverage Name"
+                                                    defaultValue={element.coverageName || ""}
+                                                    onChange={e => handleChange(index, e)} />
+                                            </Form.Group>
+                                        </Col>
+                        
+                                        <Col>
+                                            <Form.Group className="mb-3" controlId="formCoverageAmount">
+                                                <Form.Control
+                                                    type="number"
+                                                    placeholder="Coverage Amount"
+                                                    defaultValue={element.coverageAmount || ""}
+                                                    onChange={e => handleChange(index, e)} />
+                                            </Form.Group>
+                                        </Col>
+                        
+                                        <Col>
+                                            {
+                                                index ?
+                                                    <Button variant="primary" type="button" onClick={() => removeFormFields(index)}>Remove</Button>
+                                                    : null
+                                            }
+                                        </Col>
+                                    </Row>
+                                </>
+                            );
+                        })
                     }
 
                     <Row>

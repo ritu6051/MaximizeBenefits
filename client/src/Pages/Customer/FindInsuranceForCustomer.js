@@ -90,7 +90,7 @@ function FindInsuranceForCustomer() {
 
                     <br/>
 
-                    <Button variant="primary" type="button" onClick={findInsurances}>Login</Button>
+                    <Button variant="primary" type="button" onClick={findInsurances}>Search</Button>
                     </Form>
                 </Container>
             </Row>

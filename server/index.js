@@ -140,8 +140,9 @@ app.post('/insertInsurancePlan', async(req, res) => { //AddBenefits.js
             var redir = { redirect: "insurance_already_exists" };
             return res.json(redir);
         } else {
-            // console.log("Coverage Name = " +coverageDetails[0].coverageName)
-            // console.log("Coverage Amount = " +coverageDetails[0].coverageAmount)
+            console.log("Coverage Name = " +JSON.stringify(coverageDetails))
+            console.log("Coverage Amount = " +coverageDetails[0].coverageAmount)
+            console.log("Coverage Details = " +coverageDetails[0].coverageName)
 
             const newInsurance = new Insurance ({
                 insuranceName: insuranceName,
@@ -153,7 +154,9 @@ app.post('/insertInsurancePlan', async(req, res) => { //AddBenefits.js
                     coverages: coverageDetails,
                 }
             });
-            await newInsurance.save()
+            console.log("Here isnide index.js insertInsurancePlan" +newInsurance)
+            // await newInsurance.save()
+            
             var redir = { redirect: "new_insurance_added_successfully" };
             return res.json(redir);
         }
@@ -228,12 +231,12 @@ app.post('/insertInsurance', async(req, res) => {
 
     const newInsuranceCompany = await Insurance.findOne({insuranceName: insuranceName});
     console.log(newInsuranceCompany)
-    if(newInsuranceCompany) {
-        console.log("Insurance Company already exists!")
-        var redir = { redirect: "NotGood_InsuranceCompanyExist" };
-        return res.json(redir);
-    } 
-    else { 
+    // if(newInsuranceCompany) {
+    //     console.log("Insurance Company already exists!")
+    //     var redir = { redirect: "NotGood_InsuranceCompanyExist" };
+    //     return res.json(redir);
+    // } 
+    // else { 
         try {
             console.log("Insurance Company Name Already Exists!")
             
@@ -254,7 +257,7 @@ app.post('/insertInsurance', async(req, res) => {
             } catch(err) {
                 console.log(err);
             }
-        }
+        // }
 });
 
 app.get('/testDisplay', async(req, res) => {

@@ -43,7 +43,7 @@ function DelteCustomer(){
             </Row>
             <br/>
             <Row>
-                <h3>Delete A Customer</h3>
+                <h3>Delete This Customer's Insurance</h3>
             </Row>
             <br/>
             <Container>
@@ -58,7 +58,7 @@ function DelteCustomer(){
                     }} />
                 </Form.Group>
 
-                <Button variant="primary" type="button" onClick={submit}>Login</Button>
+                <Button variant="primary" type="button" onClick={submit}>Delete</Button>
             </Form>
 
             </Container>
