@@ -22,7 +22,6 @@ function LoginForm() {
             if (response.data.redirect === "login_customer_successfully") {
                 setPopUp1(false)
                 setPopUp2(false)
-                navigate("/FrontPage_Customer")
                 navigate('/FrontPage_Customer', {state: {username: username}});
             } else if (response.data.redirect === 'login_company_successfully') {
                 setPopUp1(false)

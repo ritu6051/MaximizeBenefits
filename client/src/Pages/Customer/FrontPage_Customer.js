@@ -41,7 +41,7 @@ function FrontPage_Customer() {
                     <Form>
                         <div class="col-md-12 text-center">
                         <br/>
-                            <h3>Welcome Customer !</h3>
+                            <h3><b>Welcome {state.username}!</b></h3>
                             {/* <h5>It appears that you don't have insurance!</h5> */}
                             {/* <h5>Would you like to enroll into an Insurance?</h5> */}
 

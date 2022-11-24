@@ -290,18 +290,6 @@ app.post('/testFilter', async(req, res) => {
         const insuranceType = req.body.insuranceType
         const budget = req.body.budget
         const maxAge = req.body.maxAge
-        // yearlyCost:{$lt:yearlyCost}
-        console.log("Insurance Type = " +insuranceType)
-        // Insurance.find({insuranceType: insuranceType}, {plans:{$elemMatch:{yearlyCost: {$lte:budget}, age : {$lte:maxAge}}}}, (err, result) => {
-        //     if(err) {
-        //         res.send(err)
-        //     }
-        //     else {
-        //         console.log(res)
-        //         res.send(result)  
-        //     }
-        // });
-        // 
         // Insurance.find({insuranceType: insuranceType}, {plans: {$elemMatch: {yearlyCost: {$lte:budget}}}}, (err, result) => {
         Insurance.find({insuranceType: insuranceType}, (err, result) => {
             if(err) {
@@ -321,17 +309,22 @@ app.post('/testFilter', async(req, res) => {
 app.post('/addInsuranceToUser', async(req, res) => {
     try {
         const username = req.body.username
-        const insuranceName = req.body.insuranceName
-        const planName = req.body.planName
-        const yearlyCost = req.body.yearlyCost
+        // const insuranceName = req.body.insuranceName
+        // const planName = req.body.planName
+        // const yearlyCost = req.body.yearlyCost
+        // const coverages = req.body.coverages
+        const plans = req.body.plans
         
-        const plans = [{insuranceName: insuranceName, planName: planName, yearlyCost: yearlyCost}]
+        console.log("Username = " +username)
+
+        // const plans = [{insuranceName: insuranceName, planName: planName, yearlyCost: yearlyCost, coverages: coverages}]
         
         User.updateOne({username: username}, {$set:{enrolledIn: plans}}, (err, result) => {
             if(err) {
                 res.send(err)
             }
-            res.send(result)
+            var redir = { redirect: "added_insurance_to_user" };
+            return res.json(redir);
         })
     
     } catch (err) {

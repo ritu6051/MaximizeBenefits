@@ -7,29 +7,26 @@ import Row from 'react-bootstrap/esm/Row'
 import NavBar from '../Common/NavBar';
 import Button from 'react-bootstrap/Button';
 
-function TestDisplay() {
+function DisplayFilteredInsurances() {
     const navigate = useNavigate();
     const{state} = useLocation();
     const [selectedInsuranceName, setSelectedInsuranceName] = useState('');
-    const [selectedPlan, setSelectedPlan] = useState([]);
-    const [coverageName, setCoverageName] = useState('');
-    const [coverageAmount, setCoverageAmount] = useState('');
-    // const [enrollValues, setEnrollValues] = useState([{insuranceName: "", plan : []}])
+    const [selectedPlanName, setSelectedPlanName] = useState('');
+    const [selectedYearlyCost, setSelectedYearlyCost] = useState('');
+    const [selectedCoverages, setSelectedCoverages] = useState([]);
+    
+    function enrollInThis(selectedInsuranceName, selectedInsuranceType, selectedPlanName, selectedYearlyCost, selectedCoverages) {
+        const plans = [{insuranceName: selectedInsuranceName, insuranceType: selectedInsuranceType, planName: selectedPlanName, yearlyCost: selectedYearlyCost, coverages: selectedCoverages}]
 
-    function enrollInThis(insuranceName, selectedPlan) {
-        setSelectedInsuranceName(insuranceName)
-        setSelectedPlan(selectedPlan)
-        setEnrollValues({insuranceName: selectedInsuranceName, plan: selectedPlan})
+        Axios.post("http://localhost:3001/addInsuranceToUser", {
+            username: state.username,
+            plans: plans
+        }).then((response) => {
+            if(response.data.redirect === "added_insurance_to_user") {
+                navigate("/FrontPage_Customer", {state});
+            }
+        })
     }
-
-    Axios.post("http://localhost:3001/addInsuranceToUser", {
-        username: state.username,
-        insuranceName: selectedInsuranceName,
-        planName: selectedPlan.planName,
-        yearlyCost: selectedPlan.yearlyCost,
-    }).then((response) => {
-        console.log("")
-    })
 
     return (
         <Container>
@@ -40,7 +37,7 @@ function TestDisplay() {
             <Row>
             <Container>
                 <h1> List of Insurances </h1>
-                {console.log("here" +state.insuranceList[0].plans[0].yearlyCost)}
+                <h2> {state.username} </h2>
                 <br/>
 
                 <Table striped bordered hover>
@@ -61,12 +58,13 @@ function TestDisplay() {
                             <>
                             {
                                 val1.plans.map((val2, key) => {
-                                    if(Number(val2.yearlyCost) <= state.budget && Number(val2.age) <= state.maxAge) { 
-                                        console.log("Insurance Name = " +val1.insuranceName)
-                                        console.log("Insurance Type = " +val1.insuranceType)
-                                        console.log("Plan Name = " +val2.planName)
-                                        console.log("Yearly Cost = " +val2.yearlyCost)
-                                        console.log("Coverage Name = " +val2.coverages[0].coverageName)
+                                    
+                                    if(Number(val2.yearlyCost) <= state.budget && Number(val2.age) >= state.maxAge) { 
+                                        // console.log("Insurance Name = " +val1.insuranceName)
+                                        // console.log("Insurance Type = " +val1.insuranceType)
+                                        // console.log("Plan Name = " +val2.planName)
+                                        // console.log("Yearly Cost = " +val2.yearlyCost)
+                                        // console.log("Coverage Name = " +val2.coverages[0].coverageName)
                                         return (
                                             <tr>
                                                 <td><b>{val1.insuranceName}</b></td>
@@ -85,7 +83,7 @@ function TestDisplay() {
                                                 </td>
                                                 <td>
                                                     <Button variant="primary" type="button" 
-                                                        onClick={() => enrollInThis(val1.insuranceName, val1.plans)}>
+                                                        onClick={() => enrollInThis(val1.insuranceName, val1.insuranceType, val2.planName, val2.yearlyCost, val2.coverages)}>
                                                         Enroll
                                                     </Button>   
                                                 </td>
@@ -98,6 +96,9 @@ function TestDisplay() {
                         );
                     })
                 }
+                <tr>
+                    <td> Here </td>
+                </tr>
                 </tbody>
                 </Table>
             </Container>
@@ -107,13 +108,4 @@ function TestDisplay() {
     )
 }
 
-export default TestDisplay;
-{/* <div key = {key}>
-{"Insurance Name: "} {val.insuranceName} {" "}
-<div>
-{"Type: "} {val.insuranceType} {" "}
-</div> 
-<div>
-{"Yearly Cost: "} {val.plans.yearlyCost} {" "}
-</div>
-</div> */}
+export default DisplayFilteredInsurances;
