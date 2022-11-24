@@ -23,7 +23,7 @@ function DisplayFilteredInsurances() {
             plans: plans
         }).then((response) => {
             if(response.data.redirect === "added_insurance_to_user") {
-                navigate("/FrontPage_Customer", {state});
+                navigate("/FrontPage_Customer")
             }
         })
     }

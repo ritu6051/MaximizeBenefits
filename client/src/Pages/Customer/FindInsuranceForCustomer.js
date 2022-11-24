@@ -22,7 +22,6 @@ function FindInsuranceForCustomer() {
     })
 
     const findInsurances = () => {
-        console.log("Inside axios.post inside find insurance" + insuranceType + " " + budget + " " +maxAge)
         Axios.post("http://localhost:3001/testFilter", {
             insuranceType: insuranceType,
             budget: budget,

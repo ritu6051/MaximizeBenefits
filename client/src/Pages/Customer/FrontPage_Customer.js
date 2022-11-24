@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Axios from 'axios';
 import { useNavigate, useLocation} from 'react-router-dom';
 import Container from 'react-bootstrap/esm/Container';
 import Button from 'react-bootstrap/Button';
@@ -25,7 +26,13 @@ function FrontPage_Customer() {
 
     const deleteMyInsurance = () => {
         // navigate("/FindInsurance")
-        navigate('/DeleteMyInsurance', {state});
+        Axios.post("http://localhost:3001/getUserInsurances", {
+            username: state.username
+        })
+        .then((response) => {
+            console.log(response.data)
+            navigate('/DeleteMyInsurance', {state: {insuranceList: response.data, username: state.username}});
+        })
     }
    
     return (
