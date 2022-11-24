@@ -9,9 +9,9 @@ const InsuranceSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    plans: { 
-        // type: Array,
-        // required: true,
+    plans: { //Tiers
+        type: Array,
+        required: true,
 
         planName: { // Gold
             type: String,
@@ -23,7 +23,7 @@ const InsuranceSchema = new mongoose.Schema({
         },
         age: { // <65
             type: String,
-            required: true,
+            required: false,
         },
         coverages: { // [Physical: $100, Dental: $50]
             type: Array,

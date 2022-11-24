@@ -10,29 +10,31 @@ import Form from 'react-bootstrap/Form';
 function FindInsuranceForCustomer() {
     const navigate = useNavigate();
     const[insuranceTypeList, setInsuranceTypeList] = useState([]);
+
     const[insuranceType, setInsuranceType] = useState('');
     const[budget, setBudget] = useState('');
     const[maxAge, setMaxAge] = useState('');
     const{state} = useLocation();
     
+    // Getting the insurance types available from the database
     Axios.get("http://localhost:3001/getAvailableInsuranceTypes").then((response) => {
         setInsuranceTypeList(response.data)
     })
 
     const findInsurances = () => {
+        console.log("Inside axios.post inside find insurance" + insuranceType + " " + budget + " " +maxAge)
         Axios.post("http://localhost:3001/testFilter", {
             insuranceType: insuranceType,
             budget: budget,
             maxAge: maxAge
         })
         .then((response) => {
-            console.log("Inside FindInsuranceForCustomer.js")
             navigate('/DisplayFilteredInsurances', {state: {insuranceList: response.data, budget: budget, maxAge: maxAge, username: state.username}});
         })
     }
 
     const handleInsuranceType = event => {
-        console.log(event.target.value);
+        console.log("Insurance type inside FindInsurance = " +event.target.value);
         setInsuranceType(event.target.value);
     }
 
