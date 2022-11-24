@@ -28,7 +28,7 @@ function TestDisplay() {
         planName: selectedPlan.planName,
         yearlyCost: selectedPlan.yearlyCost,
     }).then((response) => {
-        console.log("Display Filtered + "+response.username)
+        console.log("")
     })
 
     return (
@@ -40,7 +40,7 @@ function TestDisplay() {
             <Row>
             <Container>
                 <h1> List of Insurances </h1>
-                {console.log(state.username)}
+                {console.log("here" +state.insuranceList[0].plans[0].yearlyCost)}
                 <br/>
 
                 <Table striped bordered hover>
@@ -51,38 +51,51 @@ function TestDisplay() {
                         <th> Plan Name </th>
                         <th> Yearly Cost </th>
                         <th> Coverage Details </th>
+                        <th> Enroll In This </th>
                     </tr>
                 </thead>
                 <tbody>
                 {
-                    state.insuranceList.map((val,key) => {
-                        if(Number(val.plans.yearlyCost) <= state.budget && Number(val.plans.age) <= state.maxAge) { 
-                            return (
-                                <tr>
-                                    <td><b>{val.insuranceName}</b></td>
-                                    <td>{val.insuranceType}</td>
-                                    <td>{val.plans.planName}</td>
-                                    <td>{"$"}{val.plans.yearlyCost}</td>
-                                
-                                    <td>
-                                    {
-                                        val.plans.coverages.map((val, key) => {
-                                            // setValues(val.plans)
-                                            return (
-                                                <div>{val.coverageName}{": $"}{val.coverageAmount}</div>
-                                            )
-                                        })
+                    state.insuranceList.map((val1,key) => {
+                        return (
+                            <>
+                            {
+                                val1.plans.map((val2, key) => {
+                                    if(Number(val2.yearlyCost) <= state.budget && Number(val2.age) <= state.maxAge) { 
+                                        console.log("Insurance Name = " +val1.insuranceName)
+                                        console.log("Insurance Type = " +val1.insuranceType)
+                                        console.log("Plan Name = " +val2.planName)
+                                        console.log("Yearly Cost = " +val2.yearlyCost)
+                                        console.log("Coverage Name = " +val2.coverages[0].coverageName)
+                                        return (
+                                            <tr>
+                                                <td><b>{val1.insuranceName}</b></td>
+                                                <td>{val1.insuranceType}</td>
+                                                <td>{val2.planName}</td>
+                                                <td>{"$"}{val2.yearlyCost}</td>
+                                            
+                                                <td>
+                                                {
+                                                    val2.coverages.map((val3, key) => {
+                                                        return (
+                                                            <div>{val3.coverageName}{": $"}{val3.coverageAmount}</div>
+                                                        )
+                                                    })
+                                                }
+                                                </td>
+                                                <td>
+                                                    <Button variant="primary" type="button" 
+                                                        onClick={() => enrollInThis(val1.insuranceName, val1.plans)}>
+                                                        Enroll
+                                                    </Button>   
+                                                </td>
+                                            </tr>          
+                                        );
                                     }
-                                    </td>
-                                    <td>
-                                        <Button variant="primary" type="button" 
-                                            onClick={() => enrollInThis(val.insuranceName, val.plans)}>
-                                            Enroll
-                                        </Button>   
-                                    </td>
-                                </tr>          
-                            );
-                        }
+                                })
+                            }
+                            </>
+                        );
                     })
                 }
                 </tbody>

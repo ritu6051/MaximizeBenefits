@@ -29,6 +29,7 @@ function FindInsuranceForCustomer() {
             maxAge: maxAge
         })
         .then((response) => {
+            console.log("Response" +response.data[0].insuranceName)
             navigate('/DisplayFilteredInsurances', {state: {insuranceList: response.data, budget: budget, maxAge: maxAge, username: state.username}});
         })
     }

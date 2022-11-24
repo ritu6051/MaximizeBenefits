@@ -292,18 +292,27 @@ app.post('/testFilter', async(req, res) => {
         const maxAge = req.body.maxAge
         // yearlyCost:{$lt:yearlyCost}
         console.log("Insurance Type = " +insuranceType)
-        Insurance.find({insuranceType: insuranceType}, {plans:{$elemMatch:{yearlyCost: {$lte:budget}, age : {$lte:maxAge}}}}, (err, result) => {
+        // Insurance.find({insuranceType: insuranceType}, {plans:{$elemMatch:{yearlyCost: {$lte:budget}, age : {$lte:maxAge}}}}, (err, result) => {
+        //     if(err) {
+        //         res.send(err)
+        //     }
+        //     else {
+        //         console.log(res)
+        //         res.send(result)  
+        //     }
+        // });
+        // 
+        // Insurance.find({insuranceType: insuranceType}, {plans: {$elemMatch: {yearlyCost: {$lte:budget}}}}, (err, result) => {
+        Insurance.find({insuranceType: insuranceType}, (err, result) => {
             if(err) {
+                console.log(err)
                 res.send(err)
             }
             else {
-                console.log(res)
+                console.log("Insurance = " +result[0].insuranceName)
                 res.send(result)  
             }
         });
-
-        
-
     } catch(err) {
         console.log(err);
     }
