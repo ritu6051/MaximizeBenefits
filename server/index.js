@@ -16,8 +16,10 @@ mongoose.connect(
     { useNewUrlParser: true, }
 );
 
-// BOTH ROLES
-app.post('/login', async(req, res) => { // Login.js
+// ------------------------------------------------------------- BOTH ROLES ------------------------------------------------------------- 
+
+// LoginForm.js
+app.post('/login', async(req, res) => { 
     try {
         console.log("Inside server/index.js/app.post/login")
         const username = req.body.username
@@ -56,7 +58,8 @@ app.post('/login', async(req, res) => { // Login.js
     }
 });
 
-app.post('/register', async(req, res) => { //Register.js
+// RegisterForm.js
+app.post('/register', async(req, res) => {
     try {
         console.log("Inside server/index.js/app.post/register")
         const fullName = req.body.fullName
@@ -114,19 +117,10 @@ app.post('/register', async(req, res) => { //Register.js
     }
 });
 
-app.get('/read', async(req, res) => { //Register.js
-    const username = req.body.username
-    const role = req.body.role
-    User.find({}, (err,result) =>{
-        if(err) {
-            res.send(err)
-        }
-        res.send(result)
-    })
-});
+// ------------------------------------------------------------- COMPANY ------------------------------------------------------------- 
 
-// COMPANY
-app.post('/insertInsurancePlan', async(req, res) => { //AddBenefits.js
+// AddBenefits.js
+app.post('/insertInsurancePlan', async(req, res) => { 
     try {
         const insuranceName = req.body.insuranceName
         const insuranceType = req.body.insuranceType
@@ -134,13 +128,6 @@ app.post('/insertInsurancePlan', async(req, res) => { //AddBenefits.js
         const yearlyCost = req.body.yearlyCost
         const maxAge = req.body.maxAge
         const coverageDetails = req.body.coverageDetails
-
-        console.log("Insurance Name = " +insuranceName)
-        console.log("Insurance Type = " +insuranceType)
-        console.log("Plan Name = " +planName)
-        console.log("Yearly Cost = " +yearlyCost)
-        console.log("Max Age = " +maxAge)
-        console.log("Coverage Details = " +coverageDetails[0].coverageName)
 
         const plans = [{planName: planName, yearlyCost: yearlyCost, age: maxAge, coverages: coverageDetails}]
         const insurance = await Insurance.findOne({insuranceName: insuranceName});
@@ -164,8 +151,63 @@ app.post('/insertInsurancePlan', async(req, res) => { //AddBenefits.js
     }
 });
 
-// CUSTOMER
-app.get('/getAvailableInsuranceTypes', async(req, res) => { //FindInsuranceForCustomer.js
+// DeleteCustomer.js
+app.post('/deleteCustomer', async(req, res) => {
+    try {
+        const username = req.body.username
+        const insuranceName = req.body.insuranceName
+        const planName = req.body.planName
+        const yearlyCost =  req.body.yearlyCost
+        const plans = [{insuranceName: insuranceName, planName: planName, yearlyCost: yearlyCost}]
+
+        User.updateOne({username: username}, {$set:{enrolledIn: plans}}, (err, result) => {
+            if(err) {
+                res.send(err)
+            }
+            res.send(result)
+        })
+
+    } catch (err) {
+    }
+});
+
+// ------------------------------------------------------------- CUSTOMER ------------------------------------------------------------- 
+
+// DeleteMyInsurance.js
+app.post('/deleteMyInsurance', async(req, res) => {
+    const username = req.body.username
+    const insuranceName = req.body.insuranceName
+
+    User.updateOne(
+        {username: username},
+        {$pull: {enrolledIn: {insuranceName: insuranceName}}}, (err, result) => {
+        if(err) {
+            res.send(err)
+        }
+        res.send(result)
+    })
+    
+});
+
+// DisplayFilteredInsurances.js
+app.post('/addInsuranceToUser', async(req, res) => {
+    try {
+        const username = req.body.username
+        const plans = req.body.plans
+        User.updateOne({username: username}, {$set:{enrolledIn: plans}}, (err, result) => {
+            if(err) {
+                res.send(err)
+            }
+            var redir = { redirect: "added_insurance_to_user" };
+            return res.json(redir);
+        })
+    } catch (err) {
+        console.log(err)
+    }
+});
+
+// FindInsuranceForCustomer.js
+app.get('/getAvailableInsuranceTypes', async(req, res) => { 
     try {
         Insurance.distinct("insuranceType", (err,result) =>{
             if(err) {
@@ -178,87 +220,7 @@ app.get('/getAvailableInsuranceTypes', async(req, res) => { //FindInsuranceForCu
     }
 });
 
-app.post('/findInsurances', async(req, res) => { //FindInsuranceForCustomer.js
-    try {
-        const insuranceType = req.body.insuranceType
-        const budget = req.body.budget
-        const maxAge = req.body.maxAge
-
-        res.send(insuranceType)
-    } catch(err) {
-        res.send(err)
-    }
-});
-
-app.get('/print', async(req, res) => { //FindInsuranceForCustomer.js
-    try {
-        const insuranceType = req.body.insuranceType
-        const insuranceName = req.body.insuranceName
-        
-        Insurance.find({insuranceType: 'Home'}, (err,result) =>{ //insuranceType: insuranceType
-            if(err) {
-                res.send(err)
-            }
-            res.send(result)
-        })
-    } catch(err) {
-        console.log(err);
-    }
-});
-
-// NOT USED
-app.post('/insertInsurance', async(req, res) => {
-    
-    console.log("Inside server/index.js/app.post/insertInsurance")
-    const insuranceType = req.body.insuranceType
-    const insuranceName = req.body.insuranceName
-    const cost = req.body.cost
-    const age = req.body.age
-    const offerings = req.body.benefits
-
-    const newInsuranceCompany = await Insurance.findOne({insuranceName: insuranceName});
-    
-    // if(newInsuranceCompany) {
-    //     console.log("Insurance Company already exists!")
-    //     var redir = { redirect: "NotGood_InsuranceCompanyExist" };
-    //     return res.json(redir);
-    // } 
-    // else { 
-        try {
-            console.log("Insurance Company Name Already Exists!")
-            
-            console.log("Type = " +insuranceType)
-            console.log("Name = " +insuranceName)
-            console.log("Cost = " +cost)
-            console.log("Age = " +age)
-            const insuranceCompany = new Insurance({
-                insuranceType: insuranceType,
-                insuranceName: insuranceName,
-                cost: cost,
-                age: age,
-                offerings: offerings,
-            });
-            
-            await insuranceCompany.save()
-   
-            } catch(err) {
-                console.log(err);
-            }
-        // }
-});
-
-app.get('/testDisplay', async(req, res) => {
-    const username = req.body.username
-    const role = req.body.role
-    
-    Insurance.find({}, (err,result) =>{
-        if(err) {
-            res.send(err)
-        }
-        res.send(result)
-    })
-});
-
+// FindInsuranceForCustomer.js
 app.post('/testFilter', async(req, res) => {
     try {
         const insuranceType = req.body.insuranceType
@@ -279,56 +241,7 @@ app.post('/testFilter', async(req, res) => {
     }
 });
 
-app.post('/addInsuranceToUser', async(req, res) => {
-    try {
-        const username = req.body.username
-        const plans = req.body.plans
-        User.updateOne({username: username}, {$set:{enrolledIn: plans}}, (err, result) => {
-            if(err) {
-                res.send(err)
-            }
-            var redir = { redirect: "added_insurance_to_user" };
-            return res.json(redir);
-        })
-    } catch (err) {
-        console.log(err)
-    }
-});
-
-app.post('/deleteMyInsurance', async(req, res) => {
-    const username = req.body.username
-    const insuranceName = req.body.insuranceName
-
-    User.updateOne(
-        {username: username},
-        {$pull: {enrolledIn: {insuranceName: insuranceName}}}, (err, result) => {
-        if(err) {
-            res.send(err)
-        }
-        res.send(result)
-    })
-    
-});
-
-app.post('/deleteCustomer', async(req, res) => {
-    try {
-        const username = req.body.username
-        const insuranceName = req.body.insuranceName
-        const planName = req.body.planName
-        const yearlyCost =  req.body.yearlyCost
-        const plans = [{insuranceName: insuranceName, planName: planName, yearlyCost: yearlyCost}]
-
-        User.updateOne({username: username}, {$set:{enrolledIn: plans}}, (err, result) => {
-            if(err) {
-                res.send(err)
-            }
-            res.send(result)
-        })
-
-    } catch (err) {
-    }
-});
-
+// FindInsuranceForCustomer.js
 // Display list of insurances that the user is enrolled in
 app.post('/getUserInsurances', async(req, res) => {
     const username = req.body.username
@@ -346,46 +259,3 @@ app.post('/getUserInsurances', async(req, res) => {
 app.listen(portNum, () => {
     console.log("Yes, your port is running on port " +portNum);
 });
-
-// OLD
-
-// app.post('/deleteMyInsurance', async(req, res) => {
-//     try {
-//         const username = req.body.username
-//         const insuranceName = req.body.insuranceName
-//         const planName = req.body.planName
-//         const yearlyCost =  req.body.yearlyCost
-//         const plans = [{insuranceName: insuranceName, planName: planName, yearlyCost: yearlyCost}]
-//         console.log("Inside index.js/deleteMyInsurance")
-//         console.log("Username = " +username)
-//         User.updateOne({username: username}, {$set:{enrolledIn: plans}}, (err, result) => {
-//             if(err) {
-//                 res.send(err)
-//             }
-//             res.send(result)
-//         })
-//         // console.log(user)
-//     } catch (err) {
-//         console.log(err)
-//     }
-// });
-
-// app.post('/testFilter', async(req, res) => {
-//     try {
-//         const insuranceType = req.body.insuranceType
-//         const budget = req.body.budget
-//         const maxAge = req.body.maxAge
-//         // yearlyCost:{$lt:yearlyCost}
-//         console.log("Insurance Type = " +insuranceType)
-//         Insurance.find({insuranceType: insuranceType}, (err,result) =>{ 
-//             if(err) {
-//                 res.send(err)
-//             }
-//             else {
-//                 res.send(result)  
-//             }
-//         })
-//     } catch(err) {
-//         console.log(err);
-//     }
-// });

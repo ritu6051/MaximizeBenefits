@@ -20,12 +20,10 @@ function FrontPage_Customer() {
         navigate("/Login")
     }
     const find = () => {
-        // navigate("/FindInsurance")
         navigate('/FindInsurance', {state});
     }
 
     const deleteMyInsurance = () => {
-        // navigate("/FindInsurance")
         Axios.post("http://localhost:3001/getUserInsurances", {
             username: state.username
         })
@@ -65,8 +63,6 @@ function FrontPage_Customer() {
                             <br/>
 
                             <Button variant="secondary" size="lg" type="button" class="btn btn-secondary btn-lg btn-block" onClick={deleteMyInsurance}> Delete My Insurance  </Button>
-
-
                         </div>    
                     </Form>
                 </Container>

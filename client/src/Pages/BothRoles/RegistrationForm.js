@@ -13,15 +13,8 @@ function RegistrationForm() {
     const [password, setPassword] = useState('');
     const [passwordAgain, setPasswordAgain] = useState('');
     const [role, setRole] = useState('');
-    const [userList, setUserList] = useState([]);
     const [popUp1, setPopUp1] = useState(false); // Username already exists, can't create account
     const [popUp2, setPopUp2] = useState(false); // Passwords do not match
-
-    useEffect(() => {
-        Axios.get("http://localhost:3001/read").then((response) => {
-            setUserList(response.data)
-        })
-    }, [])
 
     const createAccount = () => {
         Axios.post("http://localhost:3001/register", {
