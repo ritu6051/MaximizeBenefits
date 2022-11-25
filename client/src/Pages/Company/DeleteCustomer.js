@@ -10,12 +10,11 @@ import Form from 'react-bootstrap/Form';
 function DelteCustomer(){
     const navigate = useNavigate();
     const [username, setUsername] = useState('');
-    const{state} = useLocation();
-    const[insuranceName, setInsuranceName] = useState('');
-    const[planName, setPlanName] = useState('');
-    const[yearlyCost, setYearlyCost] = useState('');
+    const {state} = useLocation();
+    const [insuranceName, setInsuranceName] = useState('');
+    const [planName, setPlanName] = useState('');
+    const [yearlyCost, setYearlyCost] = useState('');
     
-
     const submit =()=>{
         setInsuranceName("")
         setPlanName("")
@@ -31,11 +30,7 @@ function DelteCustomer(){
             
             navigate("/FrontPage_Company")
         })
-
     }
-
-
-
     return(
         <Container>
             <Row>

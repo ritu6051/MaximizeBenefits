@@ -178,17 +178,12 @@ app.get('/getAvailableInsuranceTypes', async(req, res) => { //FindInsuranceForCu
     }
 });
 
-
-
 app.post('/findInsurances', async(req, res) => { //FindInsuranceForCustomer.js
     try {
         const insuranceType = req.body.insuranceType
         const budget = req.body.budget
         const maxAge = req.body.maxAge
 
-        console.log("Insurance Type = " +insuranceType)
-        console.log("Budget = " +budget)
-        console.log("Max Age = " +maxAge)
         res.send(insuranceType)
     } catch(err) {
         res.send(err)
@@ -211,7 +206,6 @@ app.get('/print', async(req, res) => { //FindInsuranceForCustomer.js
     }
 });
 
-
 // NOT USED
 app.post('/insertInsurance', async(req, res) => {
     
@@ -223,7 +217,7 @@ app.post('/insertInsurance', async(req, res) => {
     const offerings = req.body.benefits
 
     const newInsuranceCompany = await Insurance.findOne({insuranceName: insuranceName});
-    console.log(newInsuranceCompany)
+    
     // if(newInsuranceCompany) {
     //     console.log("Insurance Company already exists!")
     //     var redir = { redirect: "NotGood_InsuranceCompanyExist" };
@@ -265,28 +259,6 @@ app.get('/testDisplay', async(req, res) => {
     })
 });
 
-// app.post('/testFilter', async(req, res) => {
-//     try {
-//         const insuranceType = req.body.insuranceType
-//         const budget = req.body.budget
-//         const maxAge = req.body.maxAge
-//         // yearlyCost:{$lt:yearlyCost}
-//         console.log("Insurance Type = " +insuranceType)
-//         Insurance.find({insuranceType: insuranceType}, (err,result) =>{ 
-//             if(err) {
-//                 res.send(err)
-//             }
-//             else {
-                
-//                 res.send(result)  
-//             }
-            
-//         })
-//     } catch(err) {
-//         console.log(err);
-//     }
-// });
-
 app.post('/testFilter', async(req, res) => {
     try {
         const insuranceType = req.body.insuranceType
@@ -299,7 +271,6 @@ app.post('/testFilter', async(req, res) => {
                 res.send(err)
             }
             else {
-                console.log("Insurance = " +result[0].insuranceName)
                 res.send(result)  
             }
         });
@@ -311,16 +282,7 @@ app.post('/testFilter', async(req, res) => {
 app.post('/addInsuranceToUser', async(req, res) => {
     try {
         const username = req.body.username
-        // const insuranceName = req.body.insuranceName
-        // const planName = req.body.planName
-        // const yearlyCost = req.body.yearlyCost
-        // const coverages = req.body.coverages
         const plans = req.body.plans
-        
-        console.log("Username = " +username)
-
-        // const plans = [{insuranceName: insuranceName, planName: planName, yearlyCost: yearlyCost, coverages: coverages}]
-        
         User.updateOne({username: username}, {$set:{enrolledIn: plans}}, (err, result) => {
             if(err) {
                 res.send(err)
@@ -328,58 +290,17 @@ app.post('/addInsuranceToUser', async(req, res) => {
             var redir = { redirect: "added_insurance_to_user" };
             return res.json(redir);
         })
-    
     } catch (err) {
         console.log(err)
     }
 });
 
-// app.post('/deleteMyInsurance', async(req, res) => {
-//     try {
-        
-//         const username = req.body.username
-//         const insuranceName = req.body.insuranceName
-//         const planName = req.body.planName
-//         const yearlyCost =  req.body.yearlyCost
-//         const plans = [{insuranceName: insuranceName, planName: planName, yearlyCost: yearlyCost}]
-
-//         console.log("Inside index.js/deleteMyInsurance")
-//         console.log("Username = " +username)
-        
-
-//         User.updateOne({username: username}, {$set:{enrolledIn: plans}}, (err, result) => {
-//             if(err) {
-//                 res.send(err)
-//             }
-//             res.send(result)
-//         })
-//         // console.log(user)
-        
-//         // console.log(loginUser)
-
-//     } catch (err) {
-//         console.log(err)
-//     }
-// });
-
 app.post('/deleteMyInsurance', async(req, res) => {
     const username = req.body.username
     const insuranceName = req.body.insuranceName
-    console.log("Username = " +username)
-    console.log("Insurance name = " +insuranceName)
-
-    // { '_id': ObjectId("5150a1199fac0e6910000002") }, 
-    // { $pull: { items: { id: 23 } } },
-    // false, // Upsert
-    // true, // Multi
-
-    User.update(
-        {username: "prachi"},
-        {$set: {enrolledIn: {insuranceName: ""}}}, 
-    );
 
     User.updateOne(
-        {username: "prachi"},
+        {username: username},
         {$pull: {enrolledIn: {insuranceName: insuranceName}}}, (err, result) => {
         if(err) {
             res.send(err)
@@ -391,17 +312,11 @@ app.post('/deleteMyInsurance', async(req, res) => {
 
 app.post('/deleteCustomer', async(req, res) => {
     try {
-
-        // console.log(loginUser)
         const username = req.body.username
         const insuranceName = req.body.insuranceName
         const planName = req.body.planName
         const yearlyCost =  req.body.yearlyCost
         const plans = [{insuranceName: insuranceName, planName: planName, yearlyCost: yearlyCost}]
-
-        console.log("Inside index.js/deleteMyInsurance")
-        console.log("Username = " +username)
-
 
         User.updateOne({username: username}, {$set:{enrolledIn: plans}}, (err, result) => {
             if(err) {
@@ -414,8 +329,8 @@ app.post('/deleteCustomer', async(req, res) => {
     }
 });
 
+// Display list of insurances that the user is enrolled in
 app.post('/getUserInsurances', async(req, res) => {
-    
     const username = req.body.username
     User.findOne({username: username}, (err, result) => {
         if(err) {
@@ -431,3 +346,46 @@ app.post('/getUserInsurances', async(req, res) => {
 app.listen(portNum, () => {
     console.log("Yes, your port is running on port " +portNum);
 });
+
+// OLD
+
+// app.post('/deleteMyInsurance', async(req, res) => {
+//     try {
+//         const username = req.body.username
+//         const insuranceName = req.body.insuranceName
+//         const planName = req.body.planName
+//         const yearlyCost =  req.body.yearlyCost
+//         const plans = [{insuranceName: insuranceName, planName: planName, yearlyCost: yearlyCost}]
+//         console.log("Inside index.js/deleteMyInsurance")
+//         console.log("Username = " +username)
+//         User.updateOne({username: username}, {$set:{enrolledIn: plans}}, (err, result) => {
+//             if(err) {
+//                 res.send(err)
+//             }
+//             res.send(result)
+//         })
+//         // console.log(user)
+//     } catch (err) {
+//         console.log(err)
+//     }
+// });
+
+// app.post('/testFilter', async(req, res) => {
+//     try {
+//         const insuranceType = req.body.insuranceType
+//         const budget = req.body.budget
+//         const maxAge = req.body.maxAge
+//         // yearlyCost:{$lt:yearlyCost}
+//         console.log("Insurance Type = " +insuranceType)
+//         Insurance.find({insuranceType: insuranceType}, (err,result) =>{ 
+//             if(err) {
+//                 res.send(err)
+//             }
+//             else {
+//                 res.send(result)  
+//             }
+//         })
+//     } catch(err) {
+//         console.log(err);
+//     }
+// });

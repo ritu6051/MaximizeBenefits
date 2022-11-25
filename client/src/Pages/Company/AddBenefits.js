@@ -12,7 +12,6 @@ import Alert from 'react-bootstrap/Alert';
 function AddBenefits() {
     const navigate = useNavigate();
 
-    // ----------- Start of states -----------
     const[username, setUsername] = useState('');
     const[password, setPassword] = useState('');
     const[insuranceType, setInsuranceType] = useState('');
@@ -22,12 +21,9 @@ function AddBenefits() {
     const[maxAge, setMaxAge] = useState('');
     const [formValues, setFormValues] = useState([{coverageName: "", coverageAmount : ""}])
     const[popUp1, setPopUp1] = useState(false); // Insurance already exists, can't create another
-    const [fullDetails, setFullDetails] = useState([{insuranceName: "", insuranceType : "", plans: [{planName: "", yearlyCost: "", maxAge: "", coverages: [{coverageName: "", coverageAmount: ""}]}]}])
     
     const handleFormSubmit = (event) => {
         event.preventDefault();
-        console.log("Insurance Type in handleFormSubmit = "+insuranceType)
-        // console.log(JSON.stringify(formValues))
         Axios.post("http://localhost:3001/insertInsurancePlan", {  
             insuranceName: insuranceName,
             insuranceType: insuranceType,

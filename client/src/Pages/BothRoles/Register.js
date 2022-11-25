@@ -1,5 +1,5 @@
 import NavBar from '../Common/NavBar';
-import BrandImage from './BrandImage';
+import BrandImage from '../Common/BrandImage';
 import RegistrationForm from './RegistrationForm';
 import Container from 'react-bootstrap/esm/Container';
 import Row from 'react-bootstrap/esm/Row'

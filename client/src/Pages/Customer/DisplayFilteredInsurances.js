@@ -52,59 +52,46 @@ function DisplayFilteredInsurances() {
                     </tr>
                 </thead>
                 <tbody>
-                {
-                    state.insuranceList.map((val1,key) => {
-                        return (
-                            <>
-                            {
-                                val1.plans.map((val2, key) => {
-                                    
-                                    if(Number(val2.yearlyCost) <= state.budget && Number(val2.age) >= state.maxAge) { 
-                                        // console.log("Insurance Name = " +val1.insuranceName)
-                                        // console.log("Insurance Type = " +val1.insuranceType)
-                                        // console.log("Plan Name = " +val2.planName)
-                                        // console.log("Yearly Cost = " +val2.yearlyCost)
-                                        // console.log("Coverage Name = " +val2.coverages[0].coverageName)
-                                        return (
-                                            <tr>
-                                                <td><b>{val1.insuranceName}</b></td>
-                                                <td>{val1.insuranceType}</td>
-                                                <td>{val2.planName}</td>
-                                                <td>{"$"}{val2.yearlyCost}</td>
+                { state.insuranceList.map((val1,key) => {
+                    return (
+                    <>
+                        { val1.plans.map((val2, key) => {
+                            if(Number(val2.yearlyCost) <= state.budget && Number(val2.age) >= state.maxAge) { 
+                                return (
+                                    <tr>
+                                        <td><b>{val1.insuranceName}</b></td>
+                                        <td>{val1.insuranceType}</td>
+                                        <td>{val2.planName}</td>
+                                        <td>{"$"}{val2.yearlyCost}</td>
                                             
-                                                <td>
-                                                {
-                                                    val2.coverages.map((val3, key) => {
-                                                        return (
-                                                            <div>{val3.coverageName}{": $"}{val3.coverageAmount}</div>
-                                                        )
-                                                    })
-                                                }
-                                                </td>
-                                                <td>
-                                                    <Button variant="primary" type="button" 
-                                                        onClick={() => enrollInThis(val1.insuranceName, val1.insuranceType, val2.planName, val2.yearlyCost, val2.coverages)}>
-                                                        Enroll
-                                                    </Button>   
-                                                </td>
-                                            </tr>          
-                                        );
-                                    }
-                                })
+                                        <td>
+                                            { val2.coverages.map((val3, key) => {
+                                                return (
+                                                    <div> {val3.coverageName}{": $"}{val3.coverageAmount} </div>
+                                                )
+                                            })
+                                            }
+                                        </td>
+                                        <td>
+                                            <Button variant="primary" type="button" 
+                                                onClick={() => enrollInThis(val1.insuranceName, val1.insuranceType, val2.planName, val2.yearlyCost, val2.coverages)}>
+                                                Enroll
+                                            </Button>   
+                                        </td>
+                                    </tr>          
+                                );
                             }
-                            </>
-                        );
-                    })
+                        })
+                        }
+                    </>
+                    );
+                })
                 }
-                <tr>
-                    <td> Here </td>
-                </tr>
                 </tbody>
                 </Table>
             </Container>
             </Row>
-        </Container>
-        
+        </Container>   
     )
 }
 

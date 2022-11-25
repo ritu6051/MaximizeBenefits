@@ -83,19 +83,6 @@ function LoginForm() {
 
             <Link to='/Register'>Don't have an account? Register here!</Link>
         </Container>
-
-        // {popUp1 && (
-        //     <p id='pop'>User does not exist</p>
-        // )}
-
-        // {popUp2 && (
-        //     <p id='pop'> Incorrect Password! Try Again! </p>
-        // )}
-
-        // <button id='login' onClick={loginAccount}> Login </button>
-
-        // <Link to='/Register'>Don't have an account? Register here!</Link>
-        // </div>
     );
 }
 

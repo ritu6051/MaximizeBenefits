@@ -28,12 +28,48 @@ function DeleteMyInsurance(){
         })
     }
 
+    const no =()=>{
+        navigate('/FrontPage_Customer')
+
+    }
+    const yes=()=>{
+        setInsuranceName("")
+        setPlanName("")
+        setYearlyCost("")
+
+        
+        // Axios.post("http://localhost:3001/deleteMyInsurance", {
+        //     username: state.username, 
+        //     insuranceName: insuranceName,
+        //     planName: planName,
+        //     yearlyCost: yearlyCost,
+        // })
+        // .then(function (response) {
+            
+        //     navigate("/FrontPage_Customer")
+        // })
+       
+    }
     return (
         <Container>
             <Row>
                 <NavBar></NavBar>
             </Row>
             <br/> 
+            <Row>
+                <Container>
+                    <h1> Which insurance would you like to delete?</h1>
+                    {/* {state.username}
+                    {' '}
+                    {state.insuranceList.username}
+                    {' '}
+                    {state.insuranceList.role}
+                    {' '}
+                    {state.insuranceList.enrolledIn[0].insuranceName}
+                    {' '}
+                    {state.insuranceList.enrolledIn[0].planName} */}
+                </Container>
+            </Row>
             <Row>
                 <Container>
                     <Table striped bordered hover>
@@ -45,6 +81,7 @@ function DeleteMyInsurance(){
                                 <th> Yearly Cost </th>
                                 <th> Coverage Details </th>
                                 <th> Delete This </th>
+                                <th> here{state.insuranceList.enrolledIn}there </th>
                             </tr>
                         </thead>
                         <tbody>

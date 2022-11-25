@@ -6,15 +6,14 @@ import Form from 'react-bootstrap/Form';
 function Benefit(element, index, removeFormFields, handleChange) {
     return (
         <>
-
-            <Row>
-                <Col>
-                    <Form.Group className="mb-3" controlId="formCoverageName">
-                        <Form.Control
-                            type="text"
-                            placeholder="Coverage Name"
-                            defaultValue={element.coverageName || ""}
-                            onChange={e => handleChange(index, e)} />
+        <Row>
+            <Col>
+                <Form.Group className="mb-3" controlId="formCoverageName">
+                    <Form.Control
+                        type="text"
+                        placeholder="Coverage Name"
+                        defaultValue={element.coverageName || ""}
+                        onChange={e => handleChange(index, e)} />
                     </Form.Group>
                 </Col>
 
