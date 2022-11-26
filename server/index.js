@@ -1,10 +1,15 @@
-const express = require("express");
-const mongoose = require('mongoose');
-const cors = require('cors');
+import express from 'express'
+import mongoose from 'mongoose'
+import cors from 'cors'
+import User from "./models/User"
+import Insurance from "./models/Insurance"
+// const express = require("express");
+// const mongoose = require('mongoose');
+// const cors = require('cors');
 const app = express();
 const portNum = 3001
-const User = require("./models/User");
-const Insurance = require("./models/Insurance");
+// const User = require("./models/User");
+// const Insurance = require("./models/Insurance");
 
 app.use(express.json());
 app.use(cors());
@@ -35,7 +40,9 @@ app.post('/login', async(req, res) => {
                 console.log(username + " is a " +loginUser.role+ "!")
                 if(loginUser.role === "customer") {
                     var redir = { redirect: "login_customer_successfully" };
+                    console.log(redir)
                     return res.json(redir);
+                    // res.sendStatus(200)
                 }
                 else if(loginUser.role === "insurancecompany") {
                     var redir = { redirect: "login_company_successfully" };
@@ -332,3 +339,5 @@ app.post('/getUserInsurances', async(req, res) => {
 app.listen(portNum, () => {
     console.log("Yes, your port is running on port " +portNum);
 });
+
+export default app;

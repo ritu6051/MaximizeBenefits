@@ -1,4 +1,5 @@
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
+import mongoose from 'mongoose'
 
 const InsuranceSchema = new mongoose.Schema({
     insuranceName: { // Cigna
@@ -33,4 +34,5 @@ const InsuranceSchema = new mongoose.Schema({
 });
 
 const Insurance = mongoose.model("Insurance", InsuranceSchema);
-module.exports = Insurance;
+// module.exports = Insurance;
+export default Insurance;
