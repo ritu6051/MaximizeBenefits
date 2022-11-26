@@ -26,7 +26,7 @@ function LoginForm() {
             } else if (response.data.redirect === 'login_company_successfully') {
                 setPopUp1(false)
                 setPopUp2(false)
-                navigate("/FrontPage_Company")
+                navigate("/FrontPage_Company", {state: {username: username}});
             } else if (response.data.redirect === 'user_does_not_exist') {
                 setPopUp1(true)
                 setPopUp2(false)

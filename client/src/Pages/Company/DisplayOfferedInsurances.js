@@ -7,30 +7,20 @@ import Row from 'react-bootstrap/esm/Row'
 import NavBar from '../Common/NavBar';
 import Button from 'react-bootstrap/Button';
 
-function DisplayFilteredInsurances() {
+function DisplayOfferedInsurances() {
     const navigate = useNavigate();
     const{state} = useLocation();
+
     const [selectedInsuranceName, setSelectedInsuranceName] = useState('');
     const [selectedPlanName, setSelectedPlanName] = useState('');
     const [selectedYearlyCost, setSelectedYearlyCost] = useState('');
-    const [selectedCoverages, setSelectedCoverages] = useState([]);
+    const [offeredInsurancesList, setOfferedInsurancesList] = useState([]);
     
-    function enrollInThis(selectedInsuranceName, selectedInsuranceType, selectedPlanName, selectedYearlyCost, selectedCoverages) {
-        const plans = [{insuranceName: selectedInsuranceName, insuranceType: selectedInsuranceType, planName: selectedPlanName, yearlyCost: selectedYearlyCost, coverages: selectedCoverages}]
-
-        Axios.post("http://localhost:3001/addInsuranceToUser", {
-            username: state.username,
-            insuranceName: selectedInsuranceName,
-            insuranceType: selectedInsuranceType, 
-            planName: selectedPlanName,
-            yearlyCost: selectedYearlyCost,
-            coverages: selectedCoverages,
-            plans: plans
-        }).then((response) => {
-            if(response.data.redirect === "added_insurance_to_user") {
-                // navigate("/FrontPage_Customer", {state: {username: state.username}})
-            }
-        })
+    function editThis(val1, val2, coverages) {
+        console.log(val1.insuranceName)
+        console.log(val2.planName)
+        console.log(coverages[0].coverageName)
+        navigate('/EditBenefits', {state: {val1: val1, val2: val2, coverages: coverages, insuranceList: state.insuranceList, username: state.username}});
     }
 
     return (
@@ -42,7 +32,6 @@ function DisplayFilteredInsurances() {
             <Row>
             <Container>
                 <h1> List of Insurances </h1>
-                <h2> {state.username} </h2>
                 <br/>
 
                 <Table striped bordered hover>
@@ -52,8 +41,9 @@ function DisplayFilteredInsurances() {
                         <th> Insurance Type </th>
                         <th> Plan Name </th>
                         <th> Yearly Cost </th>
+                        <th> Age </th>
                         <th> Coverage Details </th>
-                        <th> Enroll In This </th>
+                        <th> Edit or Delete </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -61,13 +51,13 @@ function DisplayFilteredInsurances() {
                     return (
                     <>
                         { val1.plans.map((val2, key) => {
-                            if(Number(val2.yearlyCost) <= state.budget && Number(val2.age) >= state.maxAge) { 
-                                return (
+                            return (
                                     <tr>
                                         <td><b>{val1.insuranceName}</b></td>
                                         <td>{val1.insuranceType}</td>
                                         <td>{val2.planName}</td>
                                         <td>{"$"}{val2.yearlyCost}</td>
+                                        <td>{"$"}{val2.age}</td>
                                             
                                         <td>
                                             { val2.coverages.map((val3, key) => {
@@ -79,13 +69,17 @@ function DisplayFilteredInsurances() {
                                         </td>
                                         <td>
                                             <Button variant="primary" type="button" 
-                                                onClick={() => enrollInThis(val1.insuranceName, val1.insuranceType, val2.planName, val2.yearlyCost, val2.coverages)}>
-                                                Enroll
+                                                onClick={() => editThis(val1, val2, val2.coverages)}>
+                                                Edit
+                                            </Button>
+                                            {' '}
+                                            <Button variant="primary" type="button" 
+                                                onClick={() => deleteThis(val1, val2, val2.coverages)}>
+                                                Delete
                                             </Button>   
                                         </td>
                                     </tr>          
                                 );
-                            }
                         })
                         }
                     </>
@@ -100,4 +94,4 @@ function DisplayFilteredInsurances() {
     )
 }
 
-export default DisplayFilteredInsurances;
+export default DisplayOfferedInsurances;

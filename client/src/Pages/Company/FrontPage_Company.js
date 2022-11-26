@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import Axios from 'axios';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Container from 'react-bootstrap/esm/Container';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -11,20 +12,31 @@ function FrontPage_Company() {
     const navigate = useNavigate();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    
+    const{state} = useLocation();
+
     const logout = () => {
         setUsername("")
         setPassword("")
         navigate("/Login")
     }
     const addBenefits = () => {
-        navigate("/AddBenefits")
+        navigate('/AddBenefits', {state});
     }
     const updateCustomerBenefits = () => {
         navigate("/UpdateBenefits")
     }
     const deleteCustomer = () => {
         navigate("/DeleteCustomer")
+    }
+    const addOrEdit = () => {
+        Axios.post("http://localhost:3001/getOfferedInsurances", {
+            username: state.username,
+        })
+        .then((response) => {
+            console.log(state.username)
+            console.log(response.data)
+            navigate('/DisplayOfferedInsurances', {state: {insuranceList: response.data, username: state.username}});
+        })
     }
 
     return (
@@ -52,11 +64,11 @@ function FrontPage_Company() {
                         <br/>
                         <Col>
                             <br/>
-                            <Button variant="secondary" size="lg" type="button" class="btn btn-secondary btn-lg btn-block" onClick={addBenefits}> Add New Plans to an Existing Insurance </Button>
+                            <Button variant="secondary" size="lg" type="button" class="btn btn-secondary btn-lg btn-block" onClick={addOrEdit}> Edit / Remove Plans / Insurances </Button>
                         </Col>
                         <Col>
                             <br/>
-                            <Button variant="secondary" size="lg" type="button" class="btn btn-secondary btn-lg btn-block" onClick={addBenefits}> Edit/Remove an Existing Insurance </Button>
+                            <Button variant="secondary" size="lg" type="button" class="btn btn-secondary btn-lg btn-block" onClick={addBenefits}> Add More Plans to Existing Insurance </Button>
                         </Col>
                         <Col>
                             <br/>
@@ -64,7 +76,7 @@ function FrontPage_Company() {
                         </Col>
                         <Col>
                             <br/>
-                            <Button variant="secondary" size="lg" type="button" class="btn btn-secondary btn-lg btn-block" onClick={deleteCustomer}> Delete Customer Insurance</Button>
+                            <Button variant="secondary" size="lg" type="button" class="btn btn-secondary btn-lg btn-block" onClick={deleteCustomer}> Delete Insurance for Customer </Button>
                         </Col>
                     </div>
                             

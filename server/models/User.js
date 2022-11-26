@@ -17,29 +17,33 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    enrolledIn: {
-        type: Array,
-        required: false,
+    // enrolledIn: {
+    //     type: Array,
+    //     required: false,
 
         plans: { 
             insuranceName: { // Cigna
                 type: String,
-                required: true,
+                required: false,
+            },
+            insuranceType: { // Cigna
+                type: String,
+                required: false,
             },
             planName: { // Gold
                 type: String,
-                required: true,
+                required: false,
             },
             yearlyCost: { // 100/year
                 type: String,
-                required: true,
+                required: false,
             },
             coverages: {
                 type: Array,
-                required: true,
+                required: false,
             }
         }
-    }
+    // }
 });
 
 const User = mongoose.model("User", UserSchema);

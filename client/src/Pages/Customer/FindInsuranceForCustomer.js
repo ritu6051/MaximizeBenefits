@@ -49,7 +49,7 @@ function FindInsuranceForCustomer() {
                 <Container>
                     <Form>
 
-                    <h3> Please Enter Criteria</h3>
+                    <h3> Please Enter Criteria </h3>
                     <br/>
 
                     <Form.Group className="mb-3" controlId="formInsuranceType">

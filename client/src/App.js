@@ -18,6 +18,8 @@ import AddBenefits from './Pages/Company/AddBenefits'; //COMPANY
 import FindInsurance from './Pages/Customer/FindInsuranceForCustomer'; //CUSTOMER
 import DeleteMyInsurance from './Pages/Customer/DeleteMyInsurance'; //CUSTOMER
 import DeleteCustomer from'./Pages/Company/DeleteCustomer';
+import DisplayOfferedInsurances from'./Pages/Company/DisplayOfferedInsurances'; //COMPANY
+import EditBenefits from './Pages/Company/EditBenefits'; //COMPANY
 
 // ---- Dummy Routes ----
 import TestAddPlans from './Pages/DummyFiles/TestAddPlans';
@@ -48,6 +50,8 @@ function App() {
       <Route path="/DisplayFilteredInsurances" element={<DisplayFilteredInsurances/>} />
       <Route path="/DeleteMyInsurance" element={<DeleteMyInsurance/>} />
       <Route path="/DeleteCustomer" element={<DeleteCustomer/>} />
+      <Route path="/DisplayOfferedInsurances" element={<DisplayOfferedInsurances/>} />
+      <Route path="/EditBenefits" element={<EditBenefits/>} />
       
       <Route path="/TestDynamic" element={<TestDynamic/>} />
       <Route path="/TestAddPlans" element={<TestAddPlans/>} />

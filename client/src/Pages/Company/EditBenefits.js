@@ -9,23 +9,32 @@ import Form from 'react-bootstrap/Form';
 import NavBar from '../Common/NavBar';
 import Alert from 'react-bootstrap/Alert';
 
-function AddBenefits() {
+function EditBenefits() {
     const navigate = useNavigate();
+
+    const{state} = useLocation();
+    const[insuranceType, setInsuranceType] = useState(state.val1.insuranceType);
+    const[insuranceName, setInsuranceName] = useState(state.val1.insuranceName);
+    const[planName, setPlanName] = useState(state.val2.planName);
+    const[yearlyCost, setYearlyCost] = useState(state.val2.yearlyCost);
+    const[maxAge, setMaxAge] = useState(state.val2.age);
+    const [formValues, setFormValues] = useState(state.coverages)
 
     const[username, setUsername] = useState('');
     const[password, setPassword] = useState('');
-    const[insuranceType, setInsuranceType] = useState('');
-    const[insuranceName, setInsuranceName] = useState('');
-    const[planName, setPlanName] = useState('');
-    const[yearlyCost, setYearlyCost] = useState('');
-    const[maxAge, setMaxAge] = useState('');
-    const [formValues, setFormValues] = useState([{coverageName: "", coverageAmount : ""}])
+        
     const[popUp1, setPopUp1] = useState(false); // Insurance already exists, can't create another
-    const{state} = useLocation();
+    
+    // setFormValues(state.coverages)
+    // const [formValues, setFormValues] = useState([{coverageName: "", coverageAmount : ""}])
 
     const handleFormSubmit = (event) => {
+        console.log("Insurance Name = " +insuranceName)
+        console.log("Insurance Type = " +insuranceType)
+        console.log("Plan Name = " +planName)
+        console.log("Plan Name = " +yearlyCost)
         event.preventDefault();
-        Axios.post("http://localhost:3001/insertInsurancePlan", {  
+        Axios.post("http://localhost:3001/updateInsurancePlan", {  
             insuranceName: state.username,
             insuranceType: insuranceType,
             planName: planName,
@@ -38,9 +47,11 @@ function AddBenefits() {
             if (response.data.redirect === 'insurance_already_exists') {
                 setPopUp1(true)
                 // navigate("/Register")
-            } else if (response.data.redirect === 'new_insurance_added_successfully') {
-                console.log("new_insurance_added_successfully")
+            } else if (response.data.redirect === 'updated_company_insurance') {
+                console.log(response.data.redirect)
+                console.log(state.insuranceList)
                 navigate("/FrontPage_Company", {state})
+                // navigate('/DisplayOfferedInsurance', {state: {val1: val1, val2: val2, coverages: coverages, insuranceList: state.insuranceList, username: state.username}});
             }
         })
     }
@@ -48,6 +59,7 @@ function AddBenefits() {
     const handleInsuranceType = event =>{
         console.log(event.target.value);
         setInsuranceType(event.target.value);
+        console.log("Type = " +insuranceType)
     }
 
     const handleChange = (i, e) => {
@@ -60,6 +72,7 @@ function AddBenefits() {
     }
 
     const addFormFields = () => {
+        console.log(formValues)
         setFormValues([...formValues, { coverageName: "", coverageAmount: "" }])
     }
 
@@ -82,8 +95,6 @@ function AddBenefits() {
                 <NavBar></NavBar>
             </Row>
             <br/>
-
-            
 
             <Form onSubmit={handleFormSubmit}>
                 <div className="whiteBox"> 
@@ -108,7 +119,7 @@ function AddBenefits() {
                         <Form.Group className="mb-3" controlId="formInsuranceName">
                             <Form.Label> Insurance Type </Form.Label>
                             <Form.Select 
-                                value={insuranceType}
+                                defaultValue={state.val1.insuranceType}
                                 onChange={handleInsuranceType}>
                                 <option value=""> Select Insurance Type </option>
                                 <option value="Health" selected> Health </option>
@@ -117,9 +128,6 @@ function AddBenefits() {
                             </Form.Select>
                         </Form.Group>
                         </Col>
-                        
-                        
-                        
                     </Row>
                     <Row>
                         <Col>
@@ -127,7 +135,8 @@ function AddBenefits() {
                                 <Form.Label>Plan Name</Form.Label>
                                 <Form.Control
                                     type="text"
-                                    placeholder="Plan Name"
+                                    placeholder={state.val2.planName}
+                                    // value={state.val2.planName}
                                     onChange={(event) => {
                                         setPlanName(event.target.value);
                                     }} />
@@ -139,7 +148,8 @@ function AddBenefits() {
                                 <Form.Label>Yearly Cost</Form.Label>
                                 <Form.Control
                                     type="number"
-                                    placeholder="Yearly Cost"
+                                    placeholder={state.val2.yearlyCost}
+                                    // value={state.val2.yearlyCost}
                                     onChange={(event) => {
                                         setYearlyCost(event.target.value);
                                     }} />
@@ -151,7 +161,8 @@ function AddBenefits() {
                                 <Form.Label>Max Age</Form.Label>
                                 <Form.Control
                                     type="number"
-                                    placeholder="Max Age"
+                                    placeholder={state.val2.age}
+                                    // value={state.val2.age}
                                     onChange={(event) => {
                                         setMaxAge(event.target.value);
                                     }} />
@@ -171,6 +182,7 @@ function AddBenefits() {
                                 type = "text"
                                 name = "coverageName"
                                 placeholder = "Coverage Name"
+                                // value = {element.coverageName}
                                 defaultValue = {element.coverageName || ""}
                                 onChange = {e => handleChange(index, e)} />
                         </Form.Group>
@@ -181,6 +193,7 @@ function AddBenefits() {
                                 type = "number"
                                 name = "coverageAmount"
                                 placeholder = "Coverage Amount"
+                                // value = {element.coverageAmount}
                                 defaultValue = {element.coverageAmount || ""}
                                 onChange = {e => handleChange(index, e)} />
                         </Form.Group>
@@ -200,7 +213,7 @@ function AddBenefits() {
                 <div>
                 <Button variant="secondary" type="button" onClick={() => addFormFields()}>Add More Coverages</Button>
                 {' '}
-                <Button variant="primary" type="submit"> Add Plan </Button>
+                <Button variant="primary" type="submit"> Update Plan </Button>
                 </div>
                 </Row>
             </Form>
@@ -209,4 +222,4 @@ function AddBenefits() {
 
 }
 
-export default AddBenefits;
+export default EditBenefits;
