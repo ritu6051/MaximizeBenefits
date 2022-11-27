@@ -48,7 +48,7 @@ function DisplayFilteredInsurances() {
                 <Table striped bordered hover>
                 <thead>
                     <tr>
-                        <th> Insurance Name </th>
+                        <th> Company Name </th>
                         <th> Insurance Type </th>
                         <th> Plan Name </th>
                         <th> Yearly Cost </th>

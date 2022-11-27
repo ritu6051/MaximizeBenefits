@@ -1,8 +1,8 @@
 import express from 'express'
 import mongoose from 'mongoose'
 import cors from 'cors'
-import User from "./models/User"
-import Insurance from "./models/Insurance"
+import User from "./models/User.js"
+import Insurance from "./models/Insurance.js"
 // const express = require("express");
 // const mongoose = require('mongoose');
 // const cors = require('cors');
@@ -220,7 +220,7 @@ app.post('/deleteCustomer', async(req, res) => {
 app.post('/getOfferedInsurances', async(req, res) => { 
     try {
         const username = req.body.username
-        console.log("User = " +username)
+        // console.log("User = " +username)
 
         const user = await User.findOne({username: username});
         console.log(user.fullName)
@@ -236,6 +236,29 @@ app.post('/getOfferedInsurances', async(req, res) => {
         });
     } catch(err) {
         console.log(err);
+    }
+});
+
+app.post('/addAdditionalPlansToInsurance', async(req, res) => {
+    try {
+        const insuranceName = req.body.insuranceName
+        const planName = req.body.planName
+        const yearlyCost = req.body.yearlyCost
+        const age = req.body.maxAge
+        const coverages = req.body.coverageDetails
+
+        const plans = [{insuranceName: insuranceName, planName: planName, yearlyCost: yearlyCost, age: age, coverages: coverages}]
+        // console.log(coverages)
+        // Insurance.updateOne({insuranceName: insuranceName}, {$push: {plans: {insuranceName: insuranceName, insuranceType: insuranceType, planName: planName, yearlyCost: yearlyCost, coverages: coverages}}}, (err, result) => {
+        Insurance.updateOne({insuranceName: insuranceName}, {$push: {plans: {planName: planName, yearlyCost: yearlyCost, age: age, coverages: coverages}}}, (err, result) => {
+            if(err) {
+                res.send(err)
+            }
+            var redir = { redirect: "added_insurance_to_user" };
+            return res.json(redir);
+        })
+    } catch (err) {
+        console.log(err)
     }
 });
 

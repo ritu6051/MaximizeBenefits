@@ -20,7 +20,7 @@ function FrontPage_Company() {
         navigate("/Login")
     }
     const addBenefits = () => {
-        navigate('/AddBenefits', {state});
+        navigate('/AddMorePlans', {state});
     }
     const updateCustomerBenefits = () => {
         navigate("/UpdateBenefits")

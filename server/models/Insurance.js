@@ -11,8 +11,8 @@ const InsuranceSchema = new mongoose.Schema({
         required: true,
     },
     plans: { //Tiers
-        type: Array,
-        required: true,
+        // type: Array,
+        // required: true,
 
         planName: { // Gold
             type: String,

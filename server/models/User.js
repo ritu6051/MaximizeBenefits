@@ -22,28 +22,28 @@ const UserSchema = new mongoose.Schema({
     //     type: Array,
     //     required: false,
 
-        plans: { 
-            insuranceName: { // Cigna
-                type: String,
-                required: false,
-            },
-            insuranceType: { // Cigna
-                type: String,
-                required: false,
-            },
-            planName: { // Gold
-                type: String,
-                required: false,
-            },
-            yearlyCost: { // 100/year
-                type: String,
-                required: false,
-            },
-            coverages: {
-                type: Array,
-                required: false,
-            }
+    plans: {
+        insuranceName: { // Cigna
+            type: String,
+            required: false,
+        },
+        insuranceType: { // Cigna
+            type: String,
+            required: false,
+        },
+        planName: { // Gold
+            type: String,
+            required: false,
+        },
+        yearlyCost: { // 100/year
+            type: String,
+            required: false,
+        },
+        coverages: {
+            type: Array,
+            required: false,
         }
+    }
     // }
 });
 
