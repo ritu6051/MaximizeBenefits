@@ -22,7 +22,7 @@ const UserSchema = new mongoose.Schema({
     //     type: Array,
     //     required: false,
 
-    plans: {
+    enrolledIn: {
         insuranceName: { // Cigna
             type: String,
             required: false,

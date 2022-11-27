@@ -262,6 +262,24 @@ app.post('/addAdditionalPlansToInsurance', async(req, res) => {
     }
 });
 
+app.post('/deleteOfferedInsurance', async(req, res) => {
+    const username = req.body.username
+    const planName = req.body.planName
+
+    const user = await User.findOne({username: username});
+    console.log(user.fullName)
+
+    Insurance.updateOne(
+        {insuranceName: user.fullName},
+        {$pull: {plans: {planName: planName}}}, (err, result) => {
+        if(err) {
+            res.send(err)
+        }
+        res.send(result)
+    })
+    
+});
+
 // ------------------------------------------------------------- CUSTOMER ------------------------------------------------------------- 
 
 // DeleteMyInsurance.js
@@ -275,7 +293,8 @@ app.post('/deleteMyInsurance', async(req, res) => {
         if(err) {
             res.send(err)
         }
-        res.send(result)
+        var redir = { redirect: "successfully_deleted_insurance_by_customer" };
+        return res.json(redir);
     })
     
 });
@@ -297,7 +316,7 @@ app.post('/addInsuranceToUser', async(req, res) => {
         // const user = await User.findOne({username: insuranceName})
         
         console.log("Here " +plans[0].insuranceName)
-        User.updateOne({username: username}, {$push: {plans: {insuranceName: insuranceName, insuranceType: insuranceType, planName: planName, yearlyCost: yearlyCost, coverages: coverages}}}, (err, result) => {
+        User.updateOne({username: username}, {$push: {enrolledIn: {insuranceName: insuranceName, insuranceType: insuranceType, planName: planName, yearlyCost: yearlyCost, coverages: coverages}}}, (err, result) => {
             if(err) {
                 res.send(err)
             }

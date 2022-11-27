@@ -11,16 +11,30 @@ function DisplayOfferedInsurances() {
     const navigate = useNavigate();
     const{state} = useLocation();
 
+    const [username, setUsername] = useState('');
+    
     const [selectedInsuranceName, setSelectedInsuranceName] = useState('');
     const [selectedPlanName, setSelectedPlanName] = useState('');
     const [selectedYearlyCost, setSelectedYearlyCost] = useState('');
     const [offeredInsurancesList, setOfferedInsurancesList] = useState([]);
+    
     
     function editThis(val1, val2, coverages) {
         console.log(val1.insuranceName)
         console.log(val2.planName)
         console.log(coverages[0].coverageName)
         navigate('/EditBenefits', {state: {val1: val1, val2: val2, coverages: coverages, insuranceList: state.insuranceList, username: state.username}});
+    }
+
+    function deleteThis(username, val1, val2, coverages) {
+        console.log(username)
+        Axios.post("http://localhost:3001/deleteOfferedInsurance", {  
+            username: username,
+            planName: val2.planName,
+        })
+        .then(function(response) {
+            navigate("/FrontPage_Company", {state: {username: state.username}})
+        })
     }
 
     return (
@@ -31,7 +45,7 @@ function DisplayOfferedInsurances() {
             <br/>
             <Row>
             <Container>
-                <h1> List of Insurances </h1>
+                <h1> List of Insurances {state.username}</h1>
                 <br/>
 
                 <Table striped bordered hover>
@@ -74,7 +88,7 @@ function DisplayOfferedInsurances() {
                                             </Button>
                                             {' '}
                                             <Button variant="primary" type="button" 
-                                                onClick={() => deleteThis(val1, val2, val2.coverages)}>
+                                                onClick={() => deleteThis(state.username, val1, val2, val2.coverages)}>
                                                 Delete
                                             </Button>   
                                         </td>

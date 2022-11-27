@@ -22,8 +22,9 @@ function DeleteMyInsurance(){
             username: state.username,
             insuranceName: insuranceName
         }).then((response) => {
-            if(response.data.redirect === "added_insurance_to_user") {
-                navigate("/FrontPage_Customer", {state});
+            if(response.data.redirect === "successfully_deleted_insurance_by_customer") {
+                console.log(response.data.redirect)
+                navigate("/FrontPage_Customer", {state: {insuranceList: state.insuranceList, username: state.username}});
             }
         })
     }
