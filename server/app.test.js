@@ -101,7 +101,7 @@ describe("POST /register", () => {
 
 describe("POST/insertInsurancePlan", () => {
     describe("given an insurance name, insurance type, plan name, yearly cost, max age and coverage details that include the coverage name and amount", () => {
-        test("insurance company already exists", async() => {
+        test("insurance already exists", async() => {
             await request(app).post("/insertInsurancePlan").send({
                 insuranceName: "AAA",
                 insuranceType: "Auto",
