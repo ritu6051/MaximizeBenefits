@@ -44,7 +44,7 @@ describe("POST/login", () => {
     })
 })
 
-describe("POST /register", () => {
+describe("POST/register", () => {
     describe("given a fullName, username, password, password again, role", () => {
 
         test("username already exists", async() => {
@@ -264,7 +264,7 @@ describe("POST/getUserInsurances", () => {
             await request(app).post("/getUserInsurances").send({
                 username: "prachitiatigre"
             }).then(function (response) {
-                expect(response.text).toBe("{\"enrolledIn\":[{\"insuranceName\":\"American Cross\",\"insuranceType\":\"Health\",\"planName\":\"Gold\",\"yearlyCost\":\"2000\",\"coverages\":[{\"coverageName\":\"Physical\",\"coverageAmount\":\"100\"}]},{\"insuranceName\":\"American Cross\",\"insuranceType\":\"Health\",\"planName\":\"Gold\",\"yearlyCost\":\"2000\",\"coverages\":[{\"coverageName\":\"Physical\",\"coverageAmount\":\"100\"}]}],\"_id\":\"63699c0cef98ffed67dacf43\",\"fullName\":\"Prachiti Atigre\",\"username\":\"prachitiatigre\",\"password\":\"123\",\"role\":\"customer\",\"__v\":0}")
+                expect(response.text).toBe("{\"enrolledIn\":[{\"insuranceName\":\"American Cross\",\"insuranceType\":\"Health\",\"planName\":\"Gold\",\"yearlyCost\":\"2000\",\"coverages\":[{\"coverageName\":\"Physical\",\"coverageAmount\":\"100\"}]}")
             })
         })
     })
