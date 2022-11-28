@@ -1,4 +1,3 @@
-import { json } from 'express'
 import request from 'supertest'
 import app from './index.js'
 
@@ -150,7 +149,6 @@ describe("POST/updateInsurancePlan", () => {
     })
 })
 
-// ------------ HAVEN'T CHECKED YET ------------
 // describe("POST/deleteCustomer", () => {
 //     test("customer was successfully deleted", async() => {
 //         await request(app).post("/deleteCustomer").send({

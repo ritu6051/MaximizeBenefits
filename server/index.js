@@ -305,6 +305,8 @@ app.post('/addInsuranceToUser', async(req, res) => {
         
         // console.log("Here " +plans[0].insuranceName)
         
+        // const checkUser = await User.findOne({username: username})
+        
         User.updateOne(
             {username: username}, 
             {$push: {enrolledIn: {insuranceName: insuranceName, insuranceType: insuranceType, planName: planName, yearlyCost: yearlyCost, coverages: coverages}}}, 
