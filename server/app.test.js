@@ -116,7 +116,7 @@ describe("POST/insertInsurancePlan", () => {
         })
 
         // -------------- WORKS --------------
-        // test("insurance company already exists", async() => {
+        // test("new insurance added successfully", async() => {
         //     await request(app).post("/updateInsurancePlan").send({
         //         insuranceName: "Health For All",
         //         insuranceType: "Health",
