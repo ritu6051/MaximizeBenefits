@@ -1,0 +1,23 @@
+{
+    "req":{
+        "method":"POST",
+        "url":"http://127.0.0.1:62056/getOfferedInsurances",
+        "data": {
+            "username":"AAA"
+        },
+        "headers":{
+            "content-type":"application/json"
+        }
+    },
+    "header":{
+        "x-powered-by":"Express",
+        "access-control-allow-origin":"*",
+        "content-type":"application/json; charset=utf-8",
+        "content-length":"282",
+        "etag":"W/\"11a-Jffi10y52UpfaTLlFzhWQkzHt1E\"",
+        "date":"Mon, 28 Nov 2022 19:20:27 GMT",
+        "connection":"close"
+    },
+    "status":200,
+    "text":"[{\"plans\":[{\"planName\":\"Premium\",\"yearlyCost\":\"5000\",\"age\":\"100\",\"coverages\":[{\"coverageName\":\"Tires Replacement\",\"coverageAmount\":\"1000\"},{\"coverageName\":\"Servicing\",\"coverageAmount\":\"2000\"}]}],\"_id\":\"637fc80468dc4f7ded025891\",\"insuranceName\":\"AAA\",\"insuranceType\":\"Auto\",\"__v\":0}]"
+}

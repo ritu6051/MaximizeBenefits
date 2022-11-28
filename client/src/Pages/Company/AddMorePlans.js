@@ -36,7 +36,7 @@ function AddBenefits() {
     const handleFormSubmit = (event) => {
         event.preventDefault();
         Axios.post("http://localhost:3001/addAdditionalPlansToInsurance", {  
-            insuranceName: state.username,
+            username: state.username,
             planName: planName,
             yearlyCost: yearlyCost,
             maxAge: maxAge,

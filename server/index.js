@@ -14,8 +14,6 @@ const portNum = 3001
 app.use(express.json());
 app.use(cors());
 
-const insuranceType1 = ""
-
 mongoose.connect(
     'mongodb+srv://cs431-thepurs:thepurs123@cluster0.u8zkruf.mongodb.net/MaximizeBenefits?retryWrites=true&w=majority', 
     { useNewUrlParser: true, }
@@ -42,7 +40,6 @@ app.post('/login', async(req, res) => {
                     var redir = { redirect: "login_customer_successfully" };
                     console.log(redir)
                     return res.json(redir);
-                    // res.sendStatus(200)
                 }
                 else if(loginUser.role === "insurancecompany") {
                     var redir = { redirect: "login_company_successfully" };
@@ -84,19 +81,11 @@ app.post('/register', async(req, res) => {
         } 
         else { 
             console.log("Username does not exist, can create account")
-            const enrolledIn = [{insuranceName: "", planName: ""}]
             const newUser = new User ({
                 fullName: fullName, 
                 username: username, 
                 password: password,
                 role: role,
-                // enrolledIn: {
-                //     insuranceName: " ",
-                //     plans: { 
-                //         planName: " ",
-                //         yearlyCost: " "
-                //     }
-                // }
             });
             
             console.log(newUser.username + " is a " +newUser.role+ "!")
@@ -135,18 +124,18 @@ app.post('/insertInsurancePlan', async(req, res) => {
         const yearlyCost = req.body.yearlyCost
         const maxAge = req.body.maxAge
         const coverageDetails = req.body.coverageDetails
-        console.log("Insurance Name = " +insuranceName)
 
         const plans = [{planName: planName, yearlyCost: yearlyCost, age: maxAge, coverages: coverageDetails}]
-        const insurance = await Insurance.findOne({insuranceName: insuranceName});
         
         const user = await User.findOne({username: insuranceName})
-        
+        const insurance = await Insurance.findOne({insuranceName: user.fullName});
+
         if(insurance) {
             console.log("This insurance already exixts")
-            var redir = { redirect: "insurance_already_exists" };
+            var redir = { redirect: "insurance_already_exists" , insuranceType: insuranceType};
             return res.json(redir);
         } else {
+            console.log("New insurance added successfully")
             const newInsurance = new Insurance ({
                 insuranceName: user.fullName,
                 insuranceType: insuranceType,
@@ -169,25 +158,24 @@ app.post('/updateInsurancePlan', async(req, res) => {
         const yearlyCost = req.body.yearlyCost
         const maxAge = req.body.maxAge
         const coverageDetails = req.body.coverageDetails
-        console.log("Insurance Name = " +insuranceName)
-        console.log("Insurance Type = " +insuranceType)
-        console.log("Plan Name = " +planName)
-        console.log("Yearly Cost = " +yearlyCost)
-        console.log("Age = " +maxAge)
 
         const plans = [{planName: planName, yearlyCost: yearlyCost, age: maxAge, coverages: coverageDetails}]
         
         const user = await User.findOne({username: insuranceName})
-        const insurance = await Insurance.findOne({insuranceName: user.fullName});
         console.log(user)
 
-        Insurance.updateOne({insuranceName: user.fullName}, {$set:{insuranceType: insuranceType, plans: plans}}, (err, result) => {
-            if(err) {
-                res.send(err)
+        Insurance.updateOne(
+            {insuranceName: user.fullName}, 
+            {$set:{insuranceType: insuranceType, plans: plans}}, 
+            (err, result) => {
+                if(err) {
+                    res.send(err)
+                }
+                console.log("Insurance plan successfully updated")
+                var redir = { redirect: "updated_company_insurance" };
+                return res.json(redir);
             }
-            var redir = { redirect: "updated_company_insurance" };
-            return res.json(redir);
-        })
+        )
     } catch (err) {
         res.send(err)
     }
@@ -203,35 +191,34 @@ app.post('/deleteCustomer', async(req, res) => {
         const yearlyCost =  req.body.yearlyCost
         const plans = [{insuranceName: insuranceName, insuranceType: insuranceType, planName: planName, yearlyCost: yearlyCost}]
         
-        // User.updateOne({username: username}, {$set:{enrolledIn: plans}}, (err, result) => {
-
-        User.updateOne({username: username}, {$set:{plans: plans}}, (err, result) => {
-        
-            if(err) {
-                res.send(err)
+        User.updateOne(
+            {username: username}, 
+            {$set:{plans: plans}}, 
+            (err, result) => {
+                if(err) {
+                    res.send(err)
+                }
+                res.send(result)
             }
-            res.send(result)
-        })
-
+        )
     } catch (err) {
+        console.log(err)
     }
 });
 
 app.post('/getOfferedInsurances', async(req, res) => { 
     try {
         const username = req.body.username
-        // console.log("User = " +username)
-
         const user = await User.findOne({username: username});
-        console.log(user.fullName)
-
+        
         Insurance.find({insuranceName: user.fullName}, (err, result) => {
             if(err) {
                 console.log(err)
                 res.send(err)
             }
             else {
-                res.send(result)  
+                console.log(result[0].insuranceName)
+                res.send(result)
             }
         });
     } catch(err) {
@@ -241,22 +228,25 @@ app.post('/getOfferedInsurances', async(req, res) => {
 
 app.post('/addAdditionalPlansToInsurance', async(req, res) => {
     try {
-        const insuranceName = req.body.insuranceName
+        const username = req.body.username
         const planName = req.body.planName
         const yearlyCost = req.body.yearlyCost
         const age = req.body.maxAge
         const coverages = req.body.coverageDetails
 
-        const plans = [{insuranceName: insuranceName, planName: planName, yearlyCost: yearlyCost, age: age, coverages: coverages}]
-        // console.log(coverages)
-        // Insurance.updateOne({insuranceName: insuranceName}, {$push: {plans: {insuranceName: insuranceName, insuranceType: insuranceType, planName: planName, yearlyCost: yearlyCost, coverages: coverages}}}, (err, result) => {
-        Insurance.updateOne({insuranceName: insuranceName}, {$push: {plans: {planName: planName, yearlyCost: yearlyCost, age: age, coverages: coverages}}}, (err, result) => {
-            if(err) {
-                res.send(err)
+        const user = await User.findOne({username: username});
+        
+        Insurance.updateOne(
+            {insuranceName: user.fullName}, 
+            {$push: {plans: {planName: planName, yearlyCost: yearlyCost, age: age, coverages: coverages}}}, 
+            (err, result) => {
+                if(err) {
+                    res.send(err)
+                }
+                var redir = { redirect: "added_additional_plan_to_insurance" };
+                return res.json(redir);
             }
-            var redir = { redirect: "added_insurance_to_user" };
-            return res.json(redir);
-        })
+        )
     } catch (err) {
         console.log(err)
     }
@@ -267,17 +257,18 @@ app.post('/deleteOfferedInsurance', async(req, res) => {
     const planName = req.body.planName
 
     const user = await User.findOne({username: username});
-    console.log(user.fullName)
 
     Insurance.updateOne(
         {insuranceName: user.fullName},
-        {$pull: {plans: {planName: planName}}}, (err, result) => {
-        if(err) {
-            res.send(err)
+        {$pull: {plans: {planName: planName}}}, 
+        (err, result) => {
+            if(err) {
+                res.send(err)
+            }
+            var redir = { redirect: "deleted_offered_insurance" };
+            return res.json(redir);
         }
-        res.send(result)
-    })
-    
+    )
 });
 
 // ------------------------------------------------------------- CUSTOMER ------------------------------------------------------------- 
@@ -289,14 +280,15 @@ app.post('/deleteMyInsurance', async(req, res) => {
 
     User.updateOne(
         {username: username},
-        {$pull: {enrolledIn: {insuranceName: insuranceName}}}, (err, result) => {
-        if(err) {
-            res.send(err)
+        {$pull: {enrolledIn: {insuranceName: insuranceName}}}, 
+        (err, result) => {
+            if(err) {
+                res.send(err)
+            }
+            var redir = { redirect: "successfully_deleted_insurance_by_customer" };
+            return res.json(redir);
         }
-        var redir = { redirect: "successfully_deleted_insurance_by_customer" };
-        return res.json(redir);
-    })
-    
+    )
 });
 
 // DisplayFilteredInsurances.js
@@ -308,21 +300,22 @@ app.post('/addInsuranceToUser', async(req, res) => {
         const planName = req.body.planName
         const yearlyCost = req.body.yearlyCost
         const coverages = req.body.coverages
-        // const plans = req.body.plans
         
         const plans = [{insuranceName: insuranceName, planName: planName, yearlyCost: yearlyCost, coverages: coverages}]
         
-        // const insurance = await Insurance.findOne({insuranceName: insuranceName});
-        // const user = await User.findOne({username: insuranceName})
+        // console.log("Here " +plans[0].insuranceName)
         
-        console.log("Here " +plans[0].insuranceName)
-        User.updateOne({username: username}, {$push: {enrolledIn: {insuranceName: insuranceName, insuranceType: insuranceType, planName: planName, yearlyCost: yearlyCost, coverages: coverages}}}, (err, result) => {
-            if(err) {
-                res.send(err)
+        User.updateOne(
+            {username: username}, 
+            {$push: {enrolledIn: {insuranceName: insuranceName, insuranceType: insuranceType, planName: planName, yearlyCost: yearlyCost, coverages: coverages}}}, 
+            (err, result) => {
+                if(err) {
+                    res.send(err)
+                }
+                var redir = { redirect: "added_insurance_to_user" };
+                return res.json(redir);
             }
-            var redir = { redirect: "added_insurance_to_user" };
-            return res.json(redir);
-        })
+        )
     } catch (err) {
         console.log(err)
     }
@@ -346,9 +339,7 @@ app.get('/getAvailableInsuranceTypes', async(req, res) => {
 app.post('/testFilter', async(req, res) => {
     try {
         const insuranceType = req.body.insuranceType
-        const budget = req.body.budget
-        const maxAge = req.body.maxAge
-        // Insurance.find({insuranceType: insuranceType}, {plans: {$elemMatch: {yearlyCost: {$lte:budget}}}}, (err, result) => {
+        
         Insurance.find({insuranceType: insuranceType}, (err, result) => {
             if(err) {
                 console.log(err)

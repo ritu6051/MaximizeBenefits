@@ -20,6 +20,9 @@ function FrontPage_Company() {
         navigate("/Login")
     }
     const addBenefits = () => {
+        navigate('/AddBenefits', {state});
+    }
+    const addMorePlans = () => {
         navigate('/AddMorePlans', {state});
     }
     const updateCustomerBenefits = () => {
@@ -68,7 +71,7 @@ function FrontPage_Company() {
                         </Col>
                         <Col>
                             <br/>
-                            <Button variant="secondary" size="lg" type="button" class="btn btn-secondary btn-lg btn-block" onClick={addBenefits}> Add More Plans to Existing Insurance </Button>
+                            <Button variant="secondary" size="lg" type="button" class="btn btn-secondary btn-lg btn-block" onClick={addMorePlans}> Add More Plans to Existing Insurance </Button>
                         </Col>
                         <Col>
                             <br/>

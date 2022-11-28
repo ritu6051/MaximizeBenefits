@@ -11,14 +11,6 @@ function DisplayOfferedInsurances() {
     const navigate = useNavigate();
     const{state} = useLocation();
 
-    const [username, setUsername] = useState('');
-    
-    const [selectedInsuranceName, setSelectedInsuranceName] = useState('');
-    const [selectedPlanName, setSelectedPlanName] = useState('');
-    const [selectedYearlyCost, setSelectedYearlyCost] = useState('');
-    const [offeredInsurancesList, setOfferedInsurancesList] = useState([]);
-    
-    
     function editThis(val1, val2, coverages) {
         console.log(val1.insuranceName)
         console.log(val2.planName)

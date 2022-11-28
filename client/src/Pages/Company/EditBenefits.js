@@ -20,6 +20,8 @@ function EditBenefits() {
     const[maxAge, setMaxAge] = useState(state.val2.age);
     const [formValues, setFormValues] = useState(state.coverages)
 
+    const [originalPlanName, setOriginalPlanName] = useState(state.val2.planName)
+
     const[username, setUsername] = useState('');
     const[password, setPassword] = useState('');
         
@@ -41,6 +43,7 @@ function EditBenefits() {
             yearlyCost: yearlyCost,
             maxAge: maxAge,
             coverageDetails: formValues,
+            originalPlanName: originalPlanName
         })
         .then(function(response) {
             console.log("Redirect msg inside AddBenefits.js = " +response.data.redirect)

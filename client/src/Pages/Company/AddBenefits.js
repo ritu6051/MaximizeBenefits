@@ -23,6 +23,8 @@ function AddBenefits() {
     const[popUp1, setPopUp1] = useState(false); // Insurance already exists, can't create another
     const{state} = useLocation();
 
+    const[alreadyExistsType, setAlreadyExistsType] = useState('');
+
     const handleFormSubmit = (event) => {
         event.preventDefault();
         Axios.post("http://localhost:3001/insertInsurancePlan", {  
@@ -36,6 +38,7 @@ function AddBenefits() {
         .then(function(response) {
             console.log("Redirect msg inside AddBenefits.js = " +response.data.redirect)
             if (response.data.redirect === 'insurance_already_exists') {
+                setAlreadyExistsType(response.data.insuranceType)
                 setPopUp1(true)
                 // navigate("/Register")
             } else if (response.data.redirect === 'new_insurance_added_successfully') {
@@ -204,6 +207,11 @@ function AddBenefits() {
                 </div>
                 </Row>
             </Form>
+            {popUp1 && (
+                <Alert variant="danger">
+                    <p> An insurance of type {alreadyExistsType} already exists. Please go to the Add More Plans tab!  </p>
+                </Alert>
+            )}
         </Container>
     );
 
