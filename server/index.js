@@ -136,6 +136,9 @@ app.post('/insertInsurancePlan', async(req, res) => {
             return res.json(redir);
         } else {
             console.log("New insurance added successfully")
+            console.log(insuranceName)
+            console.log(insuranceType)
+            console.log(JSON.stringify(plans))
             const newInsurance = new Insurance ({
                 insuranceName: user.fullName,
                 insuranceType: insuranceType,
@@ -217,7 +220,6 @@ app.post('/getOfferedInsurances', async(req, res) => {
                 res.send(err)
             }
             else {
-                console.log(result[0].insuranceName)
                 res.send(result)
             }
         });
