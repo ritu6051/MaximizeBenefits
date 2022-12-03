@@ -1,21 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route} from "react-router-dom";
 import './App.css';
-// import Axios from 'axios';
-// import Navbar from "./components/navbar.component"
-// import createUserR from "./components/create-user.component";
-// import AddInsurance from './Pages/AddInsurance';
-// import UpdateBenefits from './Pages/UpdateBenefits';
-// import DeleteCustomer from './Pages/DeleteCustomer';
 
 // ---- Organized Routes ----
+
+// Both Roles
 import Login from './Pages/BothRoles/Login';
 import Register from './Pages/BothRoles/Register';
-import FrontPage_Company from './Pages/Company/FrontPage_Company';
-import FrontPage_Customer from './Pages/Customer/FrontPage_Customer';
 
+// Customer
+import FrontPage_Customer from './Pages/Customer/FrontPage_Customer';
+import FindInsurance from './Pages/Customer/FindInsuranceForCustomer';
+
+import FrontPage_Company from './Pages/Company/FrontPage_Company';
 import AddBenefits from './Pages/Company/AddBenefits'; //COMPANY
-import FindInsurance from './Pages/Customer/FindInsuranceForCustomer'; //CUSTOMER
 import DeleteMyInsurance from './Pages/Customer/DeleteMyInsurance'; //CUSTOMER
 import DeleteCustomer from'./Pages/Company/DeleteCustomer';
 import DisplayOfferedInsurances from'./Pages/Company/DisplayOfferedInsurances'; //COMPANY
@@ -40,14 +38,19 @@ function App() {
   return (
     <div className='app'>
     <Routes>
+
+      {/* Both Roles */}
       <Route path="/" exact element={<Register/>} />
       <Route path="/Login" element={<Login/>} />
       <Route path="/Register" element={<Register/>} />        
-      <Route path="/FrontPage_Company" element={<FrontPage_Company/>} />
+
+      {/* Customer */}
       <Route path="/FrontPage_Customer" element={<FrontPage_Customer/>} />
-      
-      <Route path="/AddBenefits" element={<AddBenefits/>} />
       <Route path="/FindInsurance" element={<FindInsurance/>} />
+
+      
+      <Route path="/FrontPage_Company" element={<FrontPage_Company/>} />
+      <Route path="/AddBenefits" element={<AddBenefits/>} />
       <Route path="/DisplayFilteredInsurances" element={<DisplayFilteredInsurances/>} />
       <Route path="/DeleteMyInsurance" element={<DeleteMyInsurance/>} />
       <Route path="/DeleteCustomer" element={<DeleteCustomer/>} />

@@ -8,21 +8,20 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
 function FindInsuranceForCustomer() {
-    const navigate = useNavigate();
-    const[insuranceTypeList, setInsuranceTypeList] = useState([]);
-
-    const[insuranceType, setInsuranceType] = useState('');
-    const[budget, setBudget] = useState('');
-    const[maxAge, setMaxAge] = useState('');
-    const{state} = useLocation();
     
-    // Getting the insurance types available from the database
+    const navigate = useNavigate();
+    const [insuranceTypeList, setInsuranceTypeList] = useState([]);
+    const [insuranceType, setInsuranceType] = useState('');
+    const [budget, setBudget] = useState('');
+    const [maxAge, setMaxAge] = useState('');
+    const {state} = useLocation();
+    
     Axios.get("http://localhost:3001/getAvailableInsuranceTypes").then((response) => {
         setInsuranceTypeList(response.data)
     })
 
     const findInsurances = () => {
-        Axios.post("http://localhost:3001/testFilter", {
+        Axios.post("http://localhost:3001/getInsurancesThatFitUserCriteria", {
             insuranceType: insuranceType,
             budget: budget,
             maxAge: maxAge
@@ -32,8 +31,7 @@ function FindInsuranceForCustomer() {
         })
     }
 
-    const handleInsuranceType = event => {
-        console.log("Insurance type inside FindInsurance = " +event.target.value);
+    const handleInsuranceType = (event) => {
         setInsuranceType(event.target.value);
     }
 
@@ -42,16 +40,14 @@ function FindInsuranceForCustomer() {
             <Row>
                 <NavBar></NavBar>
             </Row>
-
             <br/>
-
             <Row>
                 <Container>
                     <Form>
 
                     <h3> Please Enter Criteria </h3>
                     <br/>
-
+                    
                     <Form.Group className="mb-3" controlId="formInsuranceType">
                     <Form.Label>Insurance Type</Form.Label>
                     <Form.Select
@@ -86,10 +82,11 @@ function FindInsuranceForCustomer() {
                             setMaxAge(event.target.value);
                         }} />
                     </Form.Group>
-
                     <br/>
 
-                    <Button variant="primary" type="button" onClick={findInsurances}>Search</Button>
+                    <Button variant="primary" type="button" onClick={findInsurances}>
+                        Search
+                    </Button>
                     </Form>
                 </Container>
             </Row>

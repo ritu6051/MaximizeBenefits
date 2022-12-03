@@ -9,15 +9,10 @@ import Button from 'react-bootstrap/Button';
 
 function DisplayFilteredInsurances() {
     const navigate = useNavigate();
-    const{state} = useLocation();
-    const [selectedInsuranceName, setSelectedInsuranceName] = useState('');
-    const [selectedPlanName, setSelectedPlanName] = useState('');
-    const [selectedYearlyCost, setSelectedYearlyCost] = useState('');
-    const [selectedCoverages, setSelectedCoverages] = useState([]);
-    
-    function enrollInThis(selectedInsuranceName, selectedInsuranceType, selectedPlanName, selectedYearlyCost, selectedCoverages) {
-        const plans = [{insuranceName: selectedInsuranceName, insuranceType: selectedInsuranceType, planName: selectedPlanName, yearlyCost: selectedYearlyCost, coverages: selectedCoverages}]
+    const {state} = useLocation();
 
+    const enrollInThis = (selectedInsuranceName, selectedInsuranceType, selectedPlanName, selectedYearlyCost, selectedCoverages) => {
+        
         Axios.post("http://localhost:3001/addInsuranceToUser", {
             username: state.username,
             insuranceName: selectedInsuranceName,
@@ -25,10 +20,9 @@ function DisplayFilteredInsurances() {
             planName: selectedPlanName,
             yearlyCost: selectedYearlyCost,
             coverages: selectedCoverages,
-            plans: plans
         }).then((response) => {
             if(response.data.redirect === "added_insurance_to_user") {
-                // navigate("/FrontPage_Customer", {state: {username: state.username}})
+                navigate("/FrontPage_Customer", {state: {username: state.username}})
             }
         })
     }

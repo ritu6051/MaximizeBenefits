@@ -6,21 +6,14 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import NavBar from '../Common/NavBar';
 import Row from 'react-bootstrap/esm/Row';
-import Col from 'react-bootstrap/esm/Col';
 
 function FrontPage_Customer() {
-    const navigate = useNavigate();
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const{state} = useLocation();
     
-    const logout = () => {
-        setUsername("")
-        setPassword("")
-        navigate("/Login")
-    }
-    const find = () => {
-        navigate('/FindInsurance', {state});
+    const navigate = useNavigate();
+    const {state} = useLocation();
+    
+    const findInsurance = () => {
+        navigate('/FindInsurance', {state: {username: state.username}});
     }
 
     const deleteMyInsurance = () => {
@@ -28,7 +21,6 @@ function FrontPage_Customer() {
             username: state.username
         })
         .then((response) => {
-            console.log(response.data)
             navigate('/DeleteMyInsurance', {state: {insuranceList: response.data, username: state.username}});
         })
     }
@@ -38,37 +30,31 @@ function FrontPage_Customer() {
             <Row>
                 <NavBar></NavBar>
             </Row>
-            
             <br/>
-
             <Row>
                 <Container>
                     <Form>
                         <div class="col-md-12 text-center">
                         <br/>
-                            <h3><b>Welcome!</b></h3>
-                            {/* <h5>It appears that you don't have insurance!</h5> */}
-                            {/* <h5>Would you like to enroll into an Insurance?</h5> */}
-
+                            <h3><b>Welcome {state.username}!</b></h3>
                             <h5>What would you like to do? </h5>
                         </div>
-
                         <br/>
                         <br/>
-
                         <div class="col-md-12 text-center">  
-                            <Button variant="secondary" size="lg" type="button" class="btn btn-secondary btn-lg btn-block" onClick={find}> Find an Insurance for Me  </Button>
-
+                            <Button variant="secondary" size="lg" type="button" class="btn btn-secondary btn-lg btn-block" onClick={findInsurance}> 
+                                Find an Insurance for Me  
+                            </Button>
                             <br/>
                             <br/>
-
-                            <Button variant="secondary" size="lg" type="button" class="btn btn-secondary btn-lg btn-block" onClick={deleteMyInsurance}> Delete My Insurance  </Button>
+                            <Button variant="secondary" size="lg" type="button" class="btn btn-secondary btn-lg btn-block" onClick={deleteMyInsurance}> 
+                                View/Edit/Delete My Insurance
+                            </Button>
                         </div>    
                     </Form>
                 </Container>
             </Row>
         </Container>
-
     )
 }
 

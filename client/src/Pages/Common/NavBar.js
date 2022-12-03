@@ -54,4 +54,3 @@ function NavBar() {
 }
 
 export default NavBar;
-{/* <Nav.Link href="#features">Register</Nav.Link> */}

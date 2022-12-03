@@ -10,13 +10,8 @@ import Table from 'react-bootstrap/esm/Table';
 
 function DeleteMyInsurance(){
     const navigate = useNavigate();
-    const{state} = useLocation();
-    const[insuranceName, setInsuranceName] = useState('');
-    const[planName, setPlanName] = useState('');
-    const[yearlyCost, setYearlyCost] = useState('');
-    const[insuranceList, setInsuranceList] = useState([]);
-
-
+    const {state} = useLocation();
+    
     function deleteThis(insuranceName) {
         Axios.post("http://localhost:3001/deleteMyInsurance", {
             username: state.username,

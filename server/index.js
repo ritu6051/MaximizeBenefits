@@ -19,9 +19,14 @@ mongoose.connect(
     { useNewUrlParser: true, }
 );
 
-// ------------------------------------------------------------- BOTH ROLES ------------------------------------------------------------- 
+// ------------------------------------------------ BOTH ROLES ------------------------------------------------ 
 
-// LoginForm.js
+/*
+ *  Called in: Login.js
+ *  Purpose: Checks whether the user exists; if it does, checks if the password matches; if it does,
+ *  redirects to the appropriate pages
+ *  Params: username, password
+*/
 app.post('/login', async(req, res) => { 
     try {
         console.log("Inside server/index.js/app.post/login")
@@ -113,7 +118,7 @@ app.post('/register', async(req, res) => {
     }
 });
 
-// ------------------------------------------------------------- COMPANY ------------------------------------------------------------- 
+// ------------------------------------------------ COMPANY ------------------------------------------------
 
 // AddBenefits.js
 app.post('/insertInsurancePlan', async(req, res) => { 
@@ -273,27 +278,76 @@ app.post('/deleteOfferedInsurance', async(req, res) => {
     )
 });
 
-// ------------------------------------------------------------- CUSTOMER ------------------------------------------------------------- 
+// ------------------------------------------------ CUSTOMER ------------------------------------------------ 
 
-// DeleteMyInsurance.js
-app.post('/deleteMyInsurance', async(req, res) => {
-    const username = req.body.username
-    const insuranceName = req.body.insuranceName
-
-    User.updateOne(
-        {username: username},
-        {$pull: {enrolledIn: {insuranceName: insuranceName}}}, 
-        (err, result) => {
+/*
+ *  Called in: FindInsuranceForCustomer.js
+ *  Purpose: Gets the list of available insurance types from the database
+ *  Params: none
+*/
+app.get('/getAvailableInsuranceTypes', async(req, res) => { 
+    try {
+        Insurance.distinct("insuranceType", (err,result) =>{
             if(err) {
                 res.send(err)
             }
-            var redir = { redirect: "successfully_deleted_insurance_by_customer" };
-            return res.json(redir);
-        }
-    )
+            res.send(result)
+        })
+    } catch(err) {
+        console.log(err);
+    }
 });
 
-// DisplayFilteredInsurances.js
+/*
+ *  Called in: FindInsuranceForCustomer.js
+ *  Purpose: Gets the list of insurances that the user is enrolled in
+ *  Params: username
+*/
+app.post('/getUserInsurances', async(req, res) => {
+    const username = req.body.username
+    User.findOne({username: username}, (err, result) => {
+        if(err) {
+            console.log(err)
+            res.send(err)
+        }
+        else {
+            res.send(result) 
+        }
+    });
+});
+
+/*
+ *  Called in: FindInsuranceForCustomer.js
+ *  Purpose: Gets the list of insurances that fits the criteria entered by the user
+ *  Params: insuranceType, budget, age
+*/
+app.post('/getInsurancesThatFitUserCriteria', async(req, res) => {
+    try {
+        const insuranceType = req.body.insuranceType
+        const budget = req.body.budget
+        const maxAge = req.body.maxAge
+        
+        Insurance.find({insuranceType: insuranceType}, (err, result) => {
+            if(err) {
+                console.log(err)
+                res.send(err)
+            }
+            else {
+                res.send(result)  
+            }
+        });
+    } catch(err) {
+        console.log(err);
+    }
+});
+
+/*
+ *  Called in: DisplayFilteredInsurances.js
+ *  Purpose: Checks whether the user is already enrolled in that insurance
+ *      If not, adds the insurance selected by the user
+ *      If yes, asks if the user wants to upgrade or degrade
+ *  Params: username, insuranceName, insuranceType, planName, yearlyCost, coverages
+*/
 app.post('/addInsuranceToUser', async(req, res) => {
     try {
         const username = req.body.username
@@ -306,7 +360,6 @@ app.post('/addInsuranceToUser', async(req, res) => {
         const plans = [{insuranceName: insuranceName, planName: planName, yearlyCost: yearlyCost, coverages: coverages}]
         
         // console.log("Here " +plans[0].insuranceName)
-        
         // const checkUser = await User.findOne({username: username})
         
         User.updateOne(
@@ -325,52 +378,30 @@ app.post('/addInsuranceToUser', async(req, res) => {
     }
 });
 
-// FindInsuranceForCustomer.js
-app.get('/getAvailableInsuranceTypes', async(req, res) => { 
+/*
+ *  Called in: DeleteMyInsurance.js
+ *  Purpose: De-enroll the user from that insurance
+ *  Params: username, insuranceName
+*/
+app.post('/deleteMyInsurance', async(req, res) => {
     try {
-        Insurance.distinct("insuranceType", (err,result) =>{
-            if(err) {
-                res.send(err)
-            }
-            res.send(result)
-        })
-    } catch(err) {
-        console.log(err);
-    }
-});
+        const username = req.body.username
+        const insuranceName = req.body.insuranceName
 
-// FindInsuranceForCustomer.js
-app.post('/testFilter', async(req, res) => {
-    try {
-        const insuranceType = req.body.insuranceType
-        
-        Insurance.find({insuranceType: insuranceType}, (err, result) => {
-            if(err) {
-                console.log(err)
-                res.send(err)
+        User.updateOne(
+            {username: username},
+            {$pull: {enrolledIn: {insuranceName: insuranceName}}}, 
+            (err, result) => {
+                if(err) {
+                    res.send(err)
+                }
+                var redir = { redirect: "successfully_deleted_insurance_by_customer" };
+                return res.json(redir);
             }
-            else {
-                res.send(result)  
-            }
-        });
-    } catch(err) {
-        console.log(err);
+        )
+    } catch (err) {
+        console.log(err)
     }
-});
-
-// FindInsuranceForCustomer.js
-// Display list of insurances that the user is enrolled in
-app.post('/getUserInsurances', async(req, res) => {
-    const username = req.body.username
-    User.findOne({username: username}, (err, result) => {
-        if(err) {
-            console.log(err)
-            res.send(err)
-        }
-        else {
-            res.send(result) 
-        }
-    });
 });
 
 app.listen(portNum, () => {
