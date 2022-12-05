@@ -342,6 +342,23 @@ app.post('/getInsurancesThatFitUserCriteria', async(req, res) => {
 });
 
 /*
+ *  Called in: FindInsuranceForCustomer.js
+ *  Purpose: Gets the list of insurance types that the user is enrolled in
+ *  Params: username
+*/
+app.post('/getEnrolledInsuranceTypes', async(req, res) => { 
+    try {
+        const username = req.body.username
+        const checkUser = await User.findOne({username: username});
+        if(checkUser) {
+            res.send(checkUser.enrolledIn.insuranceType)
+        }
+    } catch(err) {
+        console.log(err);
+    }
+});
+
+/*
  *  Called in: DisplayFilteredInsurances.js
  *  Purpose: Checks whether the user is already enrolled in that insurance
  *      If not, adds the insurance selected by the user
@@ -370,6 +387,49 @@ app.post('/addInsuranceToUser', async(req, res) => {
                     res.send(err)
                 }
                 var redir = { redirect: "added_insurance_to_user" };
+                return res.json(redir);
+            }
+        )
+    } catch (err) {
+        console.log(err)
+    }
+});
+
+/*
+ *  Called in: UpgradeInsurance.js
+ *  Purpose: If the user is already enrolled in that type of insurance, they can upgrade
+ *          to another insurance. This takes care of deleting the one they are already enrolled
+ *          in and adding the new one
+ *  Params: username, insuranceName, insuranceType, planName, yearlyCost, coverages
+*/
+app.post('/upgradeInsuranceToUser', async(req, res) => {
+    try {
+        const username = req.body.username
+        const insuranceName = req.body.insuranceName
+        const insuranceType = req.body.insuranceType
+        const planName = req.body.planName
+        const yearlyCost = req.body.yearlyCost
+        const coverages = req.body.coverages
+        
+        const plans = [{insuranceName: insuranceName, planName: planName, yearlyCost: yearlyCost, coverages: coverages}]
+        
+        // console.log("Here " +plans[0].insuranceName)
+        const checkUser = await User.findOne({username: username, "enrolledIn.insuranceType": "Health"})
+        console.log(checkUser.enrolledIn)
+
+        User.updateOne(
+            {username: username},
+            {$pull: {enrolledIn: {insuranceType: insuranceType}}},
+        )
+
+        User.updateOne(
+            {username: username}, 
+            {$push: {enrolledIn: {insuranceName: insuranceName, insuranceType: insuranceType, planName: planName, yearlyCost: yearlyCost, coverages: coverages}}}, 
+            (err, result) => {
+                if(err) {
+                    res.send(err)
+                }
+                var redir = { redirect: "updated_insurance_to_user" };
                 return res.json(redir);
             }
         )
