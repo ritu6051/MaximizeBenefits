@@ -10,9 +10,10 @@ import Button from 'react-bootstrap/Button';
 function UpgradeInsurance() {
     const navigate = useNavigate();
     const {state} = useLocation();
+    const [popUp1, setPopUp1] = useState(false); // User already enrolled in that insurance
 
     const enrollInThis = (selectedInsuranceName, selectedInsuranceType, selectedPlanName, selectedYearlyCost, selectedCoverages) => {
-        
+        setPopUp1(false)
         Axios.post("http://localhost:3001/upgradeInsuranceToUser", {
             username: state.username,
             insuranceName: selectedInsuranceName,
@@ -23,6 +24,8 @@ function UpgradeInsurance() {
         }).then((response) => {
             if(response.data.redirect === "updated_insurance_to_user") {
                 navigate("/FrontPage_Customer", {state: {username: state.username}})
+            } else if(response.data.redirect === "already_enrolled_in_this") {
+                setPopUp1(true)
             }
         })
     }
@@ -88,6 +91,11 @@ function UpgradeInsurance() {
                 }
                 </tbody>
                 </Table>
+                {popUp1 && (
+                    <Alert variant="danger">
+                        You are already enrolled in this. Choose another one!
+                    </Alert>
+                )}
             </Container>
             </Row>
         </Container>   

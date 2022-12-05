@@ -130,8 +130,6 @@ app.post('/insertInsurancePlan', async(req, res) => {
         const maxAge = req.body.maxAge
         const coverageDetails = req.body.coverageDetails
 
-        const plans = [{planName: planName, yearlyCost: yearlyCost, age: maxAge, coverages: coverageDetails}]
-        
         const user = await User.findOne({username: insuranceName})
         const insurance = await Insurance.findOne({insuranceName: user.fullName});
 
@@ -141,13 +139,15 @@ app.post('/insertInsurancePlan', async(req, res) => {
             return res.json(redir);
         } else {
             console.log("New insurance added successfully")
-            console.log(insuranceName)
-            console.log(insuranceType)
-            console.log(JSON.stringify(plans))
             const newInsurance = new Insurance ({
                 insuranceName: user.fullName,
                 insuranceType: insuranceType,
-                plans: plans
+                plans: {
+                    planName: planName,
+                    yearlyCost: yearlyCost,
+                    age: maxAge,
+                    coverages: coverageDetails
+                }
             });
             await newInsurance.save()
             var redir = { redirect: "new_insurance_added_successfully" };
@@ -411,12 +411,8 @@ app.post('/upgradeInsuranceToUser', async(req, res) => {
         const yearlyCost = req.body.yearlyCost
         const coverages = req.body.coverages
         
-        const plans = [{insuranceName: insuranceName, planName: planName, yearlyCost: yearlyCost, coverages: coverages}]
+        const checkUser = await User.findOne({username: username, "enrolledIn.insuranceType": insuranceType})
         
-        // console.log("Here " +plans[0].insuranceName)
-        const checkUser = await User.findOne({username: username, "enrolledIn.insuranceType": "Health"})
-        console.log(checkUser.enrolledIn)
-
         User.updateOne(
             {username: username},
             {$pull: {enrolledIn: {insuranceType: insuranceType}}},

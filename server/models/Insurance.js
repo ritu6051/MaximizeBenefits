@@ -2,31 +2,28 @@
 import mongoose from 'mongoose'
 
 const InsuranceSchema = new mongoose.Schema({
-    insuranceName: { // Cigna
+    insuranceName: {
         type: String,
         required: true,
     },
-    insuranceType: { // Health
+    insuranceType: {
         type: String,
         required: true,
     },
-    plans: { //Tiers
-        // type: Array,
-        // required: true,
-
-        planName: { // Gold
+    plans: {
+        planName: {
             type: String,
             required: true,
         },
-        yearlyCost: { // 100/year
+        yearlyCost: {
             type: String,
             required: true,
         },
-        age: { // <65
+        age: {
             type: String,
             required: false,
         },
-        coverages: { // [Physical: $100, Dental: $50]
+        coverages: {
             type: Array,
             required: true,
         }
