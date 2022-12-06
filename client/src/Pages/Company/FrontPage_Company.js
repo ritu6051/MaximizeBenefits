@@ -36,8 +36,6 @@ function FrontPage_Company() {
             username: state.username,
         })
         .then((response) => {
-            console.log(state.username)
-            console.log(response.data)
             navigate('/DisplayOfferedInsurances', {state: {insuranceList: response.data, username: state.username}});
         })
     }
@@ -91,16 +89,3 @@ function FrontPage_Company() {
 }
 
 export default FrontPage_Company;
-
-
-// <div> 
-// <h1 id='welcome'>Welcome Insurance Company !!</h1>
-// <button onClick={logout} id ='logout'> Logout </button>
-// {/* <div className = 'newAcct'> It appears you don't!</div> */}
-// <div className = 'newAcct'>What would you like to do next?</div>
-// <button onClick={addBenefits} className ='decide'> Add a New Insurance </button>
-// <button onClick={addBenefits} className ='decide'> Add New Plans to an Existing Insurance </button>
-// <button onClick={addBenefits} className ='decide'> Edit/Remove an Existing Insurance </button>
-// <button onClick={updateCustomerBenefits} className ='decide'> Update Customer Benefits </button>
-// {/* <button onClick={deleteCustomer} className ='decide'> Delete Customer Insurance </button> */}
-// </div>

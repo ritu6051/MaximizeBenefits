@@ -120,7 +120,37 @@ app.post('/register', async(req, res) => {
 
 // ------------------------------------------------ COMPANY ------------------------------------------------
 
-// AddBenefits.js
+/*
+ *  Called in: FrontPage_Company.js
+ *  Purpose: Gets the list of all the insurances that the company offers
+ *  Params: username
+*/
+app.post('/getOfferedInsurances', async(req, res) => { 
+    try {
+        const username = req.body.username
+        const user = await User.findOne({username: username});
+        
+        Insurance.find({insuranceName: user.fullName}, (err, result) => {
+            if(err) {
+                console.log(err)
+                res.send(err)
+            }
+            else {
+                res.send(result)
+            }
+        });
+    } catch(err) {
+        console.log(err);
+    }
+});
+
+/*
+ *  Called in: AddBenefits.js
+ *  Purpose: Adds the insurance plan added by the company to the database
+ *              Checks whether that insurance is already offered by that company. If it 
+ *              is not, then it gets added successfully
+ *  Params: insuranceName, insuranceType, planName, yearlyCost, maxAge, coverageDetails
+*/
 app.post('/insertInsurancePlan', async(req, res) => { 
     try {
         const insuranceName = req.body.insuranceName
@@ -211,25 +241,6 @@ app.post('/deleteCustomer', async(req, res) => {
         )
     } catch (err) {
         console.log(err)
-    }
-});
-
-app.post('/getOfferedInsurances', async(req, res) => { 
-    try {
-        const username = req.body.username
-        const user = await User.findOne({username: username});
-        
-        Insurance.find({insuranceName: user.fullName}, (err, result) => {
-            if(err) {
-                console.log(err)
-                res.send(err)
-            }
-            else {
-                res.send(result)
-            }
-        });
-    } catch(err) {
-        console.log(err);
     }
 });
 

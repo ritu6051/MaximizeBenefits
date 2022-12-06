@@ -207,9 +207,10 @@ function AddBenefits() {
                 </div>
                 </Row>
             </Form>
+            <br/>
             {popUp1 && (
                 <Alert variant="danger">
-                    <p> An insurance of type {alreadyExistsType} already exists. Please go to the Add More Plans tab!  </p>
+                    An insurance of type {alreadyExistsType} already exists. Please go to the Add More Plans tab!
                 </Alert>
             )}
         </Container>
