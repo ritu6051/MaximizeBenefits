@@ -9,6 +9,10 @@ import Form from 'react-bootstrap/Form';
 import NavBar from '../Common/NavBar';
 import Alert from 'react-bootstrap/Alert';
 
+/**
+ * @returns a page that allows insurance companies to add benefits, where they can input 
+ * the type, yearly cost, max age, plan name, and a list of coverages with their costs
+ */
 function AddBenefits() {
     const navigate = useNavigate();
 

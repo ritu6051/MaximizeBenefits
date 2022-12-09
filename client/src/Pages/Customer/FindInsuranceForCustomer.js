@@ -9,6 +9,9 @@ import Row from 'react-bootstrap/esm/Row';
 import Form from 'react-bootstrap/Form';
 import NavBar from '../Common/NavBar';
 
+/**
+ * @returns a page that asks the user to type in a type, budget, and age to search through insurances
+ */
 function FindInsuranceForCustomer() {
     
     const navigate = useNavigate();

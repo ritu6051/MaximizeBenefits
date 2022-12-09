@@ -7,6 +7,10 @@ import Row from 'react-bootstrap/esm/Row'
 import NavBar from '../Common/NavBar';
 import Button from 'react-bootstrap/Button';
 
+/**
+ * @returns all of the plans offered by the insurance company and displays buttons that all
+ * the company to edit or delete plans
+ */
 function DisplayOfferedInsurances() {
     const navigate = useNavigate();
     const{state} = useLocation();

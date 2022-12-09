@@ -7,6 +7,9 @@ import Row from 'react-bootstrap/esm/Row';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
+/**
+ * @returns a redirect to the homepage with the customer removed from that company
+ */
 function DelteCustomer(){
     const navigate = useNavigate();
     const [username, setUsername] = useState('');

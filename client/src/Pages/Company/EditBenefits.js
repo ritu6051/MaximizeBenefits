@@ -9,6 +9,10 @@ import Form from 'react-bootstrap/Form';
 import NavBar from '../Common/NavBar';
 import Alert from 'react-bootstrap/Alert';
 
+/**
+ * @returns the page that companies are redirected to if they choose to edit an existing plan, where 
+ * they can input the type, yearly cost, max age, plan name, and a list of coverages with their costs
+ */
 function EditBenefits() {
     const navigate = useNavigate();
 

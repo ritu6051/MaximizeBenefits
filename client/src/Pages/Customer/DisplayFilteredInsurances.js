@@ -7,6 +7,9 @@ import Row from 'react-bootstrap/esm/Row'
 import NavBar from '../Common/NavBar';
 import Button from 'react-bootstrap/Button';
 
+/**
+ * @returns a list of all of the insurances that fit the criteria from the FindInsuranceForCustomer.js file
+ */
 function DisplayFilteredInsurances() {
     const navigate = useNavigate();
     const {state} = useLocation();

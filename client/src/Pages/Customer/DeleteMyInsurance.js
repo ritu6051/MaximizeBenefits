@@ -8,6 +8,10 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Table from 'react-bootstrap/esm/Table';
 
+/**
+ * @returns a page that has text boxes where the user must input the name, type, yearly cost, max age, 
+ * plan name, and coverage of the insurance that they would like to delete from their account
+ */
 function DeleteMyInsurance(){
     const navigate = useNavigate();
     const {state} = useLocation();

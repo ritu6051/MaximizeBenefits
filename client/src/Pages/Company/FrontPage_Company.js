@@ -8,6 +8,10 @@ import NavBar from '../Common/NavBar';
 import Row from 'react-bootstrap/esm/Row';
 import Col from 'react-bootstrap/esm/Col';
 
+/**
+ * @returns the company home page that displays buttons that allow a company to add benefits,
+ * add more plans, update benefits, and delete customer
+ */
 function FrontPage_Company() {
     const navigate = useNavigate();
     const [username, setUsername] = useState('');

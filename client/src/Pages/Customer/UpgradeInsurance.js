@@ -7,6 +7,9 @@ import Row from 'react-bootstrap/esm/Row'
 import NavBar from '../Common/NavBar';
 import Button from 'react-bootstrap/Button';
 
+/**
+ * @returns a list of all of the insurances of a specific type to allow a user to switch
+ */
 function UpgradeInsurance() {
     const navigate = useNavigate();
     const {state} = useLocation();

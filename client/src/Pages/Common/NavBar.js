@@ -5,7 +5,10 @@ import Logo from '../../Images/logo.png'
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 
-
+/**
+ * @returns the navigation bar at the top of the page with the logo, name, about us,
+ * login, and register redirects 
+ */
 function NavBar() {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');

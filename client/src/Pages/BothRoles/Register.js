@@ -11,6 +11,11 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
 
+/**
+ * @returns Register page with text boxes for a user to enter their full name, username,
+ * password, password again, and role (customer or insurance company), displays pop up if
+ * the user already exists and if the passwords don't match
+ */
 function Register() {
     const navigate = useNavigate();
     const [fullName, setFullName] = useState('');

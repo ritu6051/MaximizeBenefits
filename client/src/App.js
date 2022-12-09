@@ -34,6 +34,9 @@ import CustomerOrCompany from './Pages/OldFiles-NoLongerUsed/CustomerOrCompany';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+/**
+ * @returns all of pages and routes that the application takes from one page to another
+ */
 function App() {
 
   return (

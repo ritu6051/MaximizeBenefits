@@ -7,6 +7,10 @@ import Form from 'react-bootstrap/Form';
 import NavBar from '../Common/NavBar';
 import Row from 'react-bootstrap/esm/Row';
 
+/**
+ * @returns homepage that displays two options to either find an insurance or view, edit, or delete 
+ * an existing insurance
+ */
 function FrontPage_Customer() {
     
     const navigate = useNavigate();

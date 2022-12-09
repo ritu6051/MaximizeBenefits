@@ -9,6 +9,10 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
 
+/**
+ * @returns Login page with text boxes for a user to enter their username and password, 
+ * displays pop ups when the user does not exist or if the inputted password is not correct
+ */
 function Login() {
 
     const navigate = useNavigate();
