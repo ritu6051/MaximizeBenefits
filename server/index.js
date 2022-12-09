@@ -21,11 +21,11 @@ mongoose.connect(
 
 // ------------------------------------------------ BOTH ROLES ------------------------------------------------ 
 
-/*
+/**
  *  Called in: Login.js
  *  Purpose: Checks whether the user exists; if it does, checks if the password matches; if it does,
  *  redirects to the appropriate pages
- *  Params: username, password
+ *  @param: username, password
 */
 app.post('/login', async(req, res) => { 
     try {
@@ -120,10 +120,10 @@ app.post('/register', async(req, res) => {
 
 // ------------------------------------------------ COMPANY ------------------------------------------------
 
-/*
+/**
  *  Called in: FrontPage_Company.js
  *  Purpose: Gets the list of all the insurances that the company offers
- *  Params: username
+ *  @param: username
 */
 app.post('/getOfferedInsurances', async(req, res) => { 
     try {
@@ -144,12 +144,12 @@ app.post('/getOfferedInsurances', async(req, res) => {
     }
 });
 
-/*
+/**
  *  Called in: AddBenefits.js
  *  Purpose: Adds the insurance plan added by the company to the database
  *              Checks whether that insurance is already offered by that company. If it 
  *              is not, then it gets added successfully
- *  Params: insuranceName, insuranceType, planName, yearlyCost, maxAge, coverageDetails
+ *  @param: insuranceName, insuranceType, planName, yearlyCost, maxAge, coverageDetails
 */
 app.post('/insertInsurancePlan', async(req, res) => { 
     try {
@@ -291,10 +291,10 @@ app.post('/deleteOfferedInsurance', async(req, res) => {
 
 // ------------------------------------------------ CUSTOMER ------------------------------------------------ 
 
-/*
+/**
  *  Called in: FindInsuranceForCustomer.js
  *  Purpose: Gets the list of available insurance types from the database
- *  Params: none
+ *  @param: none
 */
 app.get('/getAvailableInsuranceTypes', async(req, res) => { 
     try {
@@ -309,10 +309,10 @@ app.get('/getAvailableInsuranceTypes', async(req, res) => {
     }
 });
 
-/*
+/**
  *  Called in: FindInsuranceForCustomer.js
  *  Purpose: Gets the list of insurances that the user is enrolled in
- *  Params: username
+ *  @param: username
 */
 app.post('/getUserInsurances', async(req, res) => {
     const username = req.body.username
@@ -327,10 +327,10 @@ app.post('/getUserInsurances', async(req, res) => {
     });
 });
 
-/*
+/**
  *  Called in: FindInsuranceForCustomer.js
  *  Purpose: Gets the list of insurances that fits the criteria entered by the user
- *  Params: insuranceType, budget, age
+ *  @param: insuranceType, budget, age
 */
 app.post('/getInsurancesThatFitUserCriteria', async(req, res) => {
     try {
@@ -352,10 +352,10 @@ app.post('/getInsurancesThatFitUserCriteria', async(req, res) => {
     }
 });
 
-/*
+/**
  *  Called in: FindInsuranceForCustomer.js
  *  Purpose: Gets the list of insurance types that the user is enrolled in
- *  Params: username
+ *  @param: username
 */
 app.post('/getEnrolledInsuranceTypes', async(req, res) => { 
     try {
@@ -369,12 +369,12 @@ app.post('/getEnrolledInsuranceTypes', async(req, res) => {
     }
 });
 
-/*
+/**
  *  Called in: DisplayFilteredInsurances.js
  *  Purpose: Checks whether the user is already enrolled in that insurance
  *      If not, adds the insurance selected by the user
  *      If yes, asks if the user wants to upgrade or degrade
- *  Params: username, insuranceName, insuranceType, planName, yearlyCost, coverages
+ *  @param: username, insuranceName, insuranceType, planName, yearlyCost, coverages
 */
 app.post('/addInsuranceToUser', async(req, res) => {
     try {
@@ -406,12 +406,12 @@ app.post('/addInsuranceToUser', async(req, res) => {
     }
 });
 
-/*
+/**
  *  Called in: UpgradeInsurance.js
  *  Purpose: If the user is already enrolled in that type of insurance, they can upgrade
  *          to another insurance. This takes care of deleting the one they are already enrolled
  *          in and adding the new one
- *  Params: username, insuranceName, insuranceType, planName, yearlyCost, coverages
+ *  @param: username, insuranceName, insuranceType, planName, yearlyCost, coverages
 */
 app.post('/upgradeInsuranceToUser', async(req, res) => {
     try {
@@ -445,10 +445,10 @@ app.post('/upgradeInsuranceToUser', async(req, res) => {
     }
 });
 
-/*
+/**
  *  Called in: DeleteMyInsurance.js
  *  Purpose: De-enroll the user from that insurance
- *  Params: username, insuranceName
+ *  @param: username, insuranceName
 */
 app.post('/deleteMyInsurance', async(req, res) => {
     try {
