@@ -422,11 +422,16 @@ app.post('/upgradeInsuranceToUser', async(req, res) => {
         const yearlyCost = req.body.yearlyCost
         const coverages = req.body.coverages
         
-        const checkUser = await User.findOne({username: username, "enrolledIn.insuranceType": insuranceType})
+        const checkUser = await User.findOne({username: username, insuranceType: insuranceType})
         
         User.updateOne(
-            {username: username},
-            {$pull: {enrolledIn: {insuranceType: insuranceType}}},
+            {username: username, insuranceType: insuranceType},
+            {$pull: {enrolledIn: {insuranceType: insuranceType}}}, 
+            (err, result) => {
+                if(err) {
+                    res.send(err)
+                }
+            }
         )
 
         User.updateOne(

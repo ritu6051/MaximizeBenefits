@@ -20,31 +20,37 @@ function Login() {
     const [password, setPassword] = useState('');
     const [popUp1, setPopUp1] = useState(false); // User does not exist, can't login
     const [popUp2, setPopUp2] = useState(false); // User exists, incorrect password
+    const [popUp3, setPopUp3] = useState(false); // Empty fields
 
     const loginAccount = () => {
-        Axios.post("http://localhost:3001/login", {
-            username: username,
-            password: password,
-        })
-        .then(function (response) {
-            if (response.data.redirect === "login_customer_successfully") {
-                setPopUp1(false)
-                setPopUp2(false)
-                navigate('/FrontPage_Customer', {state: {username: username}});
-            } else if (response.data.redirect === 'login_company_successfully') {
-                setPopUp1(false)
-                setPopUp2(false)
-                navigate("/FrontPage_Company", {state: {username: username}});
-            } else if (response.data.redirect === 'user_does_not_exist') {
-                setPopUp1(true)
-                setPopUp2(false)
-                navigate("/Login")
-            } else if (response.data.redirect === 'incorrect_password') {
-                setPopUp1(false)
-                setPopUp2(true)
-                navigate("/Login")
-            }
-        })
+        setPopUp3(false)
+        if(!username || !password) {
+            setPopUp3(true)
+        } else {
+            Axios.post("http://localhost:3001/login", {
+                username: username,
+                password: password,
+            })
+            .then(function (response) {
+                if (response.data.redirect === "login_customer_successfully") {
+                    setPopUp1(false)
+                    setPopUp2(false)
+                    navigate('/FrontPage_Customer', {state: {username: username}});
+                } else if (response.data.redirect === 'login_company_successfully') {
+                    setPopUp1(false)
+                    setPopUp2(false)
+                    navigate("/FrontPage_Company", {state: {username: username}});
+                } else if (response.data.redirect === 'user_does_not_exist') {
+                    setPopUp1(true)
+                    setPopUp2(false)
+                    navigate("/Login")
+                } else if (response.data.redirect === 'incorrect_password') {
+                    setPopUp1(false)
+                    setPopUp2(true)
+                    navigate("/Login")
+                }
+            })
+        }
     }
 
     return (
@@ -98,7 +104,13 @@ function Login() {
 
                 {popUp2 && (
                     <Alert variant="danger">
-                        <p> Incorrect Password! Try Again! </p>
+                        Incorrect Password! Try Again!
+                    </Alert>
+                )}
+
+                {popUp3 && (
+                    <Alert variant="danger">
+                        Please enter all fields!
                     </Alert>
                 )}
 
