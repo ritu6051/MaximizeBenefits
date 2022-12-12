@@ -53,7 +53,7 @@ function FrontPage_Customer() {
                             <br/>
                             <br/>
                             <Button variant="secondary" size="lg" type="button" class="btn btn-secondary btn-lg btn-block" onClick={deleteMyInsurance}> 
-                                View/Edit/Delete My Insurance
+                                View/Delete My Insurance
                             </Button>
                         </div>    
                     </Form>
