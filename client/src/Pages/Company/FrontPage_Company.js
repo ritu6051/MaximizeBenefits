@@ -8,6 +8,7 @@ import NavBar from '../Common/NavBar';
 import Row from 'react-bootstrap/esm/Row';
 import Col from 'react-bootstrap/esm/Col';
 import Alert from 'react-bootstrap/Alert';
+import Wallpaper from '../../Images/MaximizeBenefitsLogo.png'
 
 /**
  * @returns the company home page that displays buttons that allow a company to add benefits,
@@ -17,10 +18,12 @@ function FrontPage_Company() {
     const navigate = useNavigate();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [imgPath, setImgPath] = useState('');
     const{state} = useLocation();
     const[popUp1, setPopUp1] = useState(false); // Insurance company already offers insurances
     const[popUp2, setPopUp2] = useState(false); // No insurances offered to edit
-
+    const photo = require(`../../Images/${state.username}.png`);
+    
     const logout = () => {
         setUsername("")
         setPassword("")
@@ -66,10 +69,12 @@ function FrontPage_Company() {
     }
 
     const deleteCustomer = () => {
-        navigate("/DeleteCustomer")
+        console.log("Here")
+        navigate("/DeleteCustomer", {state: {username: state.username}})
     }
-    
+
     return (
+        
         <Container>
             <Row>
                 {/* <NavBar></NavBar> */}
@@ -88,14 +93,14 @@ function FrontPage_Company() {
                 </nav>
             </Row>
 
-            <br/>
 
             <Row>
+                <Col>
                 <Container>
                 <Form>
                     <div class="col-lg-6">
                     <br/>
-                        <b><h1 class="display-6"> Welcome Insurance Company! </h1></b>
+                        <b><h1 class="display-6"> Welcome {state.username} </h1></b>
                         <p class="lead text-muted mb-0">Please Select an Option Below</p>
                     </div>
 
@@ -115,14 +120,11 @@ function FrontPage_Company() {
                         </Col>
                         <Col>
                             <br/>
-                            <Button variant="secondary" size="lg" type="button" class="btn btn-secondary btn-lg btn-block" onClick={updateCustomerBenefits}> Update Customer Benefits </Button>
-                        </Col>
-                        <Col>
-                            <br/>
                             <Button variant="secondary" size="lg" type="button" class="btn btn-secondary btn-lg btn-block" onClick={deleteCustomer}> Delete Insurance for Customer </Button>
                         </Col>
                     </div>
                 </Form>
+                
                 <br/>
                 {popUp1 && (
                     <div class="col-sm">
@@ -137,9 +139,25 @@ function FrontPage_Company() {
                     </Alert>
                 )}   
                 </Container>
+                </Col>
+                <Col>
+                <Row>
+                    <div class="">
+                        <div class="container py-5">
+                            <div class="row h-100 align-items-center py-5">
+                                <div class="col-lg-6 d-none d-lg-block">
+                                    <img src={photo}/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </Row> 
+                </Col>
             </Row>
         </Container>
+        
     )
 }
 
 export default FrontPage_Company;
+
