@@ -32,20 +32,34 @@ function FrontPage_Customer() {
     return (
         <Container>
             <Row>
-                <NavBar></NavBar>
+                {/* <NavBar></NavBar> */}
+                <nav class="navbar navbar-expand-lg navbar-light bg-light py-3">
+                <div class="container"><a href="#" class="navbar-brand d-flex align-items-center">
+                    <strong>MaximizeBenefits</strong></a>
+                    <div id="navbarSupportedContent" class="collapse navbar-collapse">
+                        {/* <ul class="navbar-nav me-auto"> */}
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="nav-item active">
+                                <a href="AboutUs" class="nav-link font-italic"> Logout </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                </nav>
             </Row>
             <br/>
             <Row>
                 <Container>
                     <Form>
-                        <div class="col-md-12 text-center">
+                    <div class="col-lg-6">
+                        
                         <br/>
-                            <h3><b>Welcome {state.username}!</b></h3>
-                            <h5>What would you like to do? </h5>
+                            <b><h1 class="display-6"> Welcome {state.username} </h1></b>
+                            <p class="lead text-muted mb-0">What would you like to do?</p>
                         </div>
                         <br/>
                         <br/>
-                        <div class="col-md-12 text-center">  
+                        <div class="col-sm">
                             <Button variant="secondary" size="lg" type="button" class="btn btn-secondary btn-lg btn-block" onClick={findInsurance}> 
                                 Find an Insurance for Me  
                             </Button>

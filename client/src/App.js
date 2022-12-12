@@ -5,6 +5,7 @@ import './App.css';
 // Both Roles
 import Login from './Pages/BothRoles/Login';
 import Register from './Pages/BothRoles/Register';
+import AboutUs from './Pages/Common/AboutUs';
 
 // Customer
 import FrontPage_Customer from './Pages/Customer/FrontPage_Customer';
@@ -33,7 +34,8 @@ function App() {
     <Routes>
 
       {/* Both Roles */}
-      <Route path="/" exact element={<Register/>} />
+      <Route path="/" exact element={<AboutUs/>} />
+      <Route path="/AboutUs" exact element={<AboutUs/>} />
       <Route path="/Login" element={<Login/>} />
       <Route path="/Register" element={<Register/>} />        
 

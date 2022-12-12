@@ -72,7 +72,20 @@ function FrontPage_Company() {
     return (
         <Container>
             <Row>
-                <NavBar></NavBar>
+                {/* <NavBar></NavBar> */}
+                <nav class="navbar navbar-expand-lg navbar-light bg-light py-3">
+                <div class="container"><a href="#" class="navbar-brand d-flex align-items-center">
+                    <strong>MaximizeBenefits</strong></a>
+                    <div id="navbarSupportedContent" class="collapse navbar-collapse">
+                        {/* <ul class="navbar-nav me-auto"> */}
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="nav-item active">
+                                <a href="AboutUs" class="nav-link font-italic"> Logout </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                </nav>
             </Row>
 
             <br/>
@@ -80,16 +93,16 @@ function FrontPage_Company() {
             <Row>
                 <Container>
                 <Form>
-                    <div class="col-md-12 text-center">
+                    <div class="col-lg-6">
                     <br/>
-                        <h3>Welcome Insurance Company !! </h3>
-                        <h5>What would you like to do next?</h5>
+                        <b><h1 class="display-6"> Welcome Insurance Company! </h1></b>
+                        <p class="lead text-muted mb-0">Please Select an Option Below</p>
                     </div>
 
                     <br/>
                     <br/>
 
-                    <div class="col-md-12 text-center">
+                    <div class="col-sm">
                         <Button variant="secondary" size="lg" type="button" class="btn btn-secondary btn-lg btn-block" onClick={addBenefits}> Add a New Insurance </Button>
                         <br/>
                         <Col>
@@ -112,12 +125,14 @@ function FrontPage_Company() {
                 </Form>
                 <br/>
                 {popUp1 && (
-                    <Alert variant="danger">
-                        An insurance is already offered. Please go to the Edit/Remove tab or Add More Plans to existing insurances tab!
-                    </Alert>
+                    <div class="col-sm">
+                        <Alert size="sm" variant="danger">
+                            An insurance is already offered. Please go to the Edit/Remove tab or Add More Plans to existing insurances tab!
+                        </Alert>
+                    </div>
                 )}
                 {popUp2 && (
-                    <Alert variant="danger">
+                    <Alert size="lg" variant="danger">
                         No insurances offered! Please go to the Add a New Insurance tab!
                     </Alert>
                 )}   
