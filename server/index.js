@@ -215,10 +215,9 @@ app.post('/updateInsurancePlan', async(req, res) => {
         const plans = [{planName: planName, yearlyCost: yearlyCost, age: maxAge, coverages: coverageDetails}]
         
         const user = await User.findOne({username: insuranceName})
-        console.log("Original = " +originalPlanName)
-        console.log("New = " +planName)
+        const checkInsurance = Insurance.findOne({insuranceName: user.fullName})
 
-        if(originalPlanName !== planName) {
+        // if(originalPlanName !== planName) {
             Insurance.updateOne(
                 {insuranceName: user.fullName},
                 {$pull: {plans: {planName: originalPlanName}}},
@@ -236,17 +235,16 @@ app.post('/updateInsurancePlan', async(req, res) => {
                     if(err) {
                         res.send(err)
                     }
-                    console.log("Insurance plan successfully updated")
                 }
             )
-        }
+        // }
 
-        const checkInsurance = Insurance.findOne({insuranceName: user.fullName})
-        if(checkInsurance.plans.length === 0) {
-            console.log("Here")
+        if(checkInsurance.plans) {
+            if(checkInsurance.plans.length === 0)
+            Insurance.remove({insuranceName: user.fullName})
         }
-
         var redir = { redirect: "updated_company_insurance" };
+        console.log(redir.redirect)
         return res.json(redir);
         
     } catch (err) {

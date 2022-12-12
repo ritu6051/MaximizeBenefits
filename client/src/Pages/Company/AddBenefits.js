@@ -25,30 +25,36 @@ function AddBenefits() {
     const[maxAge, setMaxAge] = useState('');
     const [formValues, setFormValues] = useState([{coverageName: "", coverageAmount : ""}])
     const[popUp1, setPopUp1] = useState(false); // Insurance already exists, can't create another
+    const[popUp2, setPopUp2] = useState(false); // Empty fields
     const{state} = useLocation();
 
     const[alreadyExistsType, setAlreadyExistsType] = useState('');
 
     const handleFormSubmit = (event) => {
         event.preventDefault();
-        Axios.post("http://localhost:3001/insertInsurancePlan", {  
-            insuranceName: state.username,
-            insuranceType: insuranceType,
-            planName: planName,
-            yearlyCost: yearlyCost,
-            maxAge: maxAge,
-            coverageDetails: formValues,
-        })
-        .then(function(response) {
-            console.log("Redirect msg inside AddBenefits.js = " +response.data.redirect)
-            if (response.data.redirect === 'insurance_already_exists') {
-                setAlreadyExistsType(response.data.insuranceType)
-                setPopUp1(true)
-            } else if (response.data.redirect === 'new_insurance_added_successfully') {
-                console.log("new_insurance_added_successfully")
-                navigate("/FrontPage_Company", {state})
-            }
-        })
+        setPopUp2(false)
+        if(!insuranceType || !planName || !yearlyCost || !maxAge || !formValues) {
+            setPopUp2(true)
+        } else {
+            Axios.post("http://localhost:3001/insertInsurancePlan", {  
+                insuranceName: state.username,
+                insuranceType: insuranceType,
+                planName: planName,
+                yearlyCost: yearlyCost,
+                maxAge: maxAge,
+                coverageDetails: formValues,
+            })
+            .then(function(response) {
+                console.log("Redirect msg inside AddBenefits.js = " +response.data.redirect)
+                if (response.data.redirect === 'insurance_already_exists') {
+                    setAlreadyExistsType(response.data.insuranceType)
+                    setPopUp1(true)
+                } else if (response.data.redirect === 'new_insurance_added_successfully') {
+                    console.log("new_insurance_added_successfully")
+                    navigate("/FrontPage_Company", {state})
+                }
+            })
+        }
     }
 
     const handleInsuranceType = event => {
@@ -205,6 +211,12 @@ function AddBenefits() {
                 </div>
                 </Row>
             </Form>
+            <br/>
+            {popUp2 && (
+                <Alert variant="danger">
+                    Please enter all fields
+                </Alert>
+            )}
         </Container>
     );
 

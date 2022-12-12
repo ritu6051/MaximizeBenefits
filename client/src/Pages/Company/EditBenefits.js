@@ -47,14 +47,11 @@ function EditBenefits() {
             originalPlanName: originalPlanName
         })
         .then(function(response) {
-            console.log("Redirect msg inside AddBenefits.js = " +response.data.redirect)
+            console.log("Redirect msg inside EditBenefits.js = " +response.data.redirect)
             if (response.data.redirect === 'insurance_already_exists') {
                 setPopUp1(true)
             } else if (response.data.redirect === 'updated_company_insurance') {
-                console.log(response.data.redirect)
-                console.log(state.insuranceList)
                 navigate("/FrontPage_Company", {state})
-                // navigate('/DisplayOfferedInsurance', {state: {val1: val1, val2: val2, coverages: coverages, insuranceList: state.insuranceList, username: state.username}});
             }
         })
     }
