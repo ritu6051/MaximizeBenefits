@@ -19,6 +19,7 @@ function FrontPage_Company() {
     const [password, setPassword] = useState('');
     const{state} = useLocation();
     const[popUp1, setPopUp1] = useState(false); // Insurance company already offers insurances
+    const[popUp2, setPopUp2] = useState(false); // No insurances offered to edit
 
     const logout = () => {
         setUsername("")
@@ -41,11 +42,18 @@ function FrontPage_Company() {
     }
 
     const editOrRemove = () => {
+        setPopUp2(false)
         Axios.post("http://localhost:3001/getOfferedInsurances", {
             username: state.username,
         })
         .then((response) => {
-            navigate('/DisplayOfferedInsurances', {state: {insuranceList: response.data, username: state.username}});
+            console.log(response.data.redirect)
+            if(response.data.redirect === "no_insurances_offered") {
+                setPopUp2(true)
+            } else {
+                navigate('/DisplayOfferedInsurances', {state: {insuranceList: response.data, username: state.username}});
+            }
+            
         })
     }
 
@@ -101,7 +109,6 @@ function FrontPage_Company() {
                             <Button variant="secondary" size="lg" type="button" class="btn btn-secondary btn-lg btn-block" onClick={deleteCustomer}> Delete Insurance for Customer </Button>
                         </Col>
                     </div>
-                            
                 </Form>
                 <br/>
                 {popUp1 && (
@@ -109,6 +116,11 @@ function FrontPage_Company() {
                         An insurance is already offered. Please go to the Edit/Remove tab or Add More Plans to existing insurances tab!
                     </Alert>
                 )}
+                {popUp2 && (
+                    <Alert variant="danger">
+                        No insurances offered! Please go to the Add a New Insurance tab!
+                    </Alert>
+                )}   
                 </Container>
             </Row>
         </Container>

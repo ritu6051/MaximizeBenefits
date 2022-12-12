@@ -130,12 +130,12 @@ app.post('/getOfferedInsurances', async(req, res) => {
         const username = req.body.username
         const user = await User.findOne({username: username});
         
-        const checkInsurance = await Insurance.find({insuranceName: user.fullName});
-        console.log(checkInsurance.plans)
-        
-        if(!checkInsurance.plans) {
-            console.log("No Insurances Offered")
-            var redir = { redirect: "no_insurances_offered" };
+        const checkInsurance = await Insurance.findOne({insuranceName: user.fullName});
+        console.log(checkInsurance)
+
+        if(!checkInsurance) {
+            console.log("Insurance doesn't exist")
+            var redir = { redirect: "no_insurances_offered"};
             return res.json(redir);
         } else {
             Insurance.find({insuranceName: user.fullName}, (err, result) => {
@@ -144,12 +144,10 @@ app.post('/getOfferedInsurances', async(req, res) => {
                     res.send(err)
                 }
                 else {
-                    var redir = { redirect: "no_insurances_offered" };
-                    return res.json(redir);
+                    res.send(result)
                 }
             });
         }
-        
     } catch(err) {
         console.log(err);
     }
@@ -173,7 +171,7 @@ app.post('/insertInsurancePlan', async(req, res) => {
 
         const user = await User.findOne({username: insuranceName})
         const insurance = await Insurance.findOne({insuranceName: user.fullName});
-
+        console.log("Before inserting insurance")
         if(insurance) {
             console.log("This insurance already exixts")
             var redir = { redirect: "insurance_already_exists" , insuranceType: insurance.insuranceType};
@@ -242,7 +240,13 @@ app.post('/updateInsurancePlan', async(req, res) => {
                 }
             )
         }
-        var redir = { redirect: "do_nothing_updated_company_insurance" };
+
+        const checkInsurance = Insurance.findOne({insuranceName: user.fullName})
+        if(checkInsurance.plans.length === 0) {
+            console.log("Here")
+        }
+
+        var redir = { redirect: "updated_company_insurance" };
         return res.json(redir);
         
     } catch (err) {
@@ -268,10 +272,17 @@ app.post('/deleteOfferedInsurance', async(req, res) => {
             if(err) {
                 res.send(err)
             }
-            var redir = { redirect: "deleted_offered_insurance" };
-            return res.json(redir);
         }
     )
+
+    const checkInsurance = await Insurance.findOne({insuranceName: user.fullName});
+    
+    if(checkInsurance.plans.length === 0) {
+        await Insurance.remove({insuranceName: user.fullName})
+    }
+
+    var redir = { redirect: "deleted_offered_insurance" };
+    return res.json(redir);
 });
 
 // DeleteCustomer.js
