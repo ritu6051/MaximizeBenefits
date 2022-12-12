@@ -212,6 +212,12 @@ app.post('/updateInsurancePlan', async(req, res) => {
         const user = await User.findOne({username: insuranceName})
         const checkInsurance = Insurance.findOne({insuranceName: user.fullName})
 
+        console.log("insuranceName = " +insuranceName)
+        console.log("planName = " +planName)
+        console.log("yearlyCost = " +yearlyCost)
+        console.log("maxAge = " +maxAge)
+        console.log("originalPlanName = " +originalPlanName)
+
         Insurance.updateOne(
             {insuranceName: user.fullName},
             {$pull: {plans: {planName: originalPlanName}}},                
@@ -441,16 +447,6 @@ app.post('/addInsuranceToUser', async(req, res) => {
         const yearlyCost = req.body.yearlyCost
         const coverages = req.body.coverages
         
-        const plans = [{insuranceName: insuranceName, planName: planName, yearlyCost: yearlyCost, coverages: coverages}]
-        
-        // console.log("Here " +plans[0].insuranceName)
-        // const checkUser = await User.findOne({username: username})
-        console.log("Username = " +username)
-        console.log("insuranceName = " +insuranceName)
-        console.log("insuranceType = " +insuranceType)
-        console.log("planName = " +planName)
-        console.log("yearlyCost = " +yearlyCost)
-
         User.updateOne(
             {username: username}, 
             {$push: {enrolledIn: {insuranceName: insuranceName, insuranceType: insuranceType, planName: planName, yearlyCost: yearlyCost, coverages: coverages}}}, 
