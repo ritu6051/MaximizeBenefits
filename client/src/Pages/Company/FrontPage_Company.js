@@ -22,7 +22,8 @@ function FrontPage_Company() {
     const{state} = useLocation();
     const[popUp1, setPopUp1] = useState(false); // Insurance company already offers insurances
     const[popUp2, setPopUp2] = useState(false); // No insurances offered to edit
-    const photo = require(`../../Images/${state.username}.png`);
+    const photo = require(`../../Images/BrandImages/${state.username}.png`);
+    console.log(photo)
     
     const logout = () => {
         setUsername("")
@@ -64,10 +65,6 @@ function FrontPage_Company() {
         navigate('/AddMorePlans', {state});
     }
 
-    const updateCustomerBenefits = () => {
-        navigate("/UpdateBenefits")
-    }
-
     const deleteCustomer = () => {
         console.log("Here")
         navigate("/DeleteCustomer", {state: {username: state.username}})
@@ -77,30 +74,15 @@ function FrontPage_Company() {
         
         <Container>
             <Row>
-                {/* <NavBar></NavBar> */}
-                <nav class="navbar navbar-expand-lg navbar-light bg-light py-3">
-                <div class="container"><a href="#" class="navbar-brand d-flex align-items-center">
-                    <strong>MaximizeBenefits</strong></a>
-                    <div id="navbarSupportedContent" class="collapse navbar-collapse">
-                        {/* <ul class="navbar-nav me-auto"> */}
-                        <ul class="nav navbar-nav navbar-right">
-                            <li class="nav-item active">
-                                <a href="AboutUs" class="nav-link font-italic"> Logout </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                </nav>
+                <NavBar></NavBar>
             </Row>
-
-
             <Row>
                 <Col>
                 <Container>
                 <Form>
                     <div class="col-lg-6">
                     <br/>
-                        <b><h1 class="display-6"> Welcome {state.username} </h1></b>
+                        <b><h1 class="display-6"> Welcome </h1></b>
                         <p class="lead text-muted mb-0">Please Select an Option Below</p>
                     </div>
 

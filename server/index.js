@@ -217,12 +217,11 @@ app.post('/updateInsurancePlan', async(req, res) => {
         const user = await User.findOne({username: insuranceName})
         const checkInsurance = Insurance.findOne({insuranceName: user.fullName})
 
-        // if(originalPlanName !== planName) {
-            Insurance.updateOne(
-                {insuranceName: user.fullName},
-                {$pull: {plans: {planName: originalPlanName}}},
-                (err, result) => {
-                    if(err) {
+        Insurance.updateOne(
+            {insuranceName: user.fullName},
+            {$pull: {plans: {planName: originalPlanName}}},                
+            (err, result) => {
+                if(err) {
                         res.send(err)
                     }
                 }
@@ -237,7 +236,6 @@ app.post('/updateInsurancePlan', async(req, res) => {
                     }
                 }
             )
-        // }
 
         if(checkInsurance.plans) {
             if(checkInsurance.plans.length === 0)
@@ -286,23 +284,32 @@ app.post('/deleteOfferedInsurance', async(req, res) => {
 // DeleteCustomer.js
 app.post('/deleteCustomer', async(req, res) => {
     try {
-        const username = req.body.username
-        const insuranceName = req.body.insuranceName
-        const insuranceType = req.body.insuranceType
-        const planName = req.body.planName
-        const yearlyCost =  req.body.yearlyCost
-        const plans = [{insuranceName: insuranceName, insuranceType: insuranceType, planName: planName, yearlyCost: yearlyCost}]
+        const insuranceCompanyUsername = req.body.insuranceCompanyUsername
+        const customerUsername = req.body.customerUsername
         
-        User.updateOne(
-            {username: username}, 
-            {$set:{plans: plans}}, 
-            (err, result) => {
-                if(err) {
-                    res.send(err)
+        const user = await User.findOne({username: insuranceCompanyUsername});
+        const insuranceCompanyName = user.fullName
+
+        const checkUser = await User.find({username: customerUsername, "enrolledIn.insuranceName": insuranceCompanyName})
+        console.log(checkUser.length)
+        if(checkUser.length === 0) {
+            // console.log("Not Enrolled")
+            var redir = { redirect: "no_customer_found" };
+            return res.json(redir);
+        } else {
+            User.updateOne(
+                {username: customerUsername},
+                {$pull: {enrolledIn: {insuranceName: insuranceCompanyName}}}, 
+                (err, result) => {
+                    if(err) {
+                        res.send(err)
+                    }
+                    var redir = { redirect: "successfully_unenrolled_customer" };
+                    return res.json(redir);
                 }
-                res.send(result)
-            }
-        )
+            )
+        }
+        
     } catch (err) {
         console.log(err)
     }

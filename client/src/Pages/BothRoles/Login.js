@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Link, useLocation} from 'react-router-dom';
 import Axios from 'axios';
 
-import NavBar from '../Common/NavBar';
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
+import LogoutNavBar from '../Common/LogoutNavBar';
 import Container from 'react-bootstrap/esm/Container';
 import Row from 'react-bootstrap/esm/Row';
 import Form from 'react-bootstrap/Form';
@@ -56,20 +58,20 @@ function Login() {
     return (
         <Container>
             <Row>
-                {/* <NavBar></NavBar> */}
-                <nav class="navbar navbar-expand-lg navbar-light bg-light py-3">
-                <div class="container"><a href="#" class="navbar-brand d-flex align-items-center"><strong>MaximizeBenefits</strong></a>
-                <div id="navbarSupportedContent" class="collapse navbar-collapse">
-                    <ul class="navbar-nav me-auto">
-                        <li class="nav-item active"><a href="AboutUs" class="nav-link font-italic"> About Us </a></li>
-                    </ul>
-                </div>
-                </div>
-                </nav>
+            <nav class="navbar navbar-expand-lg navbar-light bg-light py-3">
+            <div class="container"><a href="#" class="navbar-brand d-flex align-items-center"><strong>MaximizeBenefits</strong></a>
+            <div id="navbarSupportedContent" class="collapse navbar-collapse">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item active">
+                        <a href="AboutUs" class="nav-link font-italic"> About Us </a>
+                    </li>
+                </ul>
+            </div>
+            </div>
+            </nav>
             </Row>
 
             <br/>
-
             <br/>
             
             <Row>

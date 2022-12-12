@@ -7,7 +7,7 @@ import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
 import Row from 'react-bootstrap/esm/Row';
 import Form from 'react-bootstrap/Form';
-import NavBar from '../Common/NavBar';
+import NavBar from '../Common/LogoutNavBar';
 
 /**
  * @returns a page that asks the user to type in a type, budget, and age to search through insurances

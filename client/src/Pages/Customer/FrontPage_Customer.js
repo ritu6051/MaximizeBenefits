@@ -32,20 +32,7 @@ function FrontPage_Customer() {
     return (
         <Container>
             <Row>
-                {/* <NavBar></NavBar> */}
-                <nav class="navbar navbar-expand-lg navbar-light bg-light py-3">
-                <div class="container"><a href="#" class="navbar-brand d-flex align-items-center">
-                    <strong>MaximizeBenefits</strong></a>
-                    <div id="navbarSupportedContent" class="collapse navbar-collapse">
-                        {/* <ul class="navbar-nav me-auto"> */}
-                        <ul class="nav navbar-nav navbar-right">
-                            <li class="nav-item active">
-                                <a href="AboutUs" class="nav-link font-italic"> Logout </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                </nav>
+                <NavBar></NavBar>
             </Row>
             <br/>
             <Row>

@@ -6,32 +6,36 @@ import Container from 'react-bootstrap/esm/Container';
 import Row from 'react-bootstrap/esm/Row';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import Alert from 'react-bootstrap/Alert';
 
 /**
  * @returns a redirect to the homepage with the customer removed from that company
  */
 function DelteCustomer(){
     const navigate = useNavigate();
-    const [username, setUsername] = useState('');
+    const [customerUsername, setCustomerUsername] = useState('');
     const {state} = useLocation();
     const [insuranceName, setInsuranceName] = useState('');
     const [planName, setPlanName] = useState('');
     const [yearlyCost, setYearlyCost] = useState('');
+    const[popUp1, setPopUp1] = useState(false); // Customer not found
     
     const submit =()=>{
         setInsuranceName("")
         setPlanName("")
         setYearlyCost("")
-
+        setPopUp1(false)
         Axios.post("http://localhost:3001/deleteCustomer", {
-            username: username,
-            insuranceName: insuranceName,
-            planName: planName,
-            yearlyCost: yearlyCost, 
+            insuranceCompanyUsername: state.username,
+            customerUsername: customerUsername,
         })
-        .then(function (response) {
+        .then(function(response) {
+            if(response.data.redirect === "successfully_unenrolled_customer") {
+                navigate("/FrontPage_Company", {state: {username: state.username}})
+            } else if(response.data.redirect === "no_customer_found") {
+                setPopUp1(true)
+            }
             
-            navigate("/FrontPage_Company")
         })
     }
     return(
@@ -52,13 +56,20 @@ function DelteCustomer(){
                     type="text"
                     placeholder="Username"
                     onChange={(event) => {
-                        setUsername(event.target.value);
+                        setCustomerUsername(event.target.value);
                     }} />
                 </Form.Group>
 
                 <Button variant="primary" type="button" onClick={submit}>Delete</Button>
             </Form>
-
+            <br/>
+                {popUp1 && (
+                    <div class="col-sm">
+                        <Alert size="sm" variant="danger">
+                            Either this customer is not enrolled in your insurance or the customer doesn't exist
+                        </Alert>
+                    </div>
+                )}
             </Container>
 
         </Container>

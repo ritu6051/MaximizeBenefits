@@ -10,18 +10,26 @@ import { useNavigate, Link } from 'react-router-dom';
  * login, and register redirects 
  */
 function LogoutNavBar() {
-    const navigate = useNavigate();
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
-    const logout = () => {
-        setUsername("")
-        setPassword("")
-        navigate("/Login")
-    }
+  const logout = () => {
+    setUsername("")
+    setPassword("")
+    navigate("/Login")
+  }
 
-    return (
-        <nav class="navbar navbar-expand-lg navbar-light bg-light py-3">
+  const goRegister = () => {
+    navigate('/Register')
+  }
+
+  const goLogin = () => {
+    navigate('/Login')
+  }
+
+  return (
+    <nav class="navbar navbar-expand-lg navbar-light bg-light py-3">
         <div class="container"><a href="#" class="navbar-brand d-flex align-items-center"><strong>MaximizeBenefits</strong></a>
             <div id="navbarSupportedContent" class="collapse navbar-collapse">
                 <ul class="navbar-nav me-auto">
@@ -32,7 +40,7 @@ function LogoutNavBar() {
             </div>
         </div>
     </nav>
-    );
+  );
 }
 
 export default LogoutNavBar;
