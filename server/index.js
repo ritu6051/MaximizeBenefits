@@ -3,13 +3,8 @@ import mongoose from 'mongoose'
 import cors from 'cors'
 import User from "./models/User.js"
 import Insurance from "./models/Insurance.js"
-// const express = require("express");
-// const mongoose = require('mongoose');
-// const cors = require('cors');
 const app = express();
 const portNum = 3001
-// const User = require("./models/User");
-// const Insurance = require("./models/Insurance");
 
 app.use(express.json());
 app.use(cors());
@@ -67,7 +62,12 @@ app.post('/login', async(req, res) => {
     }
 });
 
-// RegisterForm.js
+/**
+ *  Called in: Register.js
+ *  Purpose: Checks whether the username already exists; if it does, checks if the two passwords matche; 
+ *      if it does, register new user
+ *  @param: fullName, username, password, passwordAgain, role
+*/
 app.post('/register', async(req, res) => {
     try {
         console.log("Inside server/index.js/app.post/register")
@@ -128,10 +128,9 @@ app.post('/register', async(req, res) => {
 app.post('/getOfferedInsurances', async(req, res) => { 
     try {
         const username = req.body.username
-        const user = await User.findOne({username: username});
         
+        const user = await User.findOne({username: username});
         const checkInsurance = await Insurance.findOne({insuranceName: user.fullName});
-        console.log(checkInsurance)
 
         if(!checkInsurance) {
             console.log("Insurance doesn't exist")
@@ -281,7 +280,11 @@ app.post('/deleteOfferedInsurance', async(req, res) => {
     return res.json(redir);
 });
 
-// DeleteCustomer.js
+/**
+ *  Called in: DeleteCustomer.js
+ *  Purpose: Insurance company deletes that plan from their customer
+ *  @param: insuranceCompanyUsername, customerUsername
+*/
 app.post('/deleteCustomer', async(req, res) => {
     try {
         const insuranceCompanyUsername = req.body.insuranceCompanyUsername
@@ -314,6 +317,7 @@ app.post('/deleteCustomer', async(req, res) => {
         console.log(err)
     }
 });
+
 
 app.post('/addAdditionalPlansToInsurance', async(req, res) => {
     try {
@@ -441,7 +445,12 @@ app.post('/addInsuranceToUser', async(req, res) => {
         
         // console.log("Here " +plans[0].insuranceName)
         // const checkUser = await User.findOne({username: username})
-        
+        console.log("Username = " +username)
+        console.log("insuranceName = " +insuranceName)
+        console.log("insuranceType = " +insuranceType)
+        console.log("planName = " +planName)
+        console.log("yearlyCost = " +yearlyCost)
+
         User.updateOne(
             {username: username}, 
             {$push: {enrolledIn: {insuranceName: insuranceName, insuranceType: insuranceType, planName: planName, yearlyCost: yearlyCost, coverages: coverages}}}, 
@@ -450,6 +459,7 @@ app.post('/addInsuranceToUser', async(req, res) => {
                     res.send(err)
                 }
                 var redir = { redirect: "added_insurance_to_user" };
+                console.log("redir.redirect = " +redir.redirect)
                 return res.json(redir);
             }
         )

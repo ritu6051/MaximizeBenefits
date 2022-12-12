@@ -44,9 +44,9 @@ function Register() {
                 if (response.data.redirect === 'username_already_exists') {
                     setPopUp1(true)
                 } else if (response.data.redirect === "login_customer_successfully") {
-                    navigate("/FrontPage_Customer")
+                    navigate("/FrontPage_Customer", {state: {username: username}})
                 } else if (response.data.redirect === "login_company_successfully") {
-                    navigate("/FrontPage_Company")
+                    navigate("/FrontPage_Company", {state: {username: username}})
                 } else if (response.data.redirect === "passwords_do_not_match") {
                     setPopUp2(true)
                 }

@@ -9,10 +9,7 @@ describe("POST/login", () => {
                 password: "123"
             }).then(function (response) {
                 expect(response.text).toBe("{\"redirect\":\"login_company_successfully\"}")
-                // console.log("Value = " +JSON.stringify(response))
             })
-            // expect(response).toEqual("login_customer_successfully")
-            // expect(response.statusCode).toBe(200)
         })
 
         test("login customer successfully", async() => {

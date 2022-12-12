@@ -9,7 +9,7 @@ import Form from 'react-bootstrap/Form';
 import NavBar from '../Common/NavBar';
 import Alert from 'react-bootstrap/Alert';
 
-function AddBenefits() {
+function AddMorePlans() {
     const navigate = useNavigate();
     const{state} = useLocation();
 
@@ -170,4 +170,4 @@ function AddBenefits() {
 
 }
 
-export default AddBenefits;
+export default AddMorePlans;

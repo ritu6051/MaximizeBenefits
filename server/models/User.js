@@ -18,11 +18,10 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    // enrolledIn: {
-    //     type: Array,
-    //     required: false,
-
     enrolledIn: {
+        type: Array,
+        required: false,
+        
         insuranceName: { // Cigna
             type: String,
             required: false,
