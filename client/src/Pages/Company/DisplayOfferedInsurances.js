@@ -13,17 +13,13 @@ import Button from 'react-bootstrap/Button';
  */
 function DisplayOfferedInsurances() {
     const navigate = useNavigate();
-    const{state} = useLocation();
+    const {state} = useLocation();
 
     function editThis(val1, val2, coverages) {
-        console.log(val1.insuranceName)
-        console.log(val2.planName)
-        console.log(coverages[0].coverageName)
         navigate('/EditBenefits', {state: {val1: val1, val2: val2, coverages: coverages, insuranceList: state.insuranceList, username: state.username}});
     }
 
     function deleteThis(username, val1, val2, coverages) {
-        console.log(username)
         Axios.post("http://localhost:3001/deleteOfferedInsurance", {  
             username: username,
             planName: val2.planName,

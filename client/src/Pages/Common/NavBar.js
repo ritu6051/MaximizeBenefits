@@ -9,7 +9,7 @@ import { useNavigate, Link } from 'react-router-dom';
  * @returns the navigation bar at the top of the page with the logo, name, about us,
  * login, and register redirects 
  */
-function LogoutNavBar() {
+function NavBar() {
     const navigate = useNavigate();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -17,7 +17,7 @@ function LogoutNavBar() {
     const logout = () => {
         setUsername("")
         setPassword("")
-        navigate("/Login")
+        navigate("/AboutUs")
     }
 
     return (
@@ -26,7 +26,7 @@ function LogoutNavBar() {
             <div id="navbarSupportedContent" class="collapse navbar-collapse">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item active">
-                      <a href="AboutUs" class="nav-link font-italic"> Logout </a>
+                      <a onClick={logout} class="nav-link font-italic"> Logout </a>
                     </li>
                 </ul>
             </div>
@@ -35,4 +35,4 @@ function LogoutNavBar() {
     );
 }
 
-export default LogoutNavBar;
+export default NavBar;

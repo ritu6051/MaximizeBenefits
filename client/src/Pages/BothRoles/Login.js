@@ -2,9 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Link, useLocation} from 'react-router-dom';
 import Axios from 'axios';
 
-import Navbar from 'react-bootstrap/Navbar';
-import Nav from 'react-bootstrap/Nav';
-import LogoutNavBar from '../Common/LogoutNavBar';
 import Container from 'react-bootstrap/esm/Container';
 import Row from 'react-bootstrap/esm/Row';
 import Form from 'react-bootstrap/Form';
@@ -25,7 +22,10 @@ function Login() {
     const [popUp3, setPopUp3] = useState(false); // Empty fields
 
     const loginAccount = () => {
+        setPopUp1(false)
+        setPopUp2(false)
         setPopUp3(false)
+
         if(!username || !password) {
             setPopUp3(true)
         } else {
@@ -35,21 +35,13 @@ function Login() {
             })
             .then(function (response) {
                 if (response.data.redirect === "login_customer_successfully") {
-                    setPopUp1(false)
-                    setPopUp2(false)
                     navigate('/FrontPage_Customer', {state: {username: username}});
                 } else if (response.data.redirect === 'login_company_successfully') {
-                    setPopUp1(false)
-                    setPopUp2(false)
                     navigate("/FrontPage_Company", {state: {username: username}});
                 } else if (response.data.redirect === 'user_does_not_exist') {
                     setPopUp1(true)
-                    setPopUp2(false)
-                    navigate("/Login")
                 } else if (response.data.redirect === 'incorrect_password') {
-                    setPopUp1(false)
                     setPopUp2(true)
-                    navigate("/Login")
                 }
             })
         }
@@ -59,27 +51,22 @@ function Login() {
         <Container>
             <Row>
             <nav class="navbar navbar-expand-lg navbar-light bg-light py-3">
-            <div class="container"><a href="#" class="navbar-brand d-flex align-items-center"><strong>MaximizeBenefits</strong></a>
-            <div id="navbarSupportedContent" class="collapse navbar-collapse">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item active">
-                        <a href="AboutUs" class="nav-link font-italic"> About Us </a>
-                    </li>
-                </ul>
-            </div>
-            </div>
+                <div class="container"><a href="#" class="navbar-brand d-flex align-items-center"><strong>MaximizeBenefits</strong></a>
+                <div id="navbarSupportedContent" class="collapse navbar-collapse">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item active">
+                            <a href="AboutUs" class="nav-link font-italic"> About Us </a>
+                        </li>
+                    </ul>
+                </div>
+                </div>
             </nav>
             </Row>
-
             <br/>
-            <br/>
-            
             <Row>
                 <h3> Login </h3>
             </Row>
-            
             <br/>
-            
             <Container>
                 <Form>
                     <Form.Group className="mb-3" controlId="formUsername">

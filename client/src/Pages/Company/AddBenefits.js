@@ -15,20 +15,16 @@ import Alert from 'react-bootstrap/Alert';
  */
 function AddBenefits() {
     const navigate = useNavigate();
+    const{state} = useLocation();
 
-    const[username, setUsername] = useState('');
-    const[password, setPassword] = useState('');
     const[insuranceType, setInsuranceType] = useState('');
-    const[insuranceName, setInsuranceName] = useState('');
     const[planName, setPlanName] = useState('');
     const[yearlyCost, setYearlyCost] = useState('');
     const[maxAge, setMaxAge] = useState('');
     const [formValues, setFormValues] = useState([{coverageName: "", coverageAmount : ""}])
+    
     const[popUp1, setPopUp1] = useState(false); // Insurance already exists, can't create another
-    const[popUp2, setPopUp2] = useState(false); // Empty fields
-    const{state} = useLocation();
-
-    const[alreadyExistsType, setAlreadyExistsType] = useState('');
+    const[popUp2, setPopUp2] = useState(false); // Empty fields    
 
     const handleFormSubmit = (event) => {
         event.preventDefault();
@@ -45,12 +41,9 @@ function AddBenefits() {
                 coverageDetails: formValues,
             })
             .then(function(response) {
-                console.log("Redirect msg inside AddBenefits.js = " +response.data.redirect)
                 if (response.data.redirect === 'insurance_already_exists') {
-                    setAlreadyExistsType(response.data.insuranceType)
                     setPopUp1(true)
                 } else if (response.data.redirect === 'new_insurance_added_successfully') {
-                    console.log("new_insurance_added_successfully")
                     navigate("/FrontPage_Company", {state})
                 }
             })
@@ -58,7 +51,6 @@ function AddBenefits() {
     }
 
     const handleInsuranceType = event => {
-        console.log(event.target.value);
         setInsuranceType(event.target.value);
     }
 
@@ -66,7 +58,6 @@ function AddBenefits() {
         const newFormValues = [...formValues];
         newFormValues[i][e.target.name] = e.target.value;
         setFormValues(newFormValues);
-        console.log(newFormValues)   
     }
 
     const addFormFields = () => {
@@ -77,12 +68,6 @@ function AddBenefits() {
         const newFormValues = [...formValues];
         newFormValues.splice(i, 1);
         setFormValues(newFormValues)
-    }
-
-    const logout = () => {
-        setUsername("")
-        setPassword("")
-        navigate("/Login")
     }
 
     return (
@@ -99,14 +84,6 @@ function AddBenefits() {
                     <Row>
                     <Form.Group className="mb-3" controlId="formInsuranceName">
                             <Form.Label> Your Insurance/Company Name: </Form.Label>
-                                {/* <Form.Control
-
-                                    // type="text"
-                                    // placeholder="Insurance Name"
-                                    // onChange={(event) => {
-                                    //     setInsuranceName(event.target.value);
-                                    // }}
-                                /> */}
                                 <b> {state.username}</b>
                         </Form.Group>
                     </Row>
@@ -124,9 +101,6 @@ function AddBenefits() {
                             </Form.Select>
                         </Form.Group>
                         </Col>
-                        
-                        
-                        
                     </Row>
                     <Row>
                         <Col>

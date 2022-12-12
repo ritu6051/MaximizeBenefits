@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Link, useLocation} from 'react-router-dom';
 import Axios from 'axios';
 
-import NavBar from '../Common/NavBar';
-import BrandImage from '../Common/BrandImage';
 import Container from 'react-bootstrap/esm/Container';
 import Row from 'react-bootstrap/esm/Row'
 import Col from 'react-bootstrap/esm/Col'
@@ -25,35 +23,35 @@ function Register() {
     const [role, setRole] = useState('');
     const [popUp1, setPopUp1] = useState(false); // Username already exists, can't create account
     const [popUp2, setPopUp2] = useState(false); // Passwords do not match
+    const [popUp3, setPopUp3] = useState(false); // Empty fields
 
     const createAccount = () => {
-        Axios.post("http://localhost:3001/register", {
-            fullName: fullName,
-            username: username,
-            password: password,
-            passwordAgain: passwordAgain,
-            role: role,
-        })
-        .then(function (response) {
-            console.log("Redirect msg inside Register.js = " + response.data.redirect)
-            if (response.data.redirect === 'username_already_exists') {
-                setPopUp1(true)
-                setPopUp2(false)
-                navigate("/Register")
-            } else if (response.data.redirect === "login_customer_successfully") {
-                setPopUp1(false)
-                setPopUp2(false)
-                navigate("/FrontPage_Customer")
-            } else if (response.data.redirect === "login_company_successfully") {
-                setPopUp1(false)
-                setPopUp2(false)
-                navigate("/FrontPage_Company")
-            } else if (response.data.redirect === "passwords_do_not_match") {
-                setPopUp1(false)
-                setPopUp2(true)
-                navigate("/Register")
-            }
-        })
+        setPopUp1(false)
+        setPopUp2(false)
+        setPopUp3(false)
+
+        if(!fullName || !username || !password || !passwordAgain || !role) {
+            setPopUp3(true)
+        } else {
+            Axios.post("http://localhost:3001/register", {
+                fullName: fullName,
+                username: username,
+                password: password,
+                passwordAgain: passwordAgain,
+                role: role,
+            })
+            .then(function (response) {
+                if (response.data.redirect === 'username_already_exists') {
+                    setPopUp1(true)
+                } else if (response.data.redirect === "login_customer_successfully") {
+                    navigate("/FrontPage_Customer")
+                } else if (response.data.redirect === "login_company_successfully") {
+                    navigate("/FrontPage_Company")
+                } else if (response.data.redirect === "passwords_do_not_match") {
+                    setPopUp2(true)
+                }
+            })
+        }
     }
     return (
         <Container>
@@ -150,7 +148,13 @@ function Register() {
 
                         {popUp2 && (
                             <Alert variant="danger"> 
-                                <p> Passwords do not match, try again! </p>
+                                Passwords do not match, try again!
+                            </Alert>
+                        )}
+
+                        {popUp3 && (
+                            <Alert variant="danger">
+                                Please enter all fields!
                             </Alert>
                         )}
                         

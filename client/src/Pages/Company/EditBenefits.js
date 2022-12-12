@@ -18,24 +18,16 @@ function EditBenefits() {
 
     const{state} = useLocation();
     const[insuranceType, setInsuranceType] = useState(state.val1.insuranceType);
-    const[insuranceName, setInsuranceName] = useState(state.val1.insuranceName);
     const[planName, setPlanName] = useState(state.val2.planName);
     const[yearlyCost, setYearlyCost] = useState(state.val2.yearlyCost);
     const[maxAge, setMaxAge] = useState(state.val2.age);
     const [formValues, setFormValues] = useState(state.coverages)
 
     const [originalPlanName, setOriginalPlanName] = useState(state.val2.planName)
-
-    const[username, setUsername] = useState('');
-    const[password, setPassword] = useState('');
-        
+      
     const[popUp1, setPopUp1] = useState(false); // Insurance already exists, can't create another
     
     const handleFormSubmit = (event) => {
-        console.log("Insurance Name = " +insuranceName)
-        console.log("Insurance Type = " +insuranceType)
-        console.log("Plan Name = " +planName)
-        console.log("Plan Name = " +yearlyCost)
         event.preventDefault();
         Axios.post("http://localhost:3001/updateInsurancePlan", {  
             insuranceName: state.username,
@@ -47,7 +39,6 @@ function EditBenefits() {
             originalPlanName: originalPlanName
         })
         .then(function(response) {
-            console.log("Redirect msg inside EditBenefits.js = " +response.data.redirect)
             if (response.data.redirect === 'insurance_already_exists') {
                 setPopUp1(true)
             } else if (response.data.redirect === 'updated_company_insurance') {
@@ -57,22 +48,16 @@ function EditBenefits() {
     }
 
     const handleInsuranceType = event =>{
-        console.log(event.target.value);
         setInsuranceType(event.target.value);
-        console.log("Type = " +insuranceType)
     }
 
     const handleChange = (i, e) => {
-        console.log("e = " +e.target.name)
         const newFormValues = [...formValues];
-        // newFormValues[i][e.target.name] = e.target.value;
         newFormValues[i][e.target.name] = e.target.value;
         setFormValues(newFormValues);
-        console.log(newFormValues)   
     }
 
     const addFormFields = () => {
-        console.log(formValues)
         setFormValues([...formValues, { coverageName: "", coverageAmount: "" }])
     }
 
@@ -82,12 +67,6 @@ function EditBenefits() {
         setFormValues(newFormValues)
     }
 
-    const logout = () => {
-        setUsername("")
-        setPassword("")
-        navigate("/Login")
-    }
-    
     return (
         <Container>
             <Row>
@@ -102,14 +81,6 @@ function EditBenefits() {
                     <Row>
                     <Form.Group className="mb-3" controlId="formInsuranceName">
                             <Form.Label> Your Insurance/Company Name: </Form.Label>
-                                {/* <Form.Control
-
-                                    // type="text"
-                                    // placeholder="Insurance Name"
-                                    // onChange={(event) => {
-                                    //     setInsuranceName(event.target.value);
-                                    // }}
-                                    /> */}
                                 <b> {state.username}</b>
                         </Form.Group>
                     </Row>
@@ -205,7 +176,6 @@ function EditBenefits() {
                             }
                         </Col>
                     </Row>
-                    // );
                 ))
                 }
                 <Row>

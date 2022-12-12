@@ -16,20 +16,13 @@ import Wallpaper from '../../Images/MaximizeBenefitsLogo.png'
  */
 function FrontPage_Company() {
     const navigate = useNavigate();
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [imgPath, setImgPath] = useState('');
     const{state} = useLocation();
+    
+    const photo = require(`../../Images/BrandImages/${state.username}.png`);
+
     const[popUp1, setPopUp1] = useState(false); // Insurance company already offers insurances
     const[popUp2, setPopUp2] = useState(false); // No insurances offered to edit
-    const photo = require(`../../Images/BrandImages/${state.username}.png`);
-    console.log(photo)
     
-    const logout = () => {
-        setUsername("")
-        setPassword("")
-        navigate("/Login")
-    }
     const addBenefits = () => {
         setPopUp1(false)
         Axios.post("http://localhost:3001/getOfferedInsurances", {
@@ -51,7 +44,6 @@ function FrontPage_Company() {
             username: state.username,
         })
         .then((response) => {
-            console.log(response.data.redirect)
             if(response.data.redirect === "no_insurances_offered") {
                 setPopUp2(true)
             } else {
@@ -66,7 +58,6 @@ function FrontPage_Company() {
     }
 
     const deleteCustomer = () => {
-        console.log("Here")
         navigate("/DeleteCustomer", {state: {username: state.username}})
     }
 

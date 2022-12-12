@@ -5,7 +5,6 @@ import NavBar from '../Common/NavBar';
 import Container from 'react-bootstrap/esm/Container';
 import Row from 'react-bootstrap/esm/Row';
 import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
 import Table from 'react-bootstrap/esm/Table';
 
 /**
@@ -22,7 +21,6 @@ function DeleteMyInsurance() {
             insuranceName: insuranceName
         }).then((response) => {
             if(response.data.redirect === "successfully_deleted_insurance_by_customer") {
-                console.log(response.data.redirect)
                 navigate("/FrontPage_Customer", {state: {insuranceList: state.insuranceList, username: state.username}});
             }
         })
@@ -56,7 +54,7 @@ function DeleteMyInsurance() {
                                         <td>{val.insuranceName}</td>
                                         <td>{val.insuranceType}</td>
                                         <td>{val.planName}</td>
-                                        <td>{val.yearlyCost}</td>
+                                        <td>{"$"}{val.yearlyCost}</td>
                                         <td> 
                                             {
                                                 val.coverages.map((val, key) => {

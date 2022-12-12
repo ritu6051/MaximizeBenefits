@@ -7,7 +7,7 @@ import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
 import Row from 'react-bootstrap/esm/Row';
 import Form from 'react-bootstrap/Form';
-import NavBar from '../Common/LogoutNavBar';
+import NavBar from '../Common/NavBar';
 
 /**
  * @returns a page that asks the user to type in a type, budget, and age to search through insurances
@@ -63,13 +63,11 @@ function FindInsuranceForCustomer() {
 
     const handleInsuranceType = (event) => {
         setPopUp1(false)
-        console.log("Insurance type = " +event.target.value)
         Axios.post("http://localhost:3001/getEnrolledInsuranceTypes", {
             username: state.username
         }).then((response) => {
             for(var i = 0; i<response.data.length; i++)  {
                 if(event.target.value === response.data[i]) {
-                    console.log(response.data[i])
                     setPopUp1(true)
                     setInsuranceType(event.target.value);
                 }
