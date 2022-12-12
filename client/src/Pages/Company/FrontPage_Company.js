@@ -7,6 +7,7 @@ import Form from 'react-bootstrap/Form';
 import NavBar from '../Common/NavBar';
 import Row from 'react-bootstrap/esm/Row';
 import Col from 'react-bootstrap/esm/Col';
+import Alert from 'react-bootstrap/Alert';
 
 /**
  * @returns the company home page that displays buttons that allow a company to add benefits,
@@ -17,6 +18,7 @@ function FrontPage_Company() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const{state} = useLocation();
+    const[popUp1, setPopUp1] = useState(false); // Insurance company already offers insurances
 
     const logout = () => {
         setUsername("")
@@ -24,18 +26,22 @@ function FrontPage_Company() {
         navigate("/Login")
     }
     const addBenefits = () => {
-        navigate('/AddBenefits', {state});
+        setPopUp1(false)
+        Axios.post("http://localhost:3001/getOfferedInsurances", {
+            username: state.username,
+        })
+        .then((response) => {
+            if(response.data.length === 0) {
+                console.log(response.data)
+                navigate('/AddBenefits', {state});
+            } else {
+                console.log("Insurances already offered")
+                setPopUp1(true)
+            }
+        })
     }
-    const addMorePlans = () => {
-        navigate('/AddMorePlans', {state});
-    }
-    const updateCustomerBenefits = () => {
-        navigate("/UpdateBenefits")
-    }
-    const deleteCustomer = () => {
-        navigate("/DeleteCustomer")
-    }
-    const addOrEdit = () => {
+
+    const editOrRemove = () => {
         Axios.post("http://localhost:3001/getOfferedInsurances", {
             username: state.username,
         })
@@ -44,6 +50,18 @@ function FrontPage_Company() {
         })
     }
 
+    const addMorePlans = () => {
+        navigate('/AddMorePlans', {state});
+    }
+
+    const updateCustomerBenefits = () => {
+        navigate("/UpdateBenefits")
+    }
+
+    const deleteCustomer = () => {
+        navigate("/DeleteCustomer")
+    }
+    
     return (
         <Container>
             <Row>
@@ -69,7 +87,7 @@ function FrontPage_Company() {
                         <br/>
                         <Col>
                             <br/>
-                            <Button variant="secondary" size="lg" type="button" class="btn btn-secondary btn-lg btn-block" onClick={addOrEdit}> Edit / Remove Plans / Insurances </Button>
+                            <Button variant="secondary" size="lg" type="button" class="btn btn-secondary btn-lg btn-block" onClick={editOrRemove}> Edit / Remove Plans / Insurances </Button>
                         </Col>
                         <Col>
                             <br/>
@@ -86,6 +104,12 @@ function FrontPage_Company() {
                     </div>
                             
                 </Form>
+                <br/>
+                {popUp1 && (
+                    <Alert variant="danger">
+                        An insurance is already offered. Please go to the Edit/Remove tab or Add More Plans to existing insurances tab!
+                    </Alert>
+                )}
                 </Container>
             </Row>
         </Container>

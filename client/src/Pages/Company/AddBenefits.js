@@ -44,7 +44,6 @@ function AddBenefits() {
             if (response.data.redirect === 'insurance_already_exists') {
                 setAlreadyExistsType(response.data.insuranceType)
                 setPopUp1(true)
-                // navigate("/Register")
             } else if (response.data.redirect === 'new_insurance_added_successfully') {
                 console.log("new_insurance_added_successfully")
                 navigate("/FrontPage_Company", {state})
@@ -52,15 +51,13 @@ function AddBenefits() {
         })
     }
 
-    const handleInsuranceType = event =>{
+    const handleInsuranceType = event => {
         console.log(event.target.value);
         setInsuranceType(event.target.value);
     }
 
     const handleChange = (i, e) => {
-        console.log("e = " +e.target.name)
         const newFormValues = [...formValues];
-        // newFormValues[i][e.target.name] = e.target.value;
         newFormValues[i][e.target.name] = e.target.value;
         setFormValues(newFormValues);
         console.log(newFormValues)   
@@ -81,7 +78,6 @@ function AddBenefits() {
         setPassword("")
         navigate("/Login")
     }
-    // ----------- End of functions -----------
 
     return (
         <Container>
@@ -89,8 +85,6 @@ function AddBenefits() {
                 <NavBar></NavBar>
             </Row>
             <br/>
-
-            
 
             <Form onSubmit={handleFormSubmit}>
                 <div className="whiteBox"> 
@@ -106,7 +100,7 @@ function AddBenefits() {
                                     // onChange={(event) => {
                                     //     setInsuranceName(event.target.value);
                                     // }}
-                                    /> */}
+                                /> */}
                                 <b> {state.username}</b>
                         </Form.Group>
                     </Row>
@@ -211,12 +205,6 @@ function AddBenefits() {
                 </div>
                 </Row>
             </Form>
-            <br/>
-            {popUp1 && (
-                <Alert variant="danger">
-                    An insurance of type {alreadyExistsType} already exists. Please go to the Add More Plans tab!
-                </Alert>
-            )}
         </Container>
     );
 

@@ -24,15 +24,6 @@ function AddBenefits() {
     const[insuranceTypeList, setInsuranceTypeList] = useState([]);
     const{state} = useLocation();
 
-
-    // Axios.post("http://localhost:3001/getOfferedInsurances", {
-    //     username: state.username        
-    // }).then((response) => {
-    //     setInsuranceTypeList(response.data)
-    //     // console.log(response.data.insuranceType)
-    //     // console.log(insuranceTypeList)
-    // })
-
     const handleFormSubmit = (event) => {
         event.preventDefault();
         Axios.post("http://localhost:3001/addAdditionalPlansToInsurance", {  
@@ -48,7 +39,7 @@ function AddBenefits() {
             if (response.data.redirect === 'insurance_already_exists') {
                 setPopUp1(true)
                 // navigate("/Register")
-            } else if (response.data.redirect === 'new_insurance_added_successfully') {
+            } else if (response.data.redirect === 'added_additional_plan_to_insurance') {
                 console.log("new_insurance_added_successfully")
                 navigate("/FrontPage_Company", {state})
             }

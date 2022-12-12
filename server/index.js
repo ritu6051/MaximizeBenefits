@@ -147,7 +147,7 @@ app.post('/getOfferedInsurances', async(req, res) => {
 /**
  *  Called in: AddBenefits.js
  *  Purpose: Adds the insurance plan added by the company to the database
- *              Checks whether that insurance is already offered by that company. If it 
+ *           Checks whether that insurance is already offered by that company. If it 
  *              is not, then it gets added successfully
  *  @param: insuranceName, insuranceType, planName, yearlyCost, maxAge, coverageDetails
 */
@@ -165,7 +165,7 @@ app.post('/insertInsurancePlan', async(req, res) => {
 
         if(insurance) {
             console.log("This insurance already exixts")
-            var redir = { redirect: "insurance_already_exists" , insuranceType: insuranceType};
+            var redir = { redirect: "insurance_already_exists" , insuranceType: insurance.insuranceType};
             return res.json(redir);
         } else {
             console.log("New insurance added successfully")
@@ -188,6 +188,11 @@ app.post('/insertInsurancePlan', async(req, res) => {
     }
 });
 
+/**
+ *  Called in: EditBenefits.js
+ *  Purpose: Edits the insurance plan details
+ *  @param: insuranceName, insuranceType, planName, yearlyCost, maxAge, coverageDetails
+*/
 app.post('/updateInsurancePlan', async(req, res) => { 
     try {
         const insuranceName = req.body.insuranceName
@@ -196,15 +201,27 @@ app.post('/updateInsurancePlan', async(req, res) => {
         const yearlyCost = req.body.yearlyCost
         const maxAge = req.body.maxAge
         const coverageDetails = req.body.coverageDetails
+        const originalPlanName = req.body.originalPlanName
 
         const plans = [{planName: planName, yearlyCost: yearlyCost, age: maxAge, coverages: coverageDetails}]
         
         const user = await User.findOne({username: insuranceName})
-        console.log(user)
+        console.log("Original = " +originalPlanName)
+        console.log("New = " +planName)
+
+        Insurance.updateOne(
+            {insuranceName: user.fullName},
+            {$pull: {plans: {planName: originalPlanName}}},
+            (err, result) => {
+                if(err) {
+                    res.send(err)
+                }
+            }
+        )
 
         Insurance.updateOne(
             {insuranceName: user.fullName}, 
-            {$set:{insuranceType: insuranceType, plans: plans}}, 
+            {$push: {plans: {planName: planName, yearlyCost: yearlyCost, age: maxAge, coverages: coverageDetails}}}, 
             (err, result) => {
                 if(err) {
                     res.send(err)
@@ -217,6 +234,30 @@ app.post('/updateInsurancePlan', async(req, res) => {
     } catch (err) {
         res.send(err)
     }
+});
+
+/**
+ *  Called in: DisplayOfferedInsurances.js
+ *  Purpose: Deletes that plan i.e. the insurance company no longer offers that plan
+ *  @param: insuranceName, insuranceType, planName, yearlyCost, maxAge, coverageDetails
+*/
+app.post('/deleteOfferedInsurance', async(req, res) => {
+    const username = req.body.username
+    const planName = req.body.planName
+
+    const user = await User.findOne({username: username});
+
+    Insurance.updateOne(
+        {insuranceName: user.fullName},
+        {$pull: {plans: {planName: planName}}}, 
+        (err, result) => {
+            if(err) {
+                res.send(err)
+            }
+            var redir = { redirect: "deleted_offered_insurance" };
+            return res.json(redir);
+        }
+    )
 });
 
 // DeleteCustomer.js
@@ -268,25 +309,6 @@ app.post('/addAdditionalPlansToInsurance', async(req, res) => {
     } catch (err) {
         console.log(err)
     }
-});
-
-app.post('/deleteOfferedInsurance', async(req, res) => {
-    const username = req.body.username
-    const planName = req.body.planName
-
-    const user = await User.findOne({username: username});
-
-    Insurance.updateOne(
-        {insuranceName: user.fullName},
-        {$pull: {plans: {planName: planName}}}, 
-        (err, result) => {
-            if(err) {
-                res.send(err)
-            }
-            var redir = { redirect: "deleted_offered_insurance" };
-            return res.json(redir);
-        }
-    )
 });
 
 // ------------------------------------------------ CUSTOMER ------------------------------------------------ 

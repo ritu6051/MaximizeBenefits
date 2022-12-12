@@ -31,9 +31,6 @@ function EditBenefits() {
         
     const[popUp1, setPopUp1] = useState(false); // Insurance already exists, can't create another
     
-    // setFormValues(state.coverages)
-    // const [formValues, setFormValues] = useState([{coverageName: "", coverageAmount : ""}])
-
     const handleFormSubmit = (event) => {
         console.log("Insurance Name = " +insuranceName)
         console.log("Insurance Type = " +insuranceType)
@@ -53,7 +50,6 @@ function EditBenefits() {
             console.log("Redirect msg inside AddBenefits.js = " +response.data.redirect)
             if (response.data.redirect === 'insurance_already_exists') {
                 setPopUp1(true)
-                // navigate("/Register")
             } else if (response.data.redirect === 'updated_company_insurance') {
                 console.log(response.data.redirect)
                 console.log(state.insuranceList)
@@ -94,8 +90,7 @@ function EditBenefits() {
         setPassword("")
         navigate("/Login")
     }
-    // ----------- End of functions -----------
-
+    
     return (
         <Container>
             <Row>
