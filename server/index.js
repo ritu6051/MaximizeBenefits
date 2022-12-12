@@ -38,7 +38,6 @@ app.post('/login', async(req, res) => {
                 console.log(username + " is a " +loginUser.role+ "!")
                 if(loginUser.role === "customer") {
                     var redir = { redirect: "login_customer_successfully" };
-                    console.log(redir)
                     return res.json(redir);
                 }
                 else if(loginUser.role === "insurancecompany") {
@@ -70,7 +69,7 @@ app.post('/login', async(req, res) => {
 */
 app.post('/register', async(req, res) => {
     try {
-        console.log("Inside server/index.js/app.post/register")
+        // console.log("Inside server/index.js/app.post/register")
         const fullName = req.body.fullName
         const username = req.body.username
         const password = req.body.password
@@ -80,12 +79,12 @@ app.post('/register', async(req, res) => {
         const checkUser = await User.findOne({username: username});
         
         if(checkUser) {
-            console.log("Username already exists!")
+            // console.log("Username already exists!")
             var redir = { redirect: "username_already_exists" };
             return res.json(redir);
         } 
         else { 
-            console.log("Username does not exist, can create account")
+            // console.log("Username does not exist, can create account")
             const newUser = new User ({
                 fullName: fullName, 
                 username: username, 
@@ -170,7 +169,7 @@ app.post('/insertInsurancePlan', async(req, res) => {
 
         const user = await User.findOne({username: insuranceName})
         const insurance = await Insurance.findOne({insuranceName: user.fullName});
-        console.log("Before inserting insurance")
+        
         if(insurance) {
             console.log("This insurance already exixts")
             var redir = { redirect: "insurance_already_exists" , insuranceType: insurance.insuranceType};
@@ -204,15 +203,12 @@ app.post('/insertInsurancePlan', async(req, res) => {
 app.post('/updateInsurancePlan', async(req, res) => { 
     try {
         const insuranceName = req.body.insuranceName
-        const insuranceType = req.body.insuranceType
         const planName = req.body.planName
         const yearlyCost = req.body.yearlyCost
         const maxAge = req.body.maxAge
         const coverageDetails = req.body.coverageDetails
         const originalPlanName = req.body.originalPlanName
 
-        const plans = [{planName: planName, yearlyCost: yearlyCost, age: maxAge, coverages: coverageDetails}]
-        
         const user = await User.findOne({username: insuranceName})
         const checkInsurance = Insurance.findOne({insuranceName: user.fullName})
 
@@ -318,7 +314,11 @@ app.post('/deleteCustomer', async(req, res) => {
     }
 });
 
-
+/**
+ *  Called in: AddMorePlans.js
+ *  Purpose: If the insurance company as already provided an insurance, they can add additional plans
+ *  @param: username, planName, yearlyCost, age, coverages
+*/
 app.post('/addAdditionalPlansToInsurance', async(req, res) => {
     try {
         const username = req.body.username
@@ -538,6 +538,9 @@ app.post('/deleteMyInsurance', async(req, res) => {
     }
 });
 
+/**
+ * Listens on port number
+ */
 app.listen(portNum, () => {
     console.log("Yes, your port is running on port " +portNum);
 });
