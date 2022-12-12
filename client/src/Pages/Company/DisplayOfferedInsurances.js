@@ -67,7 +67,7 @@ function DisplayOfferedInsurances() {
                                         <td>{val1.insuranceType}</td>
                                         <td>{val2.planName}</td>
                                         <td>{"$"}{val2.yearlyCost}</td>
-                                        <td>{"$"}{val2.age}</td>
+                                        <td>{val2.age}</td>
                                             
                                         <td>
                                             { val2.coverages.map((val3, key) => {

@@ -31,8 +31,7 @@ function FrontPage_Company() {
             username: state.username,
         })
         .then((response) => {
-            if(response.data.length === 0) {
-                console.log(response.data)
+            if (response.data.redirect === "no_insurances_offered") {
                 navigate('/AddBenefits', {state});
             } else {
                 console.log("Insurances already offered")

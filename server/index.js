@@ -130,15 +130,26 @@ app.post('/getOfferedInsurances', async(req, res) => {
         const username = req.body.username
         const user = await User.findOne({username: username});
         
-        Insurance.find({insuranceName: user.fullName}, (err, result) => {
-            if(err) {
-                console.log(err)
-                res.send(err)
-            }
-            else {
-                res.send(result)
-            }
-        });
+        const checkInsurance = await Insurance.find({insuranceName: user.fullName});
+        console.log(checkInsurance.plans)
+        
+        if(!checkInsurance.plans) {
+            console.log("No Insurances Offered")
+            var redir = { redirect: "no_insurances_offered" };
+            return res.json(redir);
+        } else {
+            Insurance.find({insuranceName: user.fullName}, (err, result) => {
+                if(err) {
+                    console.log(err)
+                    res.send(err)
+                }
+                else {
+                    var redir = { redirect: "no_insurances_offered" };
+                    return res.json(redir);
+                }
+            });
+        }
+        
     } catch(err) {
         console.log(err);
     }
@@ -209,28 +220,31 @@ app.post('/updateInsurancePlan', async(req, res) => {
         console.log("Original = " +originalPlanName)
         console.log("New = " +planName)
 
-        Insurance.updateOne(
-            {insuranceName: user.fullName},
-            {$pull: {plans: {planName: originalPlanName}}},
-            (err, result) => {
-                if(err) {
-                    res.send(err)
+        if(originalPlanName !== planName) {
+            Insurance.updateOne(
+                {insuranceName: user.fullName},
+                {$pull: {plans: {planName: originalPlanName}}},
+                (err, result) => {
+                    if(err) {
+                        res.send(err)
+                    }
                 }
-            }
-        )
-
-        Insurance.updateOne(
-            {insuranceName: user.fullName}, 
-            {$push: {plans: {planName: planName, yearlyCost: yearlyCost, age: maxAge, coverages: coverageDetails}}}, 
-            (err, result) => {
-                if(err) {
-                    res.send(err)
+            )
+            
+            Insurance.updateOne(
+                {insuranceName: user.fullName}, 
+                {$push: {plans: {planName: planName, yearlyCost: yearlyCost, age: maxAge, coverages: coverageDetails}}}, 
+                (err, result) => {
+                    if(err) {
+                        res.send(err)
+                    }
+                    console.log("Insurance plan successfully updated")
                 }
-                console.log("Insurance plan successfully updated")
-                var redir = { redirect: "updated_company_insurance" };
-                return res.json(redir);
-            }
-        )
+            )
+        }
+        var redir = { redirect: "do_nothing_updated_company_insurance" };
+        return res.json(redir);
+        
     } catch (err) {
         res.send(err)
     }
