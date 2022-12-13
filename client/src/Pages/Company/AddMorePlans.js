@@ -7,7 +7,6 @@ import Col from 'react-bootstrap/esm/Col'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import NavBar from '../Common/NavBar';
-import Alert from 'react-bootstrap/Alert';
 
 function AddMorePlans() {
     const navigate = useNavigate();
@@ -62,8 +61,6 @@ function AddMorePlans() {
             </Row>
             <br/>
 
-            
-
             <Form onSubmit={handleFormSubmit}>
                 <div className="whiteBox"> 
                     <h2 className = 'mainTitle'> Insurance Benefits </h2> 
@@ -71,14 +68,6 @@ function AddMorePlans() {
                     <Row>
                     <Form.Group className="mb-3" controlId="formInsuranceName">
                             <Form.Label> Your Insurance/Company Name: </Form.Label>
-                                {/* <Form.Control
-
-                                    // type="text"
-                                    // placeholder="Insurance Name"
-                                    // onChange={(event) => {
-                                    //     setInsuranceName(event.target.value);
-                                    // }}
-                                    /> */}
                                 <b> {state.username}</b>
                         </Form.Group>
                     </Row>
@@ -154,7 +143,6 @@ function AddMorePlans() {
                             }
                         </Col>
                     </Row>
-                    // );
                 ))
                 }
                 <Row>

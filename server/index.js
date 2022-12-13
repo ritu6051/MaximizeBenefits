@@ -24,18 +24,18 @@ mongoose.connect(
 */
 app.post('/login', async(req, res) => { 
     try {
-        console.log("Inside server/index.js/app.post/login")
+        // console.log("Inside server/index.js/app.post/login")
         const username = req.body.username
         const password = req.body.password
         
         const loginUser = await User.findOne({username: username});
         if(loginUser) {
-            console.log("Username exists!")
+            // console.log("Username exists!")
             
             if(loginUser.password === password) {
-                console.log("Password Matches!")
+                // console.log("Password Matches!")
 
-                console.log(username + " is a " +loginUser.role+ "!")
+                // console.log(username + " is a " +loginUser.role+ "!")
                 if(loginUser.role === "customer") {
                     var redir = { redirect: "login_customer_successfully" };
                     return res.json(redir);
@@ -46,13 +46,13 @@ app.post('/login', async(req, res) => {
                 }
             }
             else {
-                console.log("Password does not match!")
+                // console.log("Password does not match!")
                 var redir = { redirect: "incorrect_password" };
                 return res.json(redir);
             }
         }
         else {  
-            console.log("Username does not exist!")
+            // console.log("Username does not exist!")
             var redir = { redirect: "user_does_not_exist" };
             return res.json(redir);
         } 
@@ -92,9 +92,9 @@ app.post('/register', async(req, res) => {
                 role: role,
             });
             
-            console.log(newUser.username + " is a " +newUser.role+ "!")
+            // console.log(newUser.username + " is a " +newUser.role+ "!")
             if(password === passwordAgain) {
-                console.log("Both passwords match!")
+                // console.log("Both passwords match!")
 
                 if(newUser.role === "customer") {
                     var redir = { redirect: "login_customer_successfully" };
@@ -107,7 +107,7 @@ app.post('/register', async(req, res) => {
                 }
             }
             else {
-                console.log("Both passwords do not match!")
+                // console.log("Both passwords do not match!")
                 var redir = { redirect: "passwords_do_not_match" };
                 return res.json(redir);
             }
@@ -132,13 +132,12 @@ app.post('/getOfferedInsurances', async(req, res) => {
         const checkInsurance = await Insurance.findOne({insuranceName: user.fullName});
 
         if(!checkInsurance) {
-            console.log("Insurance doesn't exist")
+            // console.log("Insurance doesn't exist")
             var redir = { redirect: "no_insurances_offered"};
             return res.json(redir);
         } else {
             Insurance.find({insuranceName: user.fullName}, (err, result) => {
                 if(err) {
-                    console.log(err)
                     res.send(err)
                 }
                 else {
@@ -171,11 +170,11 @@ app.post('/insertInsurancePlan', async(req, res) => {
         const insurance = await Insurance.findOne({insuranceName: user.fullName});
         
         if(insurance) {
-            console.log("This insurance already exixts")
+            // console.log("This insurance already exixts")
             var redir = { redirect: "insurance_already_exists" , insuranceType: insurance.insuranceType};
             return res.json(redir);
         } else {
-            console.log("New insurance added successfully")
+            // console.log("New insurance added successfully")
             const newInsurance = new Insurance ({
                 insuranceName: user.fullName,
                 insuranceType: insuranceType,
@@ -212,12 +211,6 @@ app.post('/updateInsurancePlan', async(req, res) => {
         const user = await User.findOne({username: insuranceName})
         const checkInsurance = Insurance.findOne({insuranceName: user.fullName})
 
-        console.log("insuranceName = " +insuranceName)
-        console.log("planName = " +planName)
-        console.log("yearlyCost = " +yearlyCost)
-        console.log("maxAge = " +maxAge)
-        console.log("originalPlanName = " +originalPlanName)
-
         Insurance.updateOne(
             {insuranceName: user.fullName},
             {$pull: {plans: {planName: originalPlanName}}},                
@@ -243,7 +236,6 @@ app.post('/updateInsurancePlan', async(req, res) => {
             Insurance.remove({insuranceName: user.fullName})
         }
         var redir = { redirect: "updated_company_insurance" };
-        console.log(redir.redirect)
         return res.json(redir);
         
     } catch (err) {
@@ -296,7 +288,6 @@ app.post('/deleteCustomer', async(req, res) => {
         const insuranceCompanyName = user.fullName
 
         const checkUser = await User.find({username: customerUsername, "enrolledIn.insuranceName": insuranceCompanyName})
-        console.log(checkUser.length)
         if(checkUser.length === 0) {
             // console.log("Not Enrolled")
             var redir = { redirect: "no_customer_found" };
@@ -455,7 +446,6 @@ app.post('/addInsuranceToUser', async(req, res) => {
                     res.send(err)
                 }
                 var redir = { redirect: "added_insurance_to_user" };
-                console.log("redir.redirect = " +redir.redirect)
                 return res.json(redir);
             }
         )

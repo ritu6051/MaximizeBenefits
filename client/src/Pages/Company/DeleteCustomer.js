@@ -13,10 +13,8 @@ import Alert from 'react-bootstrap/Alert';
  */
 function DelteCustomer() {
     const navigate = useNavigate();
-
     const [customerUsername, setCustomerUsername] = useState('');
     const {state} = useLocation();
-    
     const[popUp1, setPopUp1] = useState(false); // Customer not found
     
     const submit = () => {

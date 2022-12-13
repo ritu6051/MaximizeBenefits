@@ -8,7 +8,6 @@ import NavBar from '../Common/NavBar';
 import Row from 'react-bootstrap/esm/Row';
 import Col from 'react-bootstrap/esm/Col';
 import Alert from 'react-bootstrap/Alert';
-import Wallpaper from '../../Images/MaximizeBenefitsLogo.png'
 
 /**
  * @returns the company home page that displays buttons that allow a company to add benefits,
@@ -32,7 +31,6 @@ function FrontPage_Company() {
             if (response.data.redirect === "no_insurances_offered") {
                 navigate('/AddBenefits', {state});
             } else {
-                console.log("Insurances already offered")
                 setPopUp1(true)
             }
         })

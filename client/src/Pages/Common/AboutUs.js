@@ -1,5 +1,4 @@
-import Image from 'react-bootstrap/Image'
-import Wallpaper from '../../Images/MaximizeBenefitsLogo.png'
+import BrandLogo from '../../Images/MaximizeBenefitsLogo.png'
 
 function AboutUs() {
     return (
@@ -25,7 +24,7 @@ function AboutUs() {
                             </p>
                         </div>
                         <div class="col-lg-6 d-none d-lg-block">
-                            <img src={Wallpaper}></img>
+                            <img src={BrandLogo}></img>
                         </div>
                     </div>
                 </div>

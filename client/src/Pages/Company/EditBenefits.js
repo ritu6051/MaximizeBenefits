@@ -106,7 +106,6 @@ function EditBenefits() {
                                 <Form.Control
                                     type="text"
                                     placeholder={state.val2.planName}
-                                    // value={state.val2.planName}
                                     onChange={(event) => {
                                         setPlanName(event.target.value);
                                     }} />
@@ -119,7 +118,6 @@ function EditBenefits() {
                                 <Form.Control
                                     type="number"
                                     placeholder={state.val2.yearlyCost}
-                                    // value={state.val2.yearlyCost}
                                     onChange={(event) => {
                                         setYearlyCost(event.target.value);
                                     }} />
@@ -132,7 +130,6 @@ function EditBenefits() {
                                 <Form.Control
                                     type="number"
                                     placeholder={state.val2.age}
-                                    // value={state.val2.age}
                                     onChange={(event) => {
                                         setMaxAge(event.target.value);
                                     }} />
@@ -152,7 +149,6 @@ function EditBenefits() {
                                 type = "text"
                                 name = "coverageName"
                                 placeholder = "Coverage Name"
-                                // value = {element.coverageName}
                                 defaultValue = {element.coverageName || ""}
                                 onChange = {e => handleChange(index, e)} />
                         </Form.Group>
@@ -163,7 +159,6 @@ function EditBenefits() {
                                 type = "number"
                                 name = "coverageAmount"
                                 placeholder = "Coverage Amount"
-                                // value = {element.coverageAmount}
                                 defaultValue = {element.coverageAmount || ""}
                                 onChange = {e => handleChange(index, e)} />
                         </Form.Group>

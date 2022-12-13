@@ -174,7 +174,6 @@ function AddBenefits() {
                             }
                         </Col>
                     </Row>
-                    // );
                 ))
                 }
                 <Row>
