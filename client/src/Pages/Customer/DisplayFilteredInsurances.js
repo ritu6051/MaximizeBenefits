@@ -39,7 +39,6 @@ function DisplayFilteredInsurances() {
             <Row>
             <Container>
                 <h1> List of Insurances </h1>
-                <h2> {state.username} </h2>
                 <br/>
 
                 <Table striped bordered hover>
